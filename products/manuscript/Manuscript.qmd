@@ -39,10 +39,16 @@ _Write a summary of your project._
 _Provide enough background on your topic that others can understand the why and how of your analysis_ 
 
 ## Description of data and data source
-_Describe what the data is, what it contains, where it is from, etc. Eventually this might be part of a methods section._
+_We have 126 observations taken over a period of 2 years. We are evaluating for the presence and burden of antimicrobial resistance genes in white stork feces. Codebook is a WIP located in raw data folder._
 
 ## Questions/Hypotheses to be addressed
-_State the research questions you plan to answer with this analysis._
+_Does landfill use by storks increase the likelihood of carrying Antimicrobial resistance (AMR) genes and resistance gene burden?._
+
+_Stork that visit the landfill more often will have a higher likelihood of carrying AMR genes and have a higher burden of AMR genes._
+
+_Is nest success related to AMR gene burden and multi-drug resistance (i.e., resistance to 3 or more drug classes)?_
+
+_Stork with more AMR gene burdens and multi-drug resistance will have lower nest success._
 
 To cite other work (important everywhere, but likely happens first in introduction), make sure your references are in the bibtex file specified in the YAML header above (here `dataanalysis_template_references.bib`) and have the right bibtex key. Then you can include like this:
 
@@ -57,15 +63,26 @@ _Describe your methods. That should describe the data, the cleaning processes, a
 
 
 ## Data aquisition
-_As applicable, explain where and how you got the data. If you directly import the data from an online source, you can combine this section with the next._
+_This study took place in Prado Herrero, a private cattle ranch located northwest of metropolitan Madrid and is surrounded by agriculture._
+
+_Between March to May 2020 and 2021, we collected feces from marked nests with banded adults in known breeding pairs at 3 points of the breeding season; (1) an adult sample during incubation, (2) an early juvenile sample during the first two weeks of the chicks life when adults are believed to forage on natural sources, and (3) a late juvenile sample after chicks were past two weeks of age when adults forage on anthropogenic resources. Nests were visited in the late mornings and approximately one gram of fresh feces was collected from the perimeter of the nest structure into a sterile Eppendorf tube._
+
 
 
 ## Data import and cleaning
 _Write code that reads in the file and cleans it so it's ready for analysis. Since this will be fairly long code for most datasets, it might be a good idea to have it in one or several R scripts. If that is the case, explain here briefly what kind of cleaning/processing you do, and provide more details and well documented code somewhere (e.g. as supplement in a paper). All materials, including files that contain code, should be commented well so everyone can follow along._
+```{r}
+library(tidyverse)
+library(here)
+
+raw <- read_csv(here('data/raw_data/StorkAMRraw_2020_2021.csv'))
+
+tibble(raw)
+```
 
 
 ## Statistical analysis
-_Explain anything related to your statistical analyses._
+_Basic summary statistics will be performed. Models will be built and fitted to data using the statistical package lme4 in Program R. We will evaluated model fit for all models using Akaike Information Criterion scores adjusted for small sample sizes. The best fit model was selected by having a ΔAICc < 2._
 
 
 {{< pagebreak >}}
