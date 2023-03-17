@@ -22,10 +22,10 @@ library(ggplot2)
 
 ```{r}
 #load all data
-stork_AMR_clean <- readRDS(here::here("data","processed_data","stork_AMR_clean.rds"))
+stork_AMR_clean <- readRDS(here::here("2 Clean Data","stork_AMR_clean.rds"))
 
 #load 2021 data
-stork_AMR_2021 <- readRDS(here::here("data","processed_data","stork_AMR_2021.rds"))
+stork_AMR_2021 <- readRDS(here::here("2 Clean Data","stork_AMR_2021.rds"))
 
 ```
 

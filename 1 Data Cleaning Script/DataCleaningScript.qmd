@@ -25,7 +25,7 @@ library(here)
 
 ```{r, message=FALSE, warning=FALSE}
 #load in data
-stork_AMR_raw <- read_csv(here::here("data","raw_data","StorkAMRraw_2020_2021.csv"))
+stork_AMR_raw <- read_csv(here::here("1 Data Cleaning Script","raw_data","StorkAMRraw_2020_2021.csv"))
 ```
 
 Let's take a quick look at the data on hand. 
@@ -84,9 +84,9 @@ stork_AMR_clean <- d2
 
 
 ```{r}
-save_data_location <- here::here("data","processed_data","stork_AMR_2021.rds")
+save_data_location <- here::here("2 Clean Data","stork_AMR_2021.rds")
 saveRDS(stork_AMR_2021, file = save_data_location)
 
-save_data_location2 <- here::here("data","processed_data","stork_AMR_clean.rds")
+save_data_location2 <- here::here("2 Clean Data","stork_AMR_clean.rds")
 saveRDS(stork_AMR_clean, file = save_data_location2)
 ```
