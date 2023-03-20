@@ -125,13 +125,13 @@ lmer_fit_12 <-
 Use AIC to see the best model; None look great...
 
 ```{r}
-AIC_table1 <- compare_performance(lmer_fit_null,lmer_fit_global, lmer_fit_1, lmer_fit_2, lmer_fit_3, lmer_fit_4, lmer_fit_5, lmer_fit_6, lmer_fit_7, lmer_fit_8, lmer_fit_9, lmer_fit_10, lmer_fit_11, lmer_fit_12)
+AIC_table1 <- compare_performance(lmer_fit_null,lmer_fit_global, lmer_fit_1, lmer_fit_2, lmer_fit_3, lmer_fit_4, lmer_fit_5, lmer_fit_6, lmer_fit_7, lmer_fit_8, lmer_fit_9, lmer_fit_10, lmer_fit_11, lmer_fit_12, rank = TRUE, metrics="AICc")
 
 print(AIC_table1)
 AIC_table1 = here("4 Results","Tables", "ModelAIC1.rds")
 saveRDS(AIC_table1, file = AIC_table1)
 
-plot(compare_performance(lmer_fit_null,lmer_fit_global, lmer_fit_1, lmer_fit_2, lmer_fit_3, lmer_fit_4, lmer_fit_5, lmer_fit_6, lmer_fit_7, lmer_fit_8, lmer_fit_9, lmer_fit_10, lmer_fit_11, lmer_fit_12, rank = TRUE))
+plot(compare_performance(lmer_fit_null,lmer_fit_global, lmer_fit_1, lmer_fit_2, lmer_fit_3, lmer_fit_4, lmer_fit_5, lmer_fit_6, lmer_fit_7, lmer_fit_8, lmer_fit_9, lmer_fit_10, lmer_fit_11, lmer_fit_12))
 ```
 
 Summarize and graph best model (lowwest AIC)
@@ -224,13 +224,13 @@ lmer_fit2_12 <-
 Use AIC to see the best model; This doesnt look great either...
 
 ```{r}
-AIC_table2 <- compare_performance(lmer_fit2_null,lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8, lmer_fit2_9, lmer_fit2_10, lmer_fit2_11, lmer_fit2_12)
+AIC_table2 <- compare_performance(lmer_fit2_null, lmer_fit2_1, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, rank = TRUE, metrics="AICc")
 
 print(AIC_table2)
 AIC_table2 = here("4 Results","Tables", "ModelAIC2.rds")
 saveRDS(AIC_table2, file = AIC_table2)
 
-plot(compare_performance(lmer_fit2_null,lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8, lmer_fit2_9, lmer_fit2_10, lmer_fit2_11, lmer_fit2_12, rank = TRUE))
+plot(compare_performance(lmer_fit2_null,lmer_fit2_5, lmer_fit2_1, lmer_fit2_3, lmer_fit2_4, lmer_fit2_6, lmer_fit2_7))
 ```
 
 Summarize and graph best model (lowwest AIC)
@@ -257,4 +257,8 @@ ggsave(BLp, file="LUIvsBurden_LME.tiff")
 
 Preliminary results
 
-Questions: Should over fit models be taken out of performance analysis? What is the best tool/package to control for small data sets? If using weighted AIC is it appropriate to also use other methods of performance analysis (R2, RSME, etc). How to get Manuscript to popular rds and tiff files
+Questions: Should over fit models be taken out of performance analysis?
+
+\*\*What is the best tool/package to control for small data sets? If using weighted AIC is it appropriate to also use other methods of performance analysis (R2, RSME, etc).
+
+How to get Manuscript to popular rds and tiff files. GLMER vs LMER
