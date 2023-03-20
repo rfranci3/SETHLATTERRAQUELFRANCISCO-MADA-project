@@ -59,13 +59,56 @@ d2 <- d1 %>%
 glimpse(d2)
 ```
 
+Standardize main continuous covariates (mean_lui, nsuccess, age)
+
+```{r}
+d2$s.nsuccess <- (d2$nsuccess-mean(d2$nsuccess, na.rm = TRUE))/sd(d2$nsuccess, na.rm = TRUE)
+
+#?sd, use na.rm = TRUE to ensure that NAs are removed from calculations
+d2$s.lui <- (d2$mean_lui-mean(d2$mean_lui, na.rm = TRUE))/sd(d2$mean_lui, na.rm = TRUE)
+
+d2$s.age <- (d2$age-mean(d2$age, na.rm = TRUE))/sd(d2$age, na.rm = TRUE)
+
+```
+
+Quantitative data is reported in log10. Will transform columns to data with the inverse log10 that would allow a more accurate evaluation of AMR gene burden via formula; x=10^y where x is the new gene burden and y is the original gene burden calculated from published formula.
+
+```{r}
+d2$TET..A <- 10^(d2$TET..A)
+d2$TET..B <- 10^(d2$TET..B)
+d2$TET..Y <- 10^(d2$TET..Y)
+d2$TET..K <- 10^(d2$TET..K)
+d2$TET..M <- 10^(d2$TET..M)
+d2$TET..Q <- 10^(d2$TET..Q)
+d2$TET..S <- 10^(d2$TET..S)
+d2$TET..W <- 10^(d2$TET..W)
+d2$sulI <- 10^(d2$sulI)
+d2$sulII <- 10^(d2$sulII)
+d2$str <- 10^(d2$str)
+d2$aadA <- 10^(d2$aadA)
+d2$catI <- 10^(d2$catI)
+d2$catII <- 10^(d2$catII)
+d2$ermB <- 10^(d2$ermB)
+d2$ermF <- 10^(d2$ermF)
+d2$qnrB <- 10^(d2$qnrB)
+d2$qnrS <- 10^(d2$qnrS)
+d2$blaTEM <- 10^(d2$blaTEM)
+d2$mecA <- 10^(d2$mecA)
+d2$mcr.1 <- 10^(d2$mcr.1)
+
+d3 <- d2 %>%
+  mutate(Burden = rowSums(across(c(TET..A, TET..B, TET..Y, TET..K, TET..M, TET..Q, TET..S, TET..W, sulI, sulII, str, aadA, catI, catII, ermB, ermF, qnrB, qnrS, blaTEM, mecA, mcr.1))))
+
+glimpse(d3)
+```
+
 
 We want to make two cleaned data files - one with only the 2021 data (which includes landfill use) and one with both 2020 and 2021 data.
 
 ```{r}
 #filter out 2020 data
-d3 <- d2 %>% filter(yr !=2020)
-head(d3)
+d4 <- d3 %>% filter(yr !=2020)
+head(d4)
 ```
 
 
@@ -73,10 +116,10 @@ Let's assign at the end to some final variable, this makes it easier to add furt
 
 ```{r}
 #save 2021 data only
-stork_AMR_2021 <- d3
+stork_AMR_2021 <- d4
 
 #save for both years
-stork_AMR_clean <- d2
+stork_AMR_clean <- d3
 ```
 
 

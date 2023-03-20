@@ -13,10 +13,14 @@ This QMD file contains exploratory analysis for antimicrobial resistance data co
 
 ```{r, warning=FALSE, message=FALSE}
 #load needed packages
-library(here) 
-library(dplyr)
+library(here) #calling
+library(dplyr) #cleaning
 library(skimr)
-library(ggplot2)
+library(ggplot2) #plotting and visualization
+library(ggpubr) #ggscatter to visualize correlations
+library(naniar)#missing values graphics and plots
+library(UpSetR)#missing values graphics and plots
+library(corrplot) #evaluate if covariates are correlated
 ```
 
 
@@ -29,25 +33,148 @@ stork_AMR_2021 <- readRDS(here::here("2 Clean Data","stork_AMR_2021.rds"))
 
 ```
 
+#### Quality Control
 
-#### Explore Data
+```{r}
+stork_AMR_clean %>%
+  as_shadow_upset() %>%
+  upset()
+
+gg_miss_fct(x = stork_AMR_clean, fct = yr)
+gg_miss_fct(x = stork_AMR_clean, fct = samp)
+```
+Quite alot of missing values for 2020. Will likely only be able to do summary stats on 2020 because no LUI data was collected that year (COVID-19 limitations)
+
+#### Data subset for 2021
+
+```{r}
+stork_AMR_2021 %>%
+  as_shadow_upset() %>%
+  upset()
+
+gg_miss_fct(x = stork_AMR_2021, fct = yr)
+gg_miss_fct(x = stork_AMR_2021, fct = samp)
+```
+
+#### Correlation Check of Covariates
+
+```{r}
+#define the variables we want to include in the correlation matrix
+variables <- stork_AMR_clean[ , c("s.age", "s.lui", "samp", "s.nsuccess")]
+
+#create correlation matrix
+cor(variables, use = "complete.obs") #ignore NAs
+corrplot(cor(variables, use = "complete.obs"))
+
+Z <- data.frame(s.age = stork_AMR_clean$s.age, 
+                s.lui = stork_AMR_clean$s.lui, 
+                s.nsuccess = stork_AMR_clean$s.nsuccess,
+                samp = stork_AMR_clean$samp)
+pairs(Z, panel = panel.smooth, labels = c("age", "mean_lui", "nsuccess", "samp"))
+
+#More than 0.7 usually is unacceptable
+#More than 0.5 you need to be careful; NOTHING over 0.5
+
+##BASIC SPEARMAN
+cor.test( stork_AMR_clean$s.age, stork_AMR_clean$s.lui,
+         method = "spearman")
+cor.test( stork_AMR_clean$s.age, stork_AMR_clean$s.nsuccess,
+          method = "spearman")
+cor.test( stork_AMR_clean$s.age, stork_AMR_clean$samp,
+          method = "spearman")
+cor.test( stork_AMR_clean$s.nsuccess, stork_AMR_clean$s.lui,
+          method = "spearman")
+cor.test( stork_AMR_clean$s.nsuccess, stork_AMR_clean$samp,
+          method = "spearman")
+cor.test( stork_AMR_clean$s.lui, stork_AMR_clean$samp,
+          method = "spearman")
+cor.test( stork_AMR_clean$Burden, stork_AMR_clean$MDR,
+          method = "spearman")
+cor.test( stork_AMR_clean$sum, stork_AMR_clean$MDR,
+          method = "spearman") #Correlated!
+
+##Visual Plots with: regression line and confidence interval
+
+#Age + LUI
+ggscatter(stork_AMR_clean, x = 'age', y = 's.lui',
+          add = "reg.line", conf.int = TRUE,    
+          add.params = list(fill = "lightgray"),
+          ggtheme = theme_minimal()
+)+
+  stat_cor(method = "spearman", p.accuracy = 0.001, r.accuracy = 0.01,
+           label.y = 0.5) 
+
+#Nsuccess + LUI
+ggscatter(stork_AMR_clean, x = 's.nsuccess', y = 's.lui',
+          add = "reg.line", conf.int = TRUE,    
+          add.params = list(fill = "lightgray"),
+          ggtheme = theme_minimal()
+)+
+  stat_cor(method = "spearman", p.accuracy = 0.001, r.accuracy = 0.01,
+           label.y = 0.6)
+
+#Nsuccess + Age
+ggscatter(stork_AMR_clean, x = 's.nsuccess', y = 'age',
+          add = "reg.line", conf.int = TRUE,    
+          add.params = list(fill = "lightgray"),
+          ggtheme = theme_minimal()
+)+
+  stat_cor(method = "spearman", p.accuracy = 0.001, r.accuracy = 0.01,
+           label.y = 20)
+
+#Variables of interest not correlated; they are independent = Move on to analysis
+```
+
+
+#### Data Exploration and visualization
+
+Will explore both 2020 and 2021 data, but will not model with 2020 as no LUI data was collected this year due to COVID-19 restrictions.
 
 First we want to make a table to take a quick look at a few variables that will be important later on.
 
 ```{r}
-table1 <- stork_AMR_2021 %>%
-  select(id, age, nsuccess, mean_lui, MDR) %>%
+table1 <- stork_AMR_clean %>%
+  select(id, age, nsuccess, mean_lui, Burden, MDR) %>%
   knitr::kable()
 table1
 ```
 
-Plotting total MDR outcomes from both years.
+Plotting total Burden outcomes from both years.
 
 ```{r}
 stork_AMR_clean %>%
-  ggplot(aes(MDR))+
-  geom_histogram()
+  ggplot(aes(as.factor(yr), Burden))+
+  geom_boxplot()
 ```
+Plotting total Burden outcomes across all sampling periods.
+```{r}
+stork_AMR_clean %>%
+  ggplot(aes(as.factor(samp), Burden))+
+  geom_boxplot()
+```
+Total Number of AMR Gene Classes over both years.
+
+```{r}
+stork_AMR_clean %>%
+  ggplot(aes(as.factor(yr), sum))+
+  geom_boxplot()
+```
+
+Sample vs Total Number of AMR Gene Classes
+```{r}
+stork_AMR_clean %>%
+  ggplot(aes(as.factor(samp), sum))+
+  geom_boxplot()
+```
+
+Plot Gene Burden vs age of bird 
+
+```{r}
+stork_AMR_clean %>%
+  ggplot(aes(age, Burden))+
+  geom_point()
+```
+
 Plot MDR vs age of bird 
 
 ```{r}
@@ -55,6 +182,15 @@ stork_AMR_clean %>%
   ggplot(aes(as.factor(MDR), age))+
   geom_boxplot()
 ```
+
+Plot Gene Burden vs age of bird 
+
+```{r}
+stork_AMR_clean %>%
+  ggplot(aes(nsuccess, Burden))+
+  geom_point()
+```
+
 Plot MDR vs nest success
 
 ```{r}
@@ -62,6 +198,17 @@ stork_AMR_clean %>%
   ggplot(aes(as.factor(MDR), nsuccess))+
   geom_boxplot()
 ```
+
+Now we will make a table filtering out 2020.
+
+```{r}
+table2 <- stork_AMR_2021 %>%
+  select(id, age, nsuccess, mean_lui, Burden, MDR) %>%
+  knitr::kable()
+table2
+```
+
+
 Plotting mean landfill use index vs nest success
 
 ```{r, warning=FALSE, message=FALSE}
@@ -70,6 +217,7 @@ stork_AMR_2021 %>%
   geom_point()+
   geom_smooth(method = "lm")
 ```
+
 Plotting mean landfill use index vs nest success, grouped by MDR outcome.
 
 ```{r, message=FALSE, warning=FALSE}
@@ -78,6 +226,16 @@ stork_AMR_2021%>%
   geom_point()+
   geom_smooth(method = "lm")
 ```
+
+Plotting mean landfill use index vs nest success, grouped by MDR outcome.
+
+```{r, message=FALSE, warning=FALSE}
+stork_AMR_2021%>%
+  ggplot(aes(mean_lui, nsuccess, color=Burden))+
+  geom_point()+
+  geom_smooth(method = "lm")
+```
+
 Plotting MDR vs mean landfill use index
 
 ```{r, warning=FALSE}
@@ -86,4 +244,13 @@ stork_AMR_2021 %>%
   geom_boxplot()
 ```
 
-There seems to be a slight decrease in the presence of MDR as landfill use index increases. Otherwise, there are not many apparent trends in the data off the bat. This exploration will help us as we move forward into a more robust statistical analysis.
+Plotting Burden vs mean landfill use index
+
+```{r, warning=FALSE}
+stork_AMR_2021 %>%
+  ggplot(aes(mean_lui, Burden))+
+  geom_point()+
+  geom_smooth(method = "lm")
+```
+
+There seems to be a slight decrease in the presence of MDR and increase in the burden of AMR genes as landfill use index increases. Otherwise, there are not many apparent trends in the data off the bat. This exploration will help us as we move forward into a more robust statistical analysis.

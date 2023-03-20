@@ -3,6 +3,7 @@ title: "StatiscalAnalysis_ModelFitting"
 format: html
 editor: visual
 ---
+
 # Ciconia ciconia analysis script
 
 #### this script loads the processed, cleaned data, does a simple analysis and saves the results to the results folder
@@ -21,7 +22,7 @@ library(sjPlot) #to help plot models
 library(performance) #evaluate model fit and performance
 
 #path to data
-data_location <- here::here("2 Clean Data","stork_AMR_clean.rds")
+data_location <- here::here("2 Clean Data","stork_AMR_2021.rds")
 
 #load data. 
 data <- readRDS(data_location)
@@ -33,20 +34,22 @@ Data of interest: Landfill use index (LUI) and multi-drug resistence (MDR) throu
 
 We'll start by fitting two models. We will used mixed-effects models to control for repeated sampling of the same nest. The design is unbalanced, thus we cannot use a repeated measures anova.
 
-We’ll start with a single factor repeated measures evaluation the  effect of LUI on blaTEM (betalactam) resistence gene burden.
+We'll start with a single factor repeated measures evaluation the effect of LUI on blaTEM (betalactam) resistence gene burden.
+
 ```{r}
 data(data, package = "lme4")
 
 data %>% 
-  ggplot(aes(x = samp, y = blaTEM)) + 
+  ggplot(aes(x = samp, y = Burden)) + 
   geom_point() + 
   geom_line() +
   facet_wrap(~ nes) 
 ```
 
-Not really what we need... move on
+No obvious trends...
 
 Build models using lmer and glmer
+
 ```{r}
 lmer_spec <- 
   linear_reg() %>% 
@@ -67,16 +70,16 @@ lmer_fit_null <-
 
 lmer_fit_global <- 
   lmer_spec %>% 
-  fit(MDR ~ mean_lui + age + samp + nsuccess +(1|nes), data = data)
+  fit(MDR ~ s.lui + s.age + samp + s.nsuccess +(1|nes), data = data)
 
 #Univariate models
 lmer_fit_1 <- 
   lmer_spec %>% 
-  fit(MDR ~ mean_lui +(1|nes), data = data)
+  fit(MDR ~ s.lui +(1|nes), data = data)
 
 lmer_fit_2 <- 
   lmer_spec %>% 
-  fit(MDR ~ age  +(1|nes), data = data)
+  fit(MDR ~ s.age  +(1|nes), data = data)
 
 lmer_fit_3 <- 
   lmer_spec %>% 
@@ -84,151 +87,176 @@ lmer_fit_3 <-
 
 lmer_fit_4 <- 
   lmer_spec %>% 
-  fit(MDR ~ nsuccess +(1|nes), data = data)
+  fit(MDR ~ s.nsuccess +(1|nes), data = data)
 
 lmer_fit_5 <- 
   lmer_spec %>% 
-  fit(MDR ~ mean_lui + samp +(1|nes), data = data)
+  fit(MDR ~ s.lui + samp +(1|nes), data = data)
 
 lmer_fit_6 <- 
   lmer_spec %>% 
-  fit(MDR ~ mean_lui + nsuccess +(1|nes), data = data)
+  fit(MDR ~ s.lui + s.nsuccess +(1|nes), data = data)
 
 lmer_fit_7 <- 
   lmer_spec %>% 
-  fit(MDR ~ samp + nsuccess +(1|nes), data = data)
+  fit(MDR ~ samp + s.nsuccess +(1|nes), data = data)
 
 lmer_fit_8 <- 
   lmer_spec %>% 
-  fit(MDR ~ mean_lui*age + samp + nsuccess +(1|nes), data = data)
+  fit(MDR ~ s.lui*s.age + samp + s.nsuccess +(1|nes), data = data)
 
 lmer_fit_9 <- 
   lmer_spec %>% 
-  fit(MDR ~ mean_lui + age*samp + nsuccess +(1|nes), data = data)
+  fit(MDR ~ s.lui + s.age*samp + s.nsuccess +(1|nes), data = data)
 
 lmer_fit_10 <- 
   lmer_spec %>% 
-  fit(MDR ~ mean_lui + age + samp*nsuccess +(1|nes), data = data)
+  fit(MDR ~ s.lui + s.age + samp*s.nsuccess +(1|nes), data = data)
 
+lmer_fit_11 <- 
+  lmer_spec %>% 
+  fit(MDR ~ s.lui + s.age +(1|nes), data = data)
+
+lmer_fit_12 <- 
+  lmer_spec %>% 
+  fit(MDR ~ s.lui + s.age +  s.nsuccess +(1|nes), data = data)
 ```
 
 Use AIC to see the best model; None look great...
 
 ```{r}
-AIC_table1 <- compare_performance(lmer_fit_null,lmer_fit_global, lmer_fit_1, lmer_fit_2, lmer_fit_3, lmer_fit_4, lmer_fit_5, lmer_fit_6, lmer_fit_7, lmer_fit_8, lmer_fit_9, lmer_fit_10)
+AIC_table1 <- compare_performance(lmer_fit_null,lmer_fit_global, lmer_fit_1, lmer_fit_2, lmer_fit_3, lmer_fit_4, lmer_fit_5, lmer_fit_6, lmer_fit_7, lmer_fit_8, lmer_fit_9, lmer_fit_10, lmer_fit_11, lmer_fit_12)
 
 print(AIC_table1)
 AIC_table1 = here("4 Results","Tables", "ModelAIC1.rds")
 saveRDS(AIC_table1, file = AIC_table1)
 
-plot(compare_performance(lmer_fit_null,lmer_fit_global, lmer_fit_1, lmer_fit_2, lmer_fit_3, lmer_fit_4, lmer_fit_5, lmer_fit_6, lmer_fit_7, lmer_fit_8, lmer_fit_9, lmer_fit_10, rank = TRUE))
+plot(compare_performance(lmer_fit_null,lmer_fit_global, lmer_fit_1, lmer_fit_2, lmer_fit_3, lmer_fit_4, lmer_fit_5, lmer_fit_6, lmer_fit_7, lmer_fit_8, lmer_fit_9, lmer_fit_10, lmer_fit_11, lmer_fit_12, rank = TRUE))
 ```
+
 Summarize and graph best model (lowwest AIC)
 
 ```{r}
-lmer_fit_global
+check_model(lmer_fit_11)
 
 # place results from fit into a data frame with the tidy function
 
-model1 <- broom::tidy(lmer_fit_global)
+model1 <- broom::tidy(lmer_fit_11)
 print(model1)
 
 # save fit results table  
 model1 = here("4 Results", "Models", "LMERmodel1.rds")
 saveRDS(model1, file = model1)
 
-MLp <- plot_model(lmer_fit_global,terms = 'mean_lui', type="pred", 
+MLp <- plot_model(lmer_fit_11,terms = 's.lui', type="pred", 
            show.data = TRUE, show.values = TRUE, show.p = TRUE,
            title = "", show.legend = TRUE, line.size=1,
            axis.title = c("Landfill Use Index",'Multi-Drug Resistence'))
 
 MLp
+
+ggsave(MLp, file="LUIvsMDR_LME.tiff")
 ```
 
-Class Diversity (sum) vs All
+AMR Gene Burden vs All
 
 ```{r}
 lmer_fit2_null <- #singular
   lmer_spec %>% 
-  fit(sum ~ (1|nes), data = data)
+  fit(Burden ~ (1|nes), data = data)
 
 lmer_fit2_global <- 
   lmer_spec %>% 
-  fit(sum ~ mean_lui + age + samp + nsuccess +(1|nes), data = data)
+  fit(Burden ~ s.lui + s.age + samp + s.nsuccess +(1|nes), data = data) #overfit
 
 #Univariate models
 lmer_fit2_1 <- 
   lmer_spec %>% 
-  fit(sum ~ mean_lui +(1|nes), data = data)
+  fit(Burden ~ s.lui +(1|nes), data = data)
 
-lmer_fit2_2 <- #singular
+lmer_fit2_2 <- 
   lmer_spec %>% 
-  fit(sum ~ age  +(1|nes), data = data)
+  fit(Burden ~ s.age  +(1|nes), data = data) #overfit
 
-lmer_fit2_3 <- #singular
+lmer_fit2_3 <- 
   lmer_spec %>% 
-  fit(sum ~ samp +(1|nes), data = data)
+  fit(Burden ~ samp +(1|nes), data = data)
 
-lmer_fit2_4 <- #singular
+lmer_fit2_4 <- 
   lmer_spec %>% 
-  fit(sum ~ nsuccess +(1|nes), data = data)
+  fit(Burden ~ s.nsuccess +(1|nes), data = data)
 
 lmer_fit2_5 <- 
   lmer_spec %>% 
-  fit(sum ~ mean_lui + samp +(1|nes), data = data)
+  fit(Burden ~ s.lui + samp +(1|nes), data = data)
 
 lmer_fit2_6 <- 
   lmer_spec %>% 
-  fit(sum ~ mean_lui + nsuccess +(1|nes), data = data)
+  fit(Burden ~ s.lui + s.nsuccess +(1|nes), data = data)
 
-lmer_fit2_7 <- #singular
+lmer_fit2_7 <- 
   lmer_spec %>% 
-  fit(sum ~ samp + nsuccess +(1|nes), data = data)
+  fit(Burden ~ samp + s.nsuccess +(1|nes), data = data)
 
 lmer_fit2_8 <- 
   lmer_spec %>% 
-  fit(sum ~ mean_lui*age + samp + nsuccess +(1|nes), data = data)
+  fit(Burden ~ s.lui*s.age + samp + s.nsuccess +(1|nes), data = data) #overfit
 
 lmer_fit2_9 <- 
   lmer_spec %>% 
-  fit(sum ~ mean_lui + age*samp + nsuccess +(1|nes), data = data)
+  fit(Burden ~ s.lui + s.age*samp + s.nsuccess +(1|nes), data = data) #overfit
 
 lmer_fit2_10 <- 
   lmer_spec %>% 
-  fit(sum ~ mean_lui + age + samp*nsuccess +(1|nes), data = data)
+  fit(Burden ~ s.lui + s.age + samp*s.nsuccess +(1|nes), data = data) #overfit
 
+lmer_fit2_11 <- 
+  lmer_spec %>% 
+  fit(Burden ~ s.lui + s.age + s.nsuccess +(1|nes), data = data) #overfit
+
+lmer_fit2_12 <- 
+  lmer_spec %>% 
+  fit(Burden ~ s.lui + s.age +(1|nes), data = data) #overfit
+
+#Standardizing variables helped with the overfit/singular model results
 ```
 
 Use AIC to see the best model; This doesnt look great either...
 
 ```{r}
-AIC_table2 <- compare_performance(lmer_fit2_null,lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8, lmer_fit2_9, lmer_fit2_10)
+AIC_table2 <- compare_performance(lmer_fit2_null,lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8, lmer_fit2_9, lmer_fit2_10, lmer_fit2_11, lmer_fit2_12)
 
 print(AIC_table2)
 AIC_table2 = here("4 Results","Tables", "ModelAIC2.rds")
 saveRDS(AIC_table2, file = AIC_table2)
 
-plot(compare_performance(lmer_fit2_null,lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8, lmer_fit2_9, lmer_fit2_10, rank = TRUE))
+plot(compare_performance(lmer_fit2_null,lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8, lmer_fit2_9, lmer_fit2_10, lmer_fit2_11, lmer_fit2_12, rank = TRUE))
 ```
+
 Summarize and graph best model (lowwest AIC)
 
 ```{r}
-lmer_fit2_10
-# place results from fit into a data frame with the tidy function
+check_model(lmer_fit2_5)
 
-model2 <- broom::tidy(lmer_fit2_10)
+model2 <- broom::tidy(lmer_fit2_5)
 print(model2)
 
 # save fit results table  
 model2 = here("4 Results","Models", "LMERmodel2.rds")
 saveRDS(model2, file = model2)
 
-CLp <- plot_model(lmer_fit2_10,terms = 'mean_lui', type="pred", 
+BLp <- plot_model(lmer_fit2_5,terms = 's.lui', type="pred", 
            show.data = TRUE, show.values = TRUE, show.p = TRUE,
            title = "", show.legend = TRUE, line.size=1,
-           axis.title = c("Landfill Use Index",'Total Antibiotic Classes with Resistance'))
+           axis.title = c("Landfill Use Index",'Total Antibiotic Resistant Gene Burden'))
 
-CLp
+BLp
+
+ggsave(BLp, file="LUIvsBurden_LME.tiff")
 ```
 
-## Pause... Big issue. Models don't appear to be working well... Have to go back and reclean the data. Covariates should be standarized; values too large between variables! Correlation between variables should be analyzed, plan to use spearman. Will complete 3/17/23
+Preliminary results
+
+Questions: 
+Should over fit models be taken out of performance analysis?
+What is the best tool/package to control for small data sets?
