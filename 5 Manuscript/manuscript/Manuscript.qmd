@@ -20,13 +20,13 @@ library(knitr)
 
 # Highlights
 
-- Our results suggest that landfills may not be as impactful as previously believed to the emergence and maintenance of AMR in this system.
+-   Our results suggest that landfills may not be as impactful as previously believed to the emergence and maintenance of AMR in this system.
 
-- Storks are most impacted by multi-drug resistance and ARG burden when anthropogenic waste is most heavily consumed later in the breeding season.
+-   Storks are most impacted by multi-drug resistance and ARG burden when anthropogenic waste is most heavily consumed later in the breeding season.
 
-- This species appears to be a good sentinel for anthropogenic impact on environment.
+-   This species appears to be a good sentinel for anthropogenic impact on environment.
 
-- Future efforts in stork AMR research should focus on exploring the relationship between other anthropogenic environments (e.g., agricultural pastures) and health.
+-   Future efforts in stork AMR research should focus on exploring the relationship between other anthropogenic environments (e.g., agricultural pastures) and health.
 
 # Abstract
 
@@ -66,17 +66,17 @@ Examples of reproducible research projects can for instance be found in [@mckay2
 
 ### Experimental Design
 
-*Study Area* — This study took place in Prado Herrero, a private cattle ranch located northwest of metropolitan Madrid and is surrounded by agriculture (e.g. beef cattle, cereal grains, legumes, and forage plants (“Renta Agraria,” 2019)). Prado Herrero is located within a nationally protected area (Cuenca Alta del Manzanares Regional Park) and is just north of Santillana Reservoir. This reservoir that was declared an Important Bird Area by Regional Catalogue of Reservoirs and Wetlands of the Community of Madrid due to the numerous resident and migratory species that utilize this water source <CITE>. This cattle ranch has supported a productive white stork rookery where storks have been banded and monitored by biologists at UCM for over 20 years <CITE: Aguirre and Atienza>. During the 2020 to 2021 breeding season, between the months of March to June, stork nests were identified, marked, and monitored for productivity. Of marked nests between the 2020 and 2021 breeding seasons, 31 with banded adults were used both years to lay eggs successfully. All 31 nests were located in ash trees (Fraxinus angustifolius ) found within the cattle pasture. Storks that breed within the Prado Herrero rookery are known to utilize Colmenar Viejo Landfill which is located approximately 12km southeast. Colmenar Viejo is an open-air landfill and it is second largest of it’s kind in the Madrid region <CITE: Alejandro 2022>.
+*Study Area* --- This study took place in Prado Herrero, a private cattle ranch located northwest of metropolitan Madrid and is surrounded by agriculture (e.g. beef cattle, cereal grains, legumes, and forage plants ("Renta Agraria," 2019)). Prado Herrero is located within a nationally protected area (Cuenca Alta del Manzanares Regional Park) and is just north of Santillana Reservoir. This reservoir that was declared an Important Bird Area by Regional Catalogue of Reservoirs and Wetlands of the Community of Madrid due to the numerous resident and migratory species that utilize this water source <CITE>. This cattle ranch has supported a productive white stork rookery where storks have been banded and monitored by biologists at UCM for over 20 years \<CITE: Aguirre and Atienza\>. During the 2020 to 2021 breeding season, between the months of March to June, stork nests were identified, marked, and monitored for productivity. Of marked nests between the 2020 and 2021 breeding seasons, 31 with banded adults were used both years to lay eggs successfully. All 31 nests were located in ash trees (Fraxinus angustifolius ) found within the cattle pasture. Storks that breed within the Prado Herrero rookery are known to utilize Colmenar Viejo Landfill which is located approximately 12km southeast. Colmenar Viejo is an open-air landfill and it is second largest of it's kind in the Madrid region \<CITE: Alejandro 2022\>.
 
-*Sample Collection* — Between March to May 2020 and 2021, we collected feces from marked nests with banded adults in known breeding pairs at 3 points of the breeding season; (1) an adult sample during incubation, (2) an early juvenile sample during the first two weeks of the chicks life when adults are believed to forage on natural sources  <CITE: >, and (3) a late juvenile sample after chicks were past two weeks of age when adults forage on anthropogenic resources. Nests were visited in the late mornings and approximately one gram of fresh feces was collected from the perimeter of the nest structure into a sterile Eppendorf tube (). Samples were maintained cold in a portable cooler with frozen gel packs and frozen in a −20°C freezer within 4 hours of collection and processed at a later date. 
+*Sample Collection* --- Between March to May 2020 and 2021, we collected feces from marked nests with banded adults in known breeding pairs at 3 points of the breeding season; (1) an adult sample during incubation, (2) an early juvenile sample during the first two weeks of the chicks life when adults are believed to forage on natural sources \<CITE: \>, and (3) a late juvenile sample after chicks were past two weeks of age when adults forage on anthropogenic resources. Nests were visited in the late mornings and approximately one gram of fresh feces was collected from the perimeter of the nest structure into a sterile Eppendorf tube (). Samples were maintained cold in a portable cooler with frozen gel packs and frozen in a −20°C freezer within 4 hours of collection and processed at a later date.
 
-*Ethics statement*: All animal handling was authorized by Cumunidad de Madrid: Consejeria de Medio Ambiente, Administracion Local y Ordenacion de Territorio. The permit number is  D.N.I. nº 07.239.972-D.
+*Ethics statement*: All animal handling was authorized by Cumunidad de Madrid: Consejeria de Medio Ambiente, Administracion Local y Ordenacion de Territorio. The permit number is D.N.I. nº 07.239.972-D.
 
 ### Molecular analysis of ARGs
-We performed total DNA extraction directly from fecal samples, by using a pressure filtration technique (QuickGene DNA Tissue Kit S, Fujifilm, Japan) following the manufacturer’s instructions. The 16S rRNA gene was amplified in each DNA sample by real time PCR (rtPCR) in 10-fold dilutions of extracted samples, according to Jiang et al. (2013)<CITE:Fix>. A DNA sample was considered validated when a ten-fold dilution showed a cycle threshold (Ct) less than 25 (Esperón et al., 2018). Once validated, we analyzed DNA samples by with a panel of 21 different ARGs encoding resistance to eight different antimicrobial classes: tetracyclines (tet(A), tet(B), tet(Y), tet(K), tet(M), tet(Q), tet(S), and tet(W)), sulfonamides (sulI and sulII), aminoglycosides (str and aadA), phenicols (catI and catII), macrolides (ermB and ermF), quinolones (qnrS and qnrB), betalactams (blaTEM and mecA), and polymyxins (mcr-1). All rtPCR reactions utilized premade gelled format 96-well plates (Biotools, B &M Labs, S.A., Madrid, Spain), with the exception of blaTEM and mecA genes which used the Sybr GreenTM and TaqManTM probe, respectively. Our thermal cycle was the same for all the rtPCR reactions [6′ 95 °C, 40× (10″ 95 °C, 30″ 60 °C)], with alignment and extension in the same step, at constant temperature of 60 °C. A melting curve step was performed at the end of the qPCR reaction to validate the authenticity of the positive (Nieto-Claudin et al., 2019). We quantified the relative burden of each gene for each sample via the cycle threshold (Ct) for the 16S rRNA and the Ct value of the individual ARG using a previously published formula (Esperón et al., 2020). 
 
+We performed total DNA extraction directly from fecal samples, by using a pressure filtration technique (QuickGene DNA Tissue Kit S, Fujifilm, Japan) following the manufacturer's instructions. The 16S rRNA gene was amplified in each DNA sample by real time PCR (rtPCR) in 10-fold dilutions of extracted samples, according to Jiang et al. (2013)<CITE:Fix>. A DNA sample was considered validated when a ten-fold dilution showed a cycle threshold (Ct) less than 25 (Esperón et al., 2018). Once validated, we analyzed DNA samples by with a panel of 21 different ARGs encoding resistance to eight different antimicrobial classes: tetracyclines (tet(A), tet(B), tet(Y), tet(K), tet(M), tet(Q), tet(S), and tet(W)), sulfonamides (sulI and sulII), aminoglycosides (str and aadA), phenicols (catI and catII), macrolides (ermB and ermF), quinolones (qnrS and qnrB), betalactams (blaTEM and mecA), and polymyxins (mcr-1). All rtPCR reactions utilized premade gelled format 96-well plates (Biotools, B &M Labs, S.A., Madrid, Spain), with the exception of blaTEM and mecA genes which used the Sybr GreenTM and TaqManTM probe, respectively. Our thermal cycle was the same for all the rtPCR reactions \[6′ 95 °C, 40× (10″ 95 °C, 30″ 60 °C)\], with alignment and extension in the same step, at constant temperature of 60 °C. A melting curve step was performed at the end of the qPCR reaction to validate the authenticity of the positive (Nieto-Claudin et al., 2019). We quantified the relative burden of each gene for each sample via the cycle threshold (Ct) for the 16S rRNA and the Ct value of the individual ARG using a previously published formula (Esperón et al., 2020).
 
-## Data import and cleaning
+## Data import and cleaning (Reference file and give details HERE. Reference a ReadME/doc here)
 
 *Write code that reads in the file and cleans it so it's ready for analysis. Since this will be fairly long code for most datasets, it might be a good idea to have it in one or several R scripts. If that is the case, explain here briefly what kind of cleaning/processing you do, and provide more details and well documented code somewhere (e.g. as supplement in a paper). All materials, including files that contain code, should be commented well so everyone can follow along.*
 
@@ -93,7 +93,7 @@ Presence absence ARG results obtained from the fecal samples between 2020 to 202
 
 Several linear mixed models (LMM) were constructed to evaluate multi-resistance and ARG burden as response variables with nest as a random factor. Covariates considered with each response variable included adult age, adult mean land fill use index (LUI), sample period (as described above), and nest success. Landfill use was quantified by physically observing a banded stork at Colmenar Viejo during weekly visits from March to June in 2021. The LUI was calculated as the number of observations of one particular bird within the total number of visits to landfill per year \<CITE Alejandro 2022\>. If a banded adult was not seen at the landfill during the breeding season, they were assigned a LUI of 0, suggestive of no resource provisioning at the landfill. All covariates were evaluated for correlation, no covariates were correlated with all the Spearman's correlation coefficients (rho) \< 0.5 and the p \> 0.05. All continuous variables (LUI, age, and nest success) were then standardized prior to analysis.
 
-All models were constructed with only 2021 data, as the COVID-19 pandemic prohibited the collection of LUI data in 2020. Models were built and fitted to data using the statistical package tidymodels in Program R (R version 4.2.1, www.r-project.org). 
+All models were constructed with only 2021 data, as the COVID-19 pandemic prohibited the collection of LUI data in 2020. Models were built and fitted to data using the statistical package tidymodels in Program R (R version 4.2.1, www.r-project.org).
 
 #### (Note: still trying to figure out how to do this with the performance package) We evaluated model fit for all models using Akaike Information Criterion scores adjusted for small sample sizes (AICc: Burnham and Anderson, 2002). The best fit model was selected by having a ΔAICc \< 2.\_
 
@@ -101,7 +101,7 @@ All models were constructed with only 2021 data, as the COVID-19 pandemic prohib
 
 # Results
 
-## Exploratory/Descriptive analysis
+## Exploratory/Descriptive analysis (SUMMARY STATS IN EXPLORATION FILE TBD -\> Burden/MDR associated with each class. summary table? with actual summary stats)
 
 *Use a combination of text/tables/figures to explore and describe your data. Show the most important descriptive results here. Additional ones should go in the supplement. Even more can be in the R and Quarto files that are part of your project.*
 
@@ -113,8 +113,8 @@ Note the loading of the data providing a **relative** path using the `../../` no
 #| label: tbl-summarytable
 #| tbl-cap: "Data summary table."
 #| echo: FALSE
-resulttable=readRDS("../../results/summarytable.rds")
-knitr::kable(resulttable)
+#resulttable=readRDS("../../results/summarytable.rds")
+#knitr::kable(resulttable)
 ```
 
 ## Basic statistical analysis
@@ -142,6 +142,7 @@ Example @tbl-resulttable2 shows a summary of a linear model fit.
 #| tbl-cap: "Linear model fit table."
 #| echo: FALSE
 ModelAIC1 = readRDS(here("4 Results", "Tables", "ModelAIC1.rds"))
+ModelAIC1
 knitr::kable(ModelAIC1)
 
 ModelAIC2 = readRDS(here("4 Results", "Tables", "ModelAIC2.rds"))
@@ -154,19 +155,17 @@ knitr::kable(ModelAIC2)
 
 ## Summary and Interpretation
 
--	As multi-drug resistance and class diversity increase (similar things I know) throughout the breeding season (compounding effect likely), mean LUI decreases and nest success decreases (makes sense because in your prior papers you have found increase nest success with increased LUI).
+-   As multi-drug resistance and class diversity increase (similar things I know) throughout the breeding season (compounding effect likely), mean LUI decreases and nest success decreases (makes sense because in your prior papers you have found increase nest success with increased LUI).
 
--	Resistance gene burden appears to increase as mean LUI use and age increase. 
-o	Most of the burden is due to blaTEM, a common resistance gene associated with anthropogenic impact. Sampling period does not appear to explain burden, but the top blaTEM model did show a trend in burden increasing from the 2nd sampling period to the 3rd sampling period and age.
-
+-   Resistance gene burden appears to increase as mean LUI use and age increase. o Most of the burden is due to blaTEM, a common resistance gene associated with anthropogenic impact. Sampling period does not appear to explain burden, but the top blaTEM model did show a trend in burden increasing from the 2nd sampling period to the 3rd sampling period and age.
 
 ## Strengths and Limitations
 
--	Not much statistically significant data, thus we may have to argue biological significance. 
+-   Not much statistically significant data, thus we may have to argue biological significance.
 
 ## Conclusions
 
-LUI appears to be correlated with higher levels of AMR gene burden in storks. As LUI increases thorough the breeding season (Bialas et al 2021) resistance gene burden also increases with beta lactam resistance contributing to the majority of the burden. However, multidrug resistance appears to decrease as LUI increases, thus it is likely that storks are being exposed to antimicrobial resistance genes at other foraging areas (urban centers, agricultural pastures, etc.). Our results suggest that landfills may not be contributing significantly to the emergence and maintenance of AMR in this system. Little literature exists on the relationship between stork habitat selection and health outside of landfill use in Spain. Future efforts in stork AMR research should focus on exploring the relationship between agricultural land use and health. 
+LUI appears to be correlated with higher levels of AMR gene burden in storks. As LUI increases thorough the breeding season (Bialas et al 2021) resistance gene burden also increases with beta lactam resistance contributing to the majority of the burden. However, multidrug resistance appears to decrease as LUI increases, thus it is likely that storks are being exposed to antimicrobial resistance genes at other foraging areas (urban centers, agricultural pastures, etc.). Our results suggest that landfills may not be contributing significantly to the emergence and maintenance of AMR in this system. Little literature exists on the relationship between stork habitat selection and health outside of landfill use in Spain. Future efforts in stork AMR research should focus on exploring the relationship between agricultural land use and health.
 
 *What are the main take-home messages?*
 

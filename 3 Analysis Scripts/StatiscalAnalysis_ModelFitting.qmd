@@ -257,6 +257,4 @@ ggsave(BLp, file="LUIvsBurden_LME.tiff")
 
 Preliminary results
 
-Questions: 
-Should over fit models be taken out of performance analysis?
-What is the best tool/package to control for small data sets?
+Questions: Should over fit models be taken out of performance analysis? What is the best tool/package to control for small data sets? If using weighted AIC is it appropriate to also use other methods of performance analysis (R2, RSME, etc). How to get Manuscript to popular rds and tiff files
