@@ -89,7 +89,7 @@ library(here)
 
 ### Statistical analysis
 
-Presence absence ARG results obtained from the fecal samples between 2020 to 2021 were used for simple summary statistics. Samples were classified as "multiresistant" if they were resistant to three or more of the 8 antibiotic classes that we evaluated for in this study (Blanco-Peña et al., 2017). In addition, we applied the following formula to estimate the percentage of bacteria harboring ARGs: x = 10\[2+0.33(ct16S-ctARG)\], where x individual percent gene burden in the sample (i.e., the estimated number of copies of the gene present per reaction). Results were expressed in log10, ranging from −8 ( zero to a negligible amount of the bacteria in the sample carried an ARG) to 2 (all or 100% of the bacteria in the sample carried an ARG). The inverse Log10 was then applied to results so they could be totalled and used to evalute total gene burdens accross sampling periods.
+Presence absence ARG results obtained from the fecal samples between 2020 to 2021 were used for simple summary statistics. Samples were classified as "multiresistant" if they were resistant to three or more of the 8 antibiotic classes that we evaluated for in this study (Blanco-Peña et al., 2017). In addition, we applied the following formula to estimate the percentage of bacteria harboring ARGs: x = 10\[2+0.33(ct16S-ctARG)\], where x individual percent gene burden in the sample (i.e., the estimated number of copies of the gene present per reaction). Results were expressed in log10, ranging from −8 ( zero to a negligible amount of the bacteria in the sample carried an ARG) to 2 (all or 100% of the bacteria in the sample carried an ARG). The inverse Log10 was then applied to results so they could be totaled and used to evaluate total gene burdens across sampling periods.
 
 Several linear mixed models (LMM) were constructed to evaluate multi-resistance and ARG burden as response variables with nest as a random factor. Covariates considered with each response variable included adult age, adult mean land fill use index (LUI), sample period (as described above), and nest success. Landfill use was quantified by physically observing a banded stork at Colmenar Viejo during weekly visits from March to June in 2021. The LUI was calculated as the number of observations of one particular bird within the total number of visits to landfill per year \<CITE Alejandro 2022\>. If a banded adult was not seen at the landfill during the breeding season, they were assigned a LUI of 0, suggestive of no resource provisioning at the landfill. All covariates were evaluated for correlation, no covariates were correlated with all the Spearman's correlation coefficients (rho) \< 0.5 and the p \> 0.05. All continuous variables (LUI, age, and nest success) were then standardized prior to analysis.
 
@@ -105,29 +105,22 @@ All models were constructed with only 2021 data, as the COVID-19 pandemic prohib
 
 *Use a combination of text/tables/figures to explore and describe your data. Show the most important descriptive results here. Additional ones should go in the supplement. Even more can be in the R and Quarto files that are part of your project.*
 
-@tbl-summarytable shows a summary of the data.
-
-Note the loading of the data providing a **relative** path using the `../../` notation. (Two dots means a folder up). You never want to specify an **absolute** path like `C:\ahandel\myproject\results\` because if you share this with someone, it won't work for them since they don't have that path. You can also use the `here` R package to create paths. See examples of that below.
-
-```{r}
-#| label: tbl-summarytable
-#| tbl-cap: "Data summary table."
-#| echo: FALSE
-#resulttable=readRDS("../../results/summarytable.rds")
-#knitr::kable(resulttable)
-```
 
 ## Basic statistical analysis
 
 *To get some further insight into your data, if reasonable you could compute simple statistics (e.g. simple models with 1 predictor) to look for associations between your outcome(s) and each individual predictor variable. Though note that unless you pre-specified the outcome and main exposure, any "p\<0.05 means statistical significance" interpretation is not valid.*
 
-@fig-result shows a scatterplot figure produced by one of the R scripts.
+
 
 ```{r}
-#| label: fig-result
-#| fig-cap: "Height and weight stratified by gender."
+#| label: Figure1
+#| fig-cap: "Total antimicrobial gene burden as predicted by the variables landfill use index, age, sampling period, and nest success."
 #| echo: FALSE
 knitr::include_graphics(here("3 Analysis Scripts","LUIvsBurden_LME.tiff"))
+
+#| label: Figure2
+#| fig-cap: "Multi-drug resistance as predicted by the variables landfill use index and age."
+#| echo: FALSE
 knitr::include_graphics(here("3 Analysis Scripts","LUIvsMDR_LME.tiff"))
 ```
 
@@ -135,18 +128,38 @@ knitr::include_graphics(here("3 Analysis Scripts","LUIvsMDR_LME.tiff"))
 
 *Use one or several suitable statistical/machine learning methods to analyze your data and to produce meaningful figures, tables, etc. This might again be code that is best placed in one or several separate R scripts that need to be well documented. You want the code to produce figures and data ready for display as tables, and save those. Then you load them here.*
 
-Example @tbl-resulttable2 shows a summary of a linear model fit.
+Binomial generalized linear mixed models (GLMMs) were used to predict multi-drug resistance (MDR) in White Storks, with nest identification classified as a random effects parameter. Of these, the highest performing model contained the predictors landfill use index (LUI) and age (@Table1). In this model, an increase in the age of the bird was associated with a higher likelihood of MDR being present (@Table2), while an increase in LUI was found to be associated with a decreased likelihood of MDR presence. A second competitive model, with a 97.20% performance score, contained only age as the predictor.
+
+Linear mixed models (LMMs) were used to predict total antimicrobial gene burden in White Storks, with nest identification again classified as a random effects parameter. The global model, containing the variables landfill use index, age, sample period, and nest success, was the highest performing model (@Table3). In this model, each variable was positively correlated with antimicrobial gene burden (@Table4). The next highest performing model contained age as a single predictor, with a model performance score of 86.39%.
 
 ```{r}
-#| label: tbl-resulttable2
-#| tbl-cap: "Linear model fit table."
+#| label: Table1
+#| tbl-cap: "Small sample adjusted Akaike's Information Criteria (AICc) model weights and performance scores for binomial generalized linear mixed models predicting multi-drug resistance in White Storks (Ciconia ciconia) in Madrid, Spain. "
 #| echo: FALSE
 ModelAIC1 = readRDS(here("4 Results", "Tables", "ModelAIC1.rds"))
-ModelAIC1
 knitr::kable(ModelAIC1)
 
+#| label: Table2
+#| tbl-cap: "Parameter estimates for fixed and random effects parameters and standard error of the highest performing model predicting multi-drug resistance in White Storks in Madrid, Spain."
+#| echo: FALSE
+GLMERmodel1 = readRDS(here("4 Results", "Tables", "GLMERmodel1.rds"))
+knitr::kable(GLMERmodel1)
+
+```
+
+```{r}
+#| label: Table3
+#| tbl-cap: "Small sample adjusted Akaike's Information Criteria (AICc) model weights and performance scores for linear mixed models predicting total antimicrobial gene burden in White Storks (Ciconia ciconia) in Madrid, Spain. "
+#| echo: FALSE
 ModelAIC2 = readRDS(here("4 Results", "Tables", "ModelAIC2.rds"))
 knitr::kable(ModelAIC2)
+
+#| label: Table4
+#| tbl-cap: "Parameter estimates for fixed and random effects parameters and standard error of the highest performing model predicting total antimicrobial gene burden in White Storks in Madrid, Spain."
+#| echo: FALSE
+GLMERmodel1 = readRDS(here("4 Results", "Tables", "LMERmodel2.rds"))
+knitr::kable(GLMERmodel1)
+
 ```
 
 {{< pagebreak >}}

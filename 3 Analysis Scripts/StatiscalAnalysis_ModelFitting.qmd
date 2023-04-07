@@ -151,7 +151,7 @@ print(model1)
 
 # save fit results table  
 model1 %>%
-  saveRDS(here("4 Results", "Models", "LMERmodel1.rds"))
+  saveRDS(here("4 Results", "Models", "GLMERmodel1.rds"))
 
 MLp <- plot_model(glmer_fit_11,terms = 's.lui', type="pred", 
            show.data = TRUE, show.values = TRUE, show.p = TRUE,
@@ -246,14 +246,14 @@ Summarize and graph best model (lowwest AIC)
 ```{r}
 check_model(lmer_fit2_5)
 
-model2 <- broom::tidy(lmer_fit2_5)
+model2 <- broom::tidy(lmer_fit2_global)
 print(model2)
 
 # save fit results table  
 model2 %>% 
   saveRDS(here("4 Results","Models", "LMERmodel2.rds"))
 
-BLp <- plot_model(lmer_fit2_5,terms = 's.lui', type="pred", 
+BLp <- plot_model(lmer_fit2_global,terms = 's.lui', type="pred", 
            show.data = TRUE, show.values = TRUE, show.p = TRUE,
            title = "", show.legend = TRUE, line.size=1,
            axis.title = c("Landfill Use Index",'Total Antibiotic Resistant Gene Burden'))
@@ -262,5 +262,3 @@ BLp
 
 ggsave(BLp, file="LUIvsBurden_LME.tiff")
 ```
-
-
