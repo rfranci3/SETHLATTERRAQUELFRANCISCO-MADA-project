@@ -8,7 +8,7 @@ editor: visual
 
 #### this script loads the processed, cleaned data, does a simple analysis and saves the results to the results folder
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 #load needed packages. make sure they are installed.
 library(ggplot2) #for plotting
 library(ggeffects) #to explore plots  
@@ -20,6 +20,8 @@ library(tidymodels)
 library(lme4)
 library(sjPlot) #to help plot models
 library(performance) #evaluate model fit and performance
+library(see)
+library(cAIC4)
 
 #path to data
 data_location <- here::here("2 Clean Data","stork_AMR_2021.rds")
@@ -56,7 +58,7 @@ lmer_spec <-
   set_engine("lmer")
 
 glmer_spec <- 
-  linear_reg() %>% 
+  logistic_reg() %>% 
   set_engine("glmer")
 
 ```
@@ -64,91 +66,94 @@ glmer_spec <-
 Multi-drug resistance (0,1 data) vs All
 
 ```{r}
-lmer_fit_null <- 
-  lmer_spec %>% 
-  fit(MDR ~ (1|nes), data = data)
+glmer_fit_null <- 
+  glmer_spec %>% 
+  fit(as.factor(MDR) ~ (1|nes), data = data)
 
-lmer_fit_global <- 
-  lmer_spec %>% 
-  fit(MDR ~ s.lui + s.age + samp + s.nsuccess +(1|nes), data = data)
+glmer_fit_global <- 
+  glmer_spec %>% 
+  fit(as.factor(MDR) ~ s.lui + s.age + samp + s.nsuccess +(1|nes), data = data)
 
 #Univariate models
-lmer_fit_1 <- 
-  lmer_spec %>% 
-  fit(MDR ~ s.lui +(1|nes), data = data)
+glmer_fit_1 <- 
+  glmer_spec %>% 
+  fit(as.factor(MDR) ~ s.lui +(1|nes), data = data)
 
-lmer_fit_2 <- 
-  lmer_spec %>% 
-  fit(MDR ~ s.age  +(1|nes), data = data)
+glmer_fit_2 <- 
+  glmer_spec %>% 
+  fit(as.factor(MDR) ~ s.age  +(1|nes), data = data)
 
-lmer_fit_3 <- 
-  lmer_spec %>% 
-  fit(MDR ~ samp +(1|nes), data = data)
+glmer_fit_3 <- 
+  glmer_spec %>% 
+  fit(as.factor(MDR) ~ samp +(1|nes), data = data)
 
-lmer_fit_4 <- 
-  lmer_spec %>% 
-  fit(MDR ~ s.nsuccess +(1|nes), data = data)
+glmer_fit_4 <- 
+  glmer_spec %>% 
+  fit(as.factor(MDR) ~ s.nsuccess +(1|nes), data = data)
 
-lmer_fit_5 <- 
-  lmer_spec %>% 
-  fit(MDR ~ s.lui + samp +(1|nes), data = data)
+#Multivariate models
 
-lmer_fit_6 <- 
-  lmer_spec %>% 
-  fit(MDR ~ s.lui + s.nsuccess +(1|nes), data = data)
+glmer_fit_5 <- 
+  glmer_spec %>% 
+  fit(as.factor(MDR) ~ s.lui + samp +(1|nes), data = data)
 
-lmer_fit_7 <- 
-  lmer_spec %>% 
-  fit(MDR ~ samp + s.nsuccess +(1|nes), data = data)
+glmer_fit_6 <- 
+  glmer_spec %>% 
+  fit(as.factor(MDR) ~ s.lui + s.nsuccess +(1|nes), data = data)
 
-lmer_fit_8 <- 
-  lmer_spec %>% 
-  fit(MDR ~ s.lui*s.age + samp + s.nsuccess +(1|nes), data = data)
+glmer_fit_7 <- 
+  glmer_spec %>% 
+  fit(as.factor(MDR) ~ samp + s.nsuccess +(1|nes), data = data)
 
-lmer_fit_9 <- 
-  lmer_spec %>% 
-  fit(MDR ~ s.lui + s.age*samp + s.nsuccess +(1|nes), data = data)
+glmer_fit_8 <- 
+  glmer_spec %>% 
+  fit(as.factor(MDR) ~ s.lui*s.age + samp + s.nsuccess +(1|nes), data = data)
 
-lmer_fit_10 <- 
-  lmer_spec %>% 
-  fit(MDR ~ s.lui + s.age + samp*s.nsuccess +(1|nes), data = data)
+glmer_fit_9 <- 
+  glmer_spec %>% 
+  fit(as.factor(MDR) ~ s.lui + s.age*samp + s.nsuccess +(1|nes), data = data)
 
-lmer_fit_11 <- 
-  lmer_spec %>% 
-  fit(MDR ~ s.lui + s.age +(1|nes), data = data)
+glmer_fit_10 <- 
+  glmer_spec %>% 
+  fit(as.factor(MDR) ~ s.lui + s.age + samp*s.nsuccess +(1|nes), data = data)
 
-lmer_fit_12 <- 
-  lmer_spec %>% 
-  fit(MDR ~ s.lui + s.age +  s.nsuccess +(1|nes), data = data)
+glmer_fit_11 <- 
+  glmer_spec %>% 
+  fit(as.factor(MDR) ~ s.lui + s.age +(1|nes), data = data)
+
+glmer_fit_12 <- 
+  glmer_spec %>% 
+  fit(as.factor(MDR) ~ s.lui + s.age +  s.nsuccess +(1|nes), data = data)
 ```
 
 Use AIC to see the best model; None look great...
 
 ```{r}
-AIC_table1 <- compare_performance(lmer_fit_null,lmer_fit_global, lmer_fit_1, lmer_fit_2, lmer_fit_3, lmer_fit_4, lmer_fit_5, lmer_fit_6, lmer_fit_7, lmer_fit_8, lmer_fit_9, lmer_fit_10, lmer_fit_11, lmer_fit_12, rank = TRUE, metrics="AICc")
+AIC_table1 <- compare_performance(glmer_fit_null,glmer_fit_global, glmer_fit_1, glmer_fit_2, glmer_fit_3, glmer_fit_4, glmer_fit_5, glmer_fit_6, glmer_fit_7, glmer_fit_8, glmer_fit_9, glmer_fit_10, glmer_fit_11, glmer_fit_12, rank = TRUE, metrics="AICc")
 
 print(AIC_table1)
-AIC_table1 = here("4 Results","Tables", "ModelAIC1.rds")
-saveRDS(AIC_table1, file = AIC_table1)
 
-plot(compare_performance(lmer_fit_null,lmer_fit_global, lmer_fit_1, lmer_fit_2, lmer_fit_3, lmer_fit_4, lmer_fit_5, lmer_fit_6, lmer_fit_7, lmer_fit_8, lmer_fit_9, lmer_fit_10, lmer_fit_11, lmer_fit_12))
+AIC_table1 %>%
+  saveRDS(here("4 Results","Tables", "ModelAIC1.rds"))
+
+plot(compare_performance(glmer_fit_null,glmer_fit_global, glmer_fit_1, glmer_fit_2, glmer_fit_3, glmer_fit_4, glmer_fit_5, glmer_fit_6, glmer_fit_7, glmer_fit_8, glmer_fit_9, glmer_fit_10, glmer_fit_11, glmer_fit_12))
 ```
 
 Summarize and graph best model (lowwest AIC)
 
 ```{r}
-check_model(lmer_fit_11)
+check_model(glmer_fit_11)
 
 # place results from fit into a data frame with the tidy function
 
-model1 <- broom::tidy(lmer_fit_11)
+model1 <- broom::tidy(glmer_fit_11)
 print(model1)
 
 # save fit results table  
-model1 = here("4 Results", "Models", "LMERmodel1.rds")
-saveRDS(model1, file = model1)
+model1 %>%
+  saveRDS(here("4 Results", "Models", "LMERmodel1.rds"))
 
-MLp <- plot_model(lmer_fit_11,terms = 's.lui', type="pred", 
+MLp <- plot_model(glmer_fit_11,terms = 's.lui', type="pred", 
            show.data = TRUE, show.values = TRUE, show.p = TRUE,
            title = "", show.legend = TRUE, line.size=1,
            axis.title = c("Landfill Use Index",'Multi-Drug Resistence'))
@@ -224,13 +229,16 @@ lmer_fit2_12 <-
 Use AIC to see the best model; This doesnt look great either...
 
 ```{r}
-AIC_table2 <- compare_performance(lmer_fit2_null, lmer_fit2_1, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, rank = TRUE, metrics="AICc")
+AIC_table2 <- compare_performance(lmer_fit2_null, lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8,
+                                  lmer_fit2_9, lmer_fit2_10, lmer_fit2_11, lmer_fit2_12, rank = TRUE, metrics="AICc")
 
 print(AIC_table2)
-AIC_table2 = here("4 Results","Tables", "ModelAIC2.rds")
-saveRDS(AIC_table2, file = AIC_table2)
 
-plot(compare_performance(lmer_fit2_null,lmer_fit2_5, lmer_fit2_1, lmer_fit2_3, lmer_fit2_4, lmer_fit2_6, lmer_fit2_7))
+AIC_table2 %>%
+ saveRDS(here("4 Results","Tables", "ModelAIC2.rds"))
+
+plot(compare_performance(lmer_fit2_null, lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8,
+                                  lmer_fit2_9, lmer_fit2_10, lmer_fit2_11, lmer_fit2_12))
 ```
 
 Summarize and graph best model (lowwest AIC)
@@ -242,8 +250,8 @@ model2 <- broom::tidy(lmer_fit2_5)
 print(model2)
 
 # save fit results table  
-model2 = here("4 Results","Models", "LMERmodel2.rds")
-saveRDS(model2, file = model2)
+model2 %>% 
+  saveRDS(here("4 Results","Models", "LMERmodel2.rds"))
 
 BLp <- plot_model(lmer_fit2_5,terms = 's.lui', type="pred", 
            show.data = TRUE, show.values = TRUE, show.p = TRUE,
@@ -255,10 +263,4 @@ BLp
 ggsave(BLp, file="LUIvsBurden_LME.tiff")
 ```
 
-Preliminary results
 
-Questions: Should over fit models be taken out of performance analysis?
-
-\*\*What is the best tool/package to control for small data sets? If using weighted AIC is it appropriate to also use other methods of performance analysis (R2, RSME, etc).
-
-How to get Manuscript to popular rds and tiff files. GLMER vs LMER
