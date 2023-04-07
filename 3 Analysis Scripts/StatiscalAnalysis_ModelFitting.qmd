@@ -251,7 +251,7 @@ print(model2)
 
 # save fit results table  
 model2 %>% 
-  saveRDS(here("4 Results","Models", "LMERmodel2.rds"))
+  saveRDS(here("4 Results/Models/LMERmodel2.rds"))
 
 BLp <- plot_model(lmer_fit2_5,terms = 's.lui', type="pred", 
            show.data = TRUE, show.values = TRUE, show.p = TRUE,
@@ -260,7 +260,5 @@ BLp <- plot_model(lmer_fit2_5,terms = 's.lui', type="pred",
 
 BLp
 
-ggsave(BLp, file="LUIvsBurden_LME.tiff")
+ggsave(BLp, file="4 Results","Models","LUIvsBurden_LME.tiff")
 ```
-
-

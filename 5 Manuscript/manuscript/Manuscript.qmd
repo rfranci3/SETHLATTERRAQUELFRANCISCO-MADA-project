@@ -16,6 +16,10 @@ csl: ../apa.csl
 # load a few R packages
 library(here)
 library(knitr)
+library(knitcitations)
+library(citr)
+library(devtools)
+cleanbib()
 ```
 
 # Highlights
@@ -36,9 +40,19 @@ Anthropogenic environments are hotspots for the emergence and maintenance of ant
 
 # Introduction
 
-## General Background Information
+## General Background Information (WILL FIGHT WITH BIBTEX TOMORROW)
 
-*Provide enough background on your topic that others can understand the why and how of your analysis*
+Antimicrobial resistance (AMR) in wildlife was recently highlighted as being a critical research need (Dolejska & Literak, 2019). While AMR is accepted as a global human concern, it has only recently been utilized to evaluated wildlife health and anthropogenic impacts on environments. The majority of resistance research in wildlife has been targeted towards birds due to their interinsict life history traits such as long migrations and the ability to fly between environments <CITE>. However, the importance of birds in respect to the epidemiology of AMR remains poorly understood (Radhouani et al., 2014). A growing body of literature is trying to understand the role free-roaming birds play in the emergence, maintenance, and transmission of AMR upon the landscape. 
+
+Birds have a long history of being used as indicators for environmental and human health. For example, wading bird surveillance is commonplace in south Florida to monitor heavy metal levels like mercury in the greater everglades ecosystem <CITE>. Birds are also often utilized in zoonotic pathogen surveillance (i.e., USDA sentinel chickens to monitor West Nile Virus) < >. In recent years, a similar approach has been utilized to study AMR prevalence/impacts on different landscapes <>. In 2019, the USGS revealed that more than half of GPS-tracked gulls (Larus ssp.) had acquired antimicrobial resistant E. coli from landfills and disseminated it long distances to pristine, unaltered habitats (Ahlstrom et al., 2019). This supports the belief that birds who utilize and move between human-dominated and natural landscapes may become both reservoirs and efficient transporters of resistance determinants to natural environments.For wildlife in general, resistance prevalence tends to increase with proximity to human populations (Niu et al., 2013). It is believed that animals that rely on anthropogenic resources (e.g., landfills) are often concentrated at high densities that promote the large-scale mixing of bacteria, which facilitate the rise of novel resistant strains (Wellington et al., 2013). Moreover, ecological factors such as migration and high densities during breeding season may increase acquisition rates and the dissemination of AMR <CITE>.   
+
+Understanding the prevalence and movement of AMR is important to not only humans and environmental health, but also wildlife health. Currently, the carriage of AMR genes presents an unknown risk to the individual birds but has larger implications for free-living avian communities. Resistance genes are thought to alter the fitness of a pathogen (Friedman et al., 2016), and have been correlated with increased virulence (Escudeiro et al., 2019), in turn increasing morbidity and mortality in affected hosts. Finally, at the population management level, birds have also been held ‘responsible’ for the dissemination of enteric pathogens (e.g., E. coli, Salmonella spp.) that have caused outbreaks in produce, yet, they are only moving these bacteria from areas already contaminated by human activities (Hoelzer et al., 2011). Thus, understanding how avian behaviors that overlap with risky environmental factors, (e.g., foraging in agricultural areas), impact the carriage of resistance, is key because: 1) it allows us to understand the exact role birds play in AMR dissemination, and  2) it informs targeted population management and conservation strategies—such as discouraging birds from utilizing certain areas. 
+
+The western white stork population provides the unique opportunity to explore how anthropogenic land use influences the carriage of antimicrobial resistance genes. White storks (Ciconia ciconia) were historically trans-Sahara migrants whose ecology has dramatically changed in response to anthropogenic pressure. Since the 1990s, Spanish white stork populations have steadily increased, due to their ability to exploit anthropogenic habitats, especially in areas with abundant resources especially urban open landfills (Cramp and (ed), 1985; Tortosa et al., 2002). Currently, colonies in Madrid, Spain with increased proximity to landfills have improved breeding outcomes and nestling quality, however eggs and nestlings also have increased pollutant loads (Vergara et al., 2006) (Jiang et al., 2013),(Blázquez et al., 2006; Tortosa et al., 2002). This has in turn affected their natural history as subsets of the population begun to shorten or abandon their winter migration (Gordo et al., 2007; Marchamalo et al., 1997; Reed et al., 2003; Tortosa et al., 1995; Vergara et al., 2004). Although the conservation status of the white stork is of Least Concern in Spain, it has disappeared from large areas of its historical range in Europe and thus, the populations in Portugal and Spain are of greater significance.
+
+Most studies on AMR surveillance in wildlife are performed by culture‐dependent methods, (e.g., the isolation of a specific pathogen such as Escherichia coli) as indicators of AMR.  However, since most bacteria are not culturable, the detection of AMR using traditional methods might not be representative of the whole resistant microbiota, sometimes referred to as the resistome . Real time PCR (rtPCR), a technique not dependent on culture, offers that ability to quantify the presence and abundance of antimicrobial resistance genes (ARGs),  in white storks. This technique has recently been used in three studies to investigate the presence and amount of ARGs in the environment (e.g., soil and manure) and wildlife (e.g., Galapagos tortoise, gulls, guia) (Esperón et al., 2018; Nieto-Claudin et al., 2019; Sacristán et al., 2020). Add blurb about HGT… For instance, birds that encounter human waste (e.g., by drinking contaminated water) can acquire resistance genes through the exchange of naturally present genes in the bacteria they carry, with the genes in the waste—this can co-select for mobile genetic elements carrying multiple resistant genes (Wellington et al., 2013). 
+
+<Insert Paragraph with objectives>  
 
 ## Description of data and data source
 
