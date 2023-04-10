@@ -131,9 +131,9 @@ knitr::include_graphics(here("3 Analysis Scripts","LUIvsMDR_LME.tiff"))
 
 *Use one or several suitable statistical/machine learning methods to analyze your data and to produce meaningful figures, tables, etc. This might again be code that is best placed in one or several separate R scripts that need to be well documented. You want the code to produce figures and data ready for display as tables, and save those. Then you load them here.*
 
-Binomial generalized linear mixed models (GLMMs) were used to predict multi-drug resistance (MDR) in White Storks, with nest identification classified as a random effects parameter. Of these, the highest performing model contained the predictors landfill use index (LUI) and age (@Table1). In this model, an increase in the age of the bird was associated with a higher likelihood of MDR being present (@Table2), while an increase in LUI was found to be associated with a decreased likelihood of MDR presence. A second competitive model, with a 97.20% performance score, contained only age as the predictor.
+Binomial generalized linear mixed models (GLMMs) were used to predict multi-drug resistance (MDR) in White Storks, with nest identification classified as a random effects parameter. Of these, the highest performing model contained the predictors landfill use index (LUI) and age (Table1). In this model, an increase in the age of the bird was associated with a higher likelihood of MDR being present (Table2), while an increase in LUI was found to be associated with a decreased likelihood of MDR presence. A second competitive model, with a 97.20% performance score, contained only age as the predictor.
 
-Linear mixed models (LMMs) were used to predict total antimicrobial gene burden in White Storks, with nest identification again classified as a random effects parameter. The global model, containing the variables landfill use index, age, sample period, and nest success, was the highest performing model (@Table3). In this model, each variable was positively correlated with antimicrobial gene burden (@Table4). The next highest performing model contained age as a single predictor, with a model performance score of 86.39%.
+Linear mixed models (LMMs) were used to predict total antimicrobial gene burden in White Storks, with nest identification again classified as a random effects parameter. The global model, containing the variables landfill use index, age, sample period, and nest success, was the highest performing model (Table3). In this model, each variable was positively correlated with antimicrobial gene burden (Table4). The next highest performing model contained age as a single predictor, with a model performance score of 86.39%.
 
 ```{r}
 #| label: tbl-resulttable2
@@ -145,7 +145,7 @@ knitr::kable(ModelAIC1)
 #| label: Table2
 #| tbl-cap: "Parameter estimates for fixed and random effects parameters and standard error of the highest performing model predicting multi-drug resistance in White Storks in Madrid, Spain."
 #| echo: FALSE
-GLMERmodel1 = readRDS(here("4 Results", "Tables", "GLMERmodel1.rds"))
+GLMERmodel1 = readRDS(here("4 Results", "Models", "GLMERmodel1.rds"))
 knitr::kable(GLMERmodel1)
 
 ```
@@ -160,7 +160,7 @@ knitr::kable(ModelAIC2)
 #| label: Table4
 #| tbl-cap: "Parameter estimates for fixed and random effects parameters and standard error of the highest performing model predicting total antimicrobial gene burden in White Storks in Madrid, Spain."
 #| echo: FALSE
-GLMERmodel1 = readRDS(here("4 Results", "Tables", "LMERmodel2.rds"))
+GLMERmodel1 = readRDS(here("4 Results", "Models", "LMERmodel2.rds"))
 knitr::kable(GLMERmodel1)
 
 ```
