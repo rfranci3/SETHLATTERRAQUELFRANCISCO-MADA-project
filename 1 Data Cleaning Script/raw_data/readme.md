@@ -1,6 +1,8 @@
-This folder contains a simple made-up data-set in an Excel file.
+# CODEBOOK 
+## This folder contains a simple made-up data-set in an Excel file.
 
 It contains the variables:
+
 'cisa' = Individual Lab Identification of Sample
 
 `yr` = year sample was collected 
@@ -44,7 +46,3 @@ It contains the variables:
 'POLIMYX' = representative of polymixins (includes mcr.1)
 
 The dataset prior to cleaning and establishment of class buren and multi-drug (>3 class) resistence.
-
-To do: move this to a code book as described below.
-Generally, any dataset should contain some meta-data explaining what each variable in the dataset is. (This is often called a **Codebook**.) For this simple example, the codebook is given as a second sheet in the Excel file.
-
