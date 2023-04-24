@@ -158,9 +158,12 @@ MLp <- plot_model(glmer_fit_11,terms = 's.lui', type="pred",
            title = "", show.legend = TRUE, line.size=1,
            axis.title = c("Landfill Use Index",'Multi-Drug Resistence'))
 
+##Not working... fix later
+  while (!is.null(dev.list()))  dev.off()
+#Tiff 
+tiff(file = here('5 Manuscript','manuscript','Images', 'LUIvsMDR_LME.tiff'))
 MLp
-
-ggsave(MLp, file="LUIvsMDR_LME.tiff")
+dev.off() 
 ```
 
 AMR Gene Burden vs All
@@ -258,7 +261,9 @@ BLp <- plot_model(lmer_fit2_global,terms = 's.lui', type="pred",
            title = "", show.legend = TRUE, line.size=1,
            axis.title = c("Landfill Use Index",'Total Antibiotic Resistant Gene Burden'))
 
+while (!is.null(dev.list()))  dev.off()
+#Tiff 
+tiff(file = here('5 Manuscript','manuscript','Images', 'LUIvsBurden_LME.tiff'))
 BLp
-
-ggsave(BLp, file="4 Results","Models","LUIvsBurden_LME.tiff")
+dev.off() 
 ```

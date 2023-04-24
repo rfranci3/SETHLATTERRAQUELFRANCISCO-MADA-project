@@ -16,6 +16,7 @@ bibliography: EW_AMR.bib
 library(here)
 library(knitr)
 library(knitcitations)
+library(tidyverse)
 ```
 
 # Highlights
@@ -36,27 +37,27 @@ Anthropogenic environments are hotspots for the emergence and maintenance of ant
 
 # Introduction
 
-## General Background Information (WILL FIGHT WITH BIBTEX TOMORROW)
+## General Background Information
 
 Antimicrobial resistance (AMR) in wildlife was recently highlighted as being a critical research need [@Dolejska2019]. While AMR is accepted as a global human health concern, it has only recently been utilized to evaluated wildlife health and anthropogenic impacts on environments (i.e., environmental health). The majority of resistance research in wildlife has been targeted towards birds, however, the importance of birds in respect to the epidemiology of AMR remains poorly understood [@Radhouani2014]. Now, a growing body of literature is trying to understand the role free-roaming birds play in the emergence, maintenance, and transmission of AMR upon the landscape.
 
-Birds have a long history of being used as indicators for environmental and human health. For example, wading bird surveillance is commonplace in south Florida to monitor heavy metal levels in the greater everglades ecosystem. Birds are also often utilized in zoonotic pathogen surveillance (i.e., USDA sentinel chickens to monitor West Nile Virus). In recent years, a similar approach has been utilized to study AMR prevalence/impacts on different landscapes. Currently, the carriage of AMR genes presents an unknown risk to the individual birds and may have greater implications for free-living avian communities and conservation. Resistance genes are thought to alter the fitness of a pathogen [@Friedman2016], and have been correlated with increased virulence [@Escudeiro2019], in turn increasing morbidity and mortality in affected hosts. Finally, at the population management level, birds have also been held ‘responsible’ for the dissemination of enteric pathogens (e.g., *Escherichia coli*, *Salmonella* spp.) that have caused outbreaks in produce, yet, they are only moving these bacteria from areas already contaminated by human activities [@Hoelzer2011]. Thus, understanding how avian behaviors that overlap with risky environmental factors (e.g., foraging in agricultural areas or landfills) impact the carriage of resistance, is key because: 1) it allows us to better understand the role birds play in AMR dissemination, and  2) it informs targeted population management and conservation strategies—such as discouraging birds from utilizing certain areas. 
+Birds have a long history of being used as indicators for environmental and human health. For example, wading bird surveillance is commonplace in south Florida to monitor heavy metal levels in the greater everglades ecosystem. Birds are also often utilized in zoonotic pathogen surveillance (i.e., USDA sentinel chickens to monitor West Nile Virus). In recent years, a similar approach has been utilized to study AMR prevalence/impacts on different landscapes. Currently, the carriage of AMR genes presents an unknown risk to the individual birds and may have greater implications for free-living avian communities and conservation. Resistance genes are thought to alter the fitness of a pathogen [@Friedman2016], and have been correlated with increased virulence [@Escudeiro2019], in turn increasing morbidity and mortality in affected hosts. Finally, at the population management level, birds have also been held 'responsible' for the dissemination of enteric pathogens (e.g., *Escherichia coli*, *Salmonella* spp.) that have caused outbreaks in produce, yet, they are only moving these bacteria from areas already contaminated by human activities [@Hoelzer2011]. Thus, understanding how avian behaviors that overlap with risky environmental factors (e.g., foraging in agricultural areas or landfills) impact the carriage of resistance, is key because: 1) it allows us to better understand the role birds play in AMR dissemination, and 2) it informs targeted population management and conservation strategies---such as discouraging birds from utilizing certain areas.
 
-In 2019, the USGS revealed that more than half of GPS-tracked gulls (*Larus* ssp.) had acquired antimicrobial resistant *E. coli* from landfills and disseminated it long distances to pristine, unaltered habitats [@Ahlstrom2019]. This supports the belief that birds who utilize and move between human-dominated and natural landscapes may become both reservoirs and efficient transporters of resistance determinants to natural environments.For wildlife in general, resistance prevalence tends to increase with proximity to human populations [@Niu2013]. It is believed that animals that rely on anthropogenic resources are often concentrated at high densities that promote the large-scale mixing of bacteria, encouranging horizontal gene transfer (HGT) facilitating the rise of novel resistant strains [@Wellington2013]. For instance, birds that encounter human waste (e.g., by drinking contaminated water) can acquire resistance genes through the exchange of naturally present genes in the bacteria they carry, with the genes in the waste—this can co-select for mobile genetic elements carrying multiple resistant genes [@Wellington2013]. Moreover, ecological factors such as migration and high densities during breeding season may increase acquisition rates and the dissemination of AMR . The western white stork are one such species that heavily utilizes agricultural and urbam areas, providing a unique opportunity to explore how anthropogenic land use influences the carriage of antimicrobial resistance genes. 
+In 2019, the USGS revealed that more than half of GPS-tracked gulls (*Larus* ssp.) had acquired antimicrobial resistant *E. coli* from landfills and disseminated it long distances to pristine, unaltered habitats [@Ahlstrom2019]. This supports the belief that birds who utilize and move between human-dominated and natural landscapes may become both reservoirs and efficient transporters of resistance determinants to natural environments.For wildlife in general, resistance prevalence tends to increase with proximity to human populations [@Niu2013]. It is believed that animals that rely on anthropogenic resources are often concentrated at high densities that promote the large-scale mixing of bacteria, encouranging horizontal gene transfer (HGT) facilitating the rise of novel resistant strains [@Wellington2013]. For instance, birds that encounter human waste (e.g., by drinking contaminated water) can acquire resistance genes through the exchange of naturally present genes in the bacteria they carry, with the genes in the waste---this can co-select for mobile genetic elements carrying multiple resistant genes [@Wellington2013]. Moreover, ecological factors such as migration and high densities during breeding season may increase acquisition rates and the dissemination of AMR . The western white stork are one such species that heavily utilizes agricultural and urbam areas, providing a unique opportunity to explore how anthropogenic land use influences the carriage of antimicrobial resistance genes.
 
 White storks (*Ciconia ciconia*) were historically trans-Sahara migrants whose ecology has dramatically changed in response to anthropogenic pressure. Since the 1990s, Spanish white stork populations have steadily increased, due to their ability to exploit anthropogenic habitats, especially in areas with abundant resources especially open landfills [@Cramp1985; @Tortosa2002]. Currently, colonies in Madrid, Spain with increased proximity to landfills have improved breeding outcomes and nestling quality, however eggs and nestlings also have increased pollutant loads [@Vergara2006; @Jiang2013; @Saez2008; @Tortosa2002]. This has in turn affected their natural history. Subsets of the population have begun to shorten or abandon their winter migration [@Gordo2007; @Tortosa1995; @Vergara2004]. Although the conservation status of the white stork is of Least Concern in Spain, it has disappeared from large areas of its historical range in Europe and thus, the populations in Portugal and Spain are is integral to the species conservation.
 
 Most studies on AMR surveillance in wildlife are performed by culture‐dependent methods, (e.g., the isolation of a specific pathogen such as *E. coli*) as indicators of AMR. However, since most bacteria are not culturable, the detection of AMR using traditional methods might not be representative of the whole resistant microbiota, sometimes referred to as the resistome [@Surette2017]. Real time PCR (rtPCR), a technique not dependent on culture, offers that ability to quantify the presence and abundance of antimicrobial resistance genes (ARGs), in white storks. This technique has recently been used in three studies to investigate the presence and amount of ARGs in the environment (e.g., soil and manure) and wildlife (e.g., Galapagos tortoise, gulls, guignas) [@Esperon2014; @NietoClaudin2019; @Sacristan2020]. In this study we will explore the ARG load and diversity in a population of white stork in Madrid Spain during the 2020 and 2021.
 
-## Questions/Hypotheses to be addressed
+## Objective
 
-Does landfill use by storks increase the likelihood of carrying Antimicrobial resistance (AMR) genes and resistance gene burden?.
+Evaluate both antimicrobial gene resistence diversity and burden in white storks that utilize landfills and natural areas over the breeding season of years 2020 to 2021.
 
-Stork that visit the landfill more often will have a higher likelihood of carrying AMR genes and have a higher burden of AMR genes.
+## Hypotheses
 
-Is nest success related to AMR gene burden and multi-drug resistance (i.e., resistance to 3 or more drug classes)?
+Increased landfill use will increase both the diversity and burden of antimicrobial resistance genes in white stork.
 
-Stork with more AMR gene burdens and multi-drug resistance will have lower nest success.
+Nest success will be negatively affected by antimicrobial gene burden and multi-drug resistance (i.e., resistance to 3 or more drug classes).
 
 {{< pagebreak >}}
 
@@ -80,15 +81,9 @@ We have 126 observations taken over a period of 2 years. We are evaluating for t
 
 We performed total DNA extraction directly from fecal samples, by using a pressure filtration technique (QuickGene DNA Tissue Kit S, Fujifilm, Japan) following the manufacturer's instructions. The 16S rRNA gene was amplified in each DNA sample by real time PCR (rtPCR) in 10-fold dilutions of extracted samples, according to @Jiang2013. A DNA sample was considered validated when a ten-fold dilution showed a cycle threshold (Ct) less than 25 [@Esperon2020]. Once validated, we analyzed DNA samples by with a panel of 21 different ARGs encoding resistance to eight different antimicrobial classes: tetracyclines (tet(A), tet(B), tet(Y), tet(K), tet(M), tet(Q), tet(S), and tet(W)), sulfonamides (sulI and sulII), aminoglycosides (str and aadA), phenicols (catI and catII), macrolides (ermB and ermF), quinolones (qnrS and qnrB), betalactams (blaTEM and mecA), and polymyxins (mcr-1). All rtPCR reactions utilized premade gelled format 96-well plates (Biotools, B &M Labs, S.A., Madrid, Spain), with the exception of blaTEM and mecA genes which used the Sybr GreenTM and TaqManTM probe, respectively. Our thermal cycle was the same for all the rtPCR reactions \[6′ 95 °C, 40× (10″ 95 °C, 30″ 60 °C)\], with alignment and extension in the same step, at constant temperature of 60 °C. A melting curve step was performed at the end of the qPCR reaction to validate the authenticity of the positive [@NietoClaudin2019]. We quantified the relative burden of each gene for each sample via the cycle threshold (Ct) for the 16S rRNA and the Ct value of the individual ARG using a previously published formula in @Esperon2020.
 
-## Data import and cleaning (Reference file and give details HERE. Reference a ReadME/doc here)
+## Data import and cleaning
 
-*Write code that reads in the file and cleans it so it's ready for analysis. Since this will be fairly long code for most datasets, it might be a good idea to have it in one or several R scripts. If that is the case, explain here briefly what kind of cleaning/processing you do, and provide more details and well documented code somewhere (e.g. as supplement in a paper). All materials, including files that contain code, should be commented well so everyone can follow along.*
-
-```{r, warning=FALSE}
-library(tidyverse)
-library(here)
-
-```
+Raw data was collected during both field seasons (2020 and 2021) and maintained on an excel file. This excel file was amended in 2021 to include the laboratory results from the AMR qPCR. The raw excel file can be found in the "1 Data Cleaning Script" folder in this [projects repository](https://github.com/rfranci3/SETHLATTERRAQUELFRANCISCO-MADA-project). Cleaned data was evaluated for normality and each variable was standardized and checked correlative relationships. All variables were kept as they did not appear strongly correlated.
 
 ### Statistical analysis
 
@@ -98,42 +93,29 @@ Several linear mixed models (LMM) were constructed to evaluate multi-resistance 
 
 All models were constructed with only 2021 data, as the COVID-19 pandemic prohibited the collection of LUI data in 2020. Models were built and fitted to data using the statistical package tidymodels in Program R (R version 4.2.1, www.r-project.org).
 
-#### (Note: still trying to figure out how to do this with the performance package) We evaluated model fit for all models using Akaike Information Criterion scores adjusted for small sample sizes (AICc: Burnham and Anderson, 2002). The best fit model was selected by having a ΔAICc \< 2.\_
-
 {{< pagebreak >}}
 
 # Results
 
-## Exploratory/Descriptive analysis (SUMMARY STATS IN EXPLORATION FILE TBD -\> Burden/MDR associated with each class. summary table? with actual summary stats)
+## Exploratory/Descriptive analysis
 
-*Use a combination of text/tables/figures to explore and describe your data. Show the most important descriptive results here. Additional ones should go in the supplement. Even more can be in the R and Quarto files that are part of your project.*
+Cleaned data was then visually explored to evaluate trends. Notably, it did not seem to appear that multi-drug resistance played a factor in nest success (Figure 2). However, sampling periods did appear important to the amount of ARG burden found in white stork feces (Figure 3). The most notable trend in the data however, was the appearance that multi-drug resistence in fact declined with the increase of landfill use by the adult white storks (Figure 4).
 
+![Figure 2: Multi-drug resistance and nest success (i.e., number of chicks fledged) for each nest during the 2020 and 2021 white stork breeding seasons.](Images/Prelim_LUIvsNS.tiff)
+
+![Figure 3: Antimicrobial Drug Resistence burden across all three sampling periods during the 2020 and 2021 white stork breeding seasons.](Images/Prelim_BurdenvsSamp.tiff)
+
+![Figure 4: Multi-drug resistance and Landfill Use Index for each nest during the 2020 and 2021 white stork breeding seasons.](Images/Prelim_LUIvsMD.tiff)
 
 ## Basic statistical analysis
 
 *To get some further insight into your data, if reasonable you could compute simple statistics (e.g. simple models with 1 predictor) to look for associations between your outcome(s) and each individual predictor variable. Though note that unless you pre-specified the outcome and main exposure, any "p\<0.05 means statistical significance" interpretation is not valid.*
 
-
-
-```{r}
-#| label: fig-result
-#| fig-cap: "Linear Mixed Model Output with 95% CI."
-#| echo: FALSE
-knitr::include_graphics(here("3 Analysis Scripts","LUIvsBurden_LME.tiff"))
-
-#| label: Figure2
-#| fig-cap: "Multi-drug resistance as predicted by the variables landfill use index and age."
-#| echo: FALSE
-knitr::include_graphics(here("3 Analysis Scripts","LUIvsMDR_LME.tiff"))
-```
-
 ## Full analysis
-
-*Use one or several suitable statistical/machine learning methods to analyze your data and to produce meaningful figures, tables, etc. This might again be code that is best placed in one or several separate R scripts that need to be well documented. You want the code to produce figures and data ready for display as tables, and save those. Then you load them here.*
 
 Binomial generalized linear mixed models (GLMMs) were used to predict multi-drug resistance (MDR) in White Storks, with nest identification classified as a random effects parameter. Of these, the highest performing model contained the predictors landfill use index (LUI) and age (Table1). In this model, an increase in the age of the bird was associated with a higher likelihood of MDR being present (Table2), while an increase in LUI was found to be associated with a decreased likelihood of MDR presence. A second competitive model, with a 97.20% performance score, contained only age as the predictor.
 
-Linear mixed models (LMMs) were used to predict total antimicrobial gene burden in White Storks, with nest identification again classified as a random effects parameter. The global model, containing the variables landfill use index, age, sample period, and nest success, was the highest performing model (Table3). In this model, each variable was positively correlated with antimicrobial gene burden (Table4). The next highest performing model contained age as a single predictor, with a model performance score of 86.39%.
+![Figure 5: Multi-drug resistance as predicted by the variables landfill use index and age during the 2020 and 2021 white stork breeding seasons. The gray is a 95% CI](Images/LUIvsMDR_LME.tiff)
 
 ```{r}
 #| label: tbl-resulttable2
@@ -149,6 +131,10 @@ GLMERmodel1 = readRDS(here("4 Results", "Models", "GLMERmodel1.rds"))
 knitr::kable(GLMERmodel1)
 
 ```
+
+Linear mixed models (LMMs) were used to predict total antimicrobial gene burden in White Storks, with nest identification again classified as a random effects parameter. The global model, containing the variables landfill use index, age, sample period, and nest success, was the highest performing model (Table3). In this model, each variable was positively correlated with antimicrobial gene burden (Table4). The next highest performing model contained age as a single predictor, with a model performance score of 86.39%.
+
+![Figure 6: Anti-microbial resistance gene burden of each nest as predicted by the variables landfill use index and sampling period during the 2020 and 2021 white stork breeding seasons. The gray is a 95% CI](Images/LUIvsBurden_LME.tiff)
 
 ```{r}
 #| label: Table3
@@ -182,8 +168,6 @@ knitr::kable(GLMERmodel1)
 ## Conclusions
 
 LUI appears to be correlated with higher levels of AMR gene burden in storks. As LUI increases thorough the breeding season [@Bialas2020] resistance gene burden also increases with beta lactam resistance contributing to the majority of the burden. However, multidrug resistance appears to decrease as LUI increases, thus it is likely that storks are being exposed to antimicrobial resistance genes at other foraging areas (urban centers, agricultural pastures, etc.). Our results suggest that landfills may not be contributing significantly to the emergence and maintenance of AMR in this system. Little literature exists on the relationship between stork habitat selection and health outside of landfill use in Spain. Future efforts in stork AMR research should focus on exploring the relationship between agricultural land use and health.
-
-*What are the main take-home messages?*
 
 {{< pagebreak >}}
 

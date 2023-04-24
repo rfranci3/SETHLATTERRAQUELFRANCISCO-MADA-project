@@ -64,7 +64,8 @@ variables <- stork_AMR_clean[ , c("s.age", "s.lui", "samp", "s.nsuccess")]
 
 #create correlation matrix
 cor(variables, use = "complete.obs") #ignore NAs
-corrplot(cor(variables, use = "complete.obs"))
+CorrPlot <- corrplot(cor(variables, use = "complete.obs"))
+CorrPlot
 
 Z <- data.frame(s.age = stork_AMR_clean$s.age, 
                 s.lui = stork_AMR_clean$s.lui, 
@@ -155,9 +156,17 @@ stork_AMR_clean %>%
 Total Number of AMR Gene Classes over both years.
 
 ```{r}
-stork_AMR_clean %>%
+pSB <- stork_AMR_clean %>%
   ggplot(aes(as.factor(yr), sum))+
-  geom_boxplot()
+  geom_boxplot() +
+  ylab('Breeding Season Sampling Period') +
+  xlab ('Antimicrobial Gene Resistance Burden')
+
+while (!is.null(dev.list()))  dev.off()
+#Tiff 
+tiff(file = here('5 Manuscript','manuscript','Images', 'Prelim_BurdenvsSamp.tiff'))
+pSB
+dev.off() 
 ```
 
 Sample vs Total Number of AMR Gene Classes
@@ -221,10 +230,17 @@ stork_AMR_2021 %>%
 Plotting mean landfill use index vs nest success, grouped by MDR outcome.
 
 ```{r, message=FALSE, warning=FALSE}
-stork_AMR_2021%>%
+pLN <- stork_AMR_2021%>%
   ggplot(aes(mean_lui, nsuccess, color=as.factor(MDR)))+
   geom_point()+
-  geom_smooth(method = "lm")
+  geom_smooth(method = "lm")+
+  ylab('Nest Success (Includes 2020 to 2021)') +
+  xlab ('Mean Landfill Use Index (LUI)')
+
+#Tiff 
+tiff(file = here('5 Manuscript','manuscript', 'Images', 'Prelim_LUIvsNS.tiff'))
+pLN
+dev.off() 
 ```
 
 Plotting mean landfill use index vs nest success, grouped by MDR outcome.
@@ -239,9 +255,16 @@ stork_AMR_2021%>%
 Plotting MDR vs mean landfill use index
 
 ```{r, warning=FALSE}
-stork_AMR_2021 %>%
+pLM <- stork_AMR_2021 %>%
   ggplot(aes(as.factor(MDR), mean_lui))+
-  geom_boxplot()
+  geom_boxplot()+
+  ylab('Mean Landfill Use Index (LUI)') +
+  xlab ('Multi-Drug Resistance')
+
+#save as tiff
+tiff(file = here('5 Manuscript','manuscript', 'Images', 'Prelim_LUIvsMD.tiff'))
+pLM
+dev.off() 
 ```
 
 Plotting Burden vs mean landfill use index
