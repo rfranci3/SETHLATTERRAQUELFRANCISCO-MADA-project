@@ -1,27 +1,22 @@
 ---
-title: "Supplement to Example Manuscript Template for a Data Analysis Project"
-
-subtitle: ""
-author: Andreas Handel
+title: "Supplementary Material"
+subtitle: "A Match Made in Landfills? Exploring the diversity and burden of antimicrobial resistance genes carried by white stork (Ciconia ciconia) throughout the breeding season in Madrid, Spain"
+author: Raquel Francisco and Seth Lattner
 date: "`r Sys.Date()`"
 format:
   pdf:
     toc: false
     number-sections: true
     highlight-style: github
-bibliography: ../../dataanalysis_template_references.bib
+bibliography: EW_AMR.bib
 csl: ../../vancouver.csl
 ---
-
 
 ```{r, echo=FALSE, message=FALSE}
 # load a few R packages
 library(here)
 library(knitr)
 ```
-
-
-
 
 This shows some materials that could go into a supplementary file. Often you want/need references here too. You can use the same reference bib file for this and the main text (as done here) or have separate bib files.
 
@@ -33,32 +28,25 @@ I'm also using a different style for the references here. (vancouver vs apa in t
 
 # Overview
 
-A quick overview of what readers can find in the supplement.
-
+Contained in this document is supplementary material for **"A Match Made in Landfills? Exploring the diversity and burden of antimicrobial resistance genes carried by white stork (*Ciconia ciconia*) throughout the breeding season in Madrid, Spain"**. Supplementary materials include instructions for reproducing data analysis, model results, and any additional analysis. 
 
 # Code and file information
 
-Explain here what each code/file is and does, and in which order (if any) users need to run thing to reproduce everything.
-Essentially, give a full set of instructions to re-generate everything.
-
+To reproduce the data analysis for this manuscript, raw data should first be cleaned by running the DataCleaningScript.qmd file in the "1 Data Cleaning Script" folder. Next, the Data_Exploratory_Analysis.qmd file from the "3 Analysis Scripts" should be run, followed by the StatisticalAnalysis_ModelFitting.qmd file from the same folder. To recreate the manuscript, the Manuscript.qmd file under the "5 Manuscript/manuscript" folders should be run. Raw data is housed in the file StorkAMRraw_2020_2021.csv within the "1 Data Cleaning Script/raw_data" folders. Processed data is housed in the stork_AMR_clean.rds file within the "2 Clean Data" folder. Additionally, a README.md file that serves as a codebook for this project can be found within the "1 Data Cleaning Script/raw_data" folders.
 
 {{< pagebreak >}}
-
 
 # Additional Method Details
 
-Often, the main manuscript only allows for an overview description of the methods. Use the supplement to describe all your methods, models and approaches in a lot of detail. Reference specific parts of your code as needed.
+Binomial-family generalized linear mixed models (GLMMs) and linear mixed models (LMMs) were used to assess the effects of multiple predictors on the presence of multi-drug resistance (MDR) and total antimicrobial resistance gene burden (AMR), respectively. 
 
 {{< pagebreak >}}
-
 
 # Additional results
 
 Show additional results here. Those can be some useful exploratory/descriptive figures or tables, or results from additional analyses that didn't make it into the main text.
 
-
 ## Example additional result
-
 
 @tbl-resulttable1 shows an additional table summarizing a model fit.
 
@@ -70,10 +58,7 @@ resulttable1 = readRDS(here("results","resulttable1.rds"))
 knitr::kable(resulttable1)
 ```
 
-
-
 @fig-result2 shows a scatterplot figure produced by one of the R scripts.
-
 
 ```{r}
 #| label: fig-result2
@@ -82,20 +67,14 @@ knitr::kable(resulttable1)
 knitr::include_graphics(here("results","height_weight.png"))
 ```
 
-
 {{< pagebreak >}}
-
 
 # Discussion
 
 Any additional discussion regarding the supplementary material/findings.
 
-These papers [@mckay2020; @mckay2020a] are good examples of papers published using a fully reproducible setup similar to the one shown in this template. 
+These papers [@mckay2020; @mckay2020a] are good examples of papers published using a fully reproducible setup similar to the one shown in this template.
 
 {{< pagebreak >}}
 
-
 # References
-
-
-

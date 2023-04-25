@@ -1,0 +1,74 @@
+---
+title: "Cross Validation"
+format: html
+editor: visual
+---
+
+# Ciconia ciconia analysis script
+
+#### this script loads the processed, cleaned data, does a simple analysis and saves the results to the results folder
+
+```{r, warning=FALSE, message=FALSE}
+#load needed packages. make sure they are installed.
+library(ggplot2) #for plotting
+library(ggeffects) #to explore plots  
+library(broom) #for cleaning up output from lm()
+library(broom.mixed) #for cleaning up output from lmer()
+library(here) #for data loading/saving
+library(multilevelmod) #mixed effect models
+library(tidymodels)
+library(lme4)
+library(sjPlot) #to help plot models
+library(performance) #evaluate model fit and performance
+library(see)
+library(cAIC4)
+library(rpart)
+library(rpart.plot)
+library(glmertree)
+
+#path to data
+data_location <- here::here("2 Clean Data","stork_AMR_2021.rds")
+
+#load data. 
+data <- readRDS(data_location)
+```
+
+```{r}
+# Set seed
+set.seed(2023)
+
+# Put 3/4 of the data into the training set 
+data_split <- initial_split(data, prop = 3/4)
+
+# Create data frames for the two sets
+train_data <- training(data_split)
+test_data  <- testing(data_split)
+```
+
+```{r}
+# 5-fold cross-validation, 5 times repeated, using MDR as strata 
+folds <- vfold_cv(train_data, v = 5, repeats = 5, strata = as.factor(MDR))
+
+#create model and set engine
+tree_model <- 
+  decision_tree(
+    cost_complexity = tune(),
+    tree_depth = tune()) %>% 
+  set_engine("rpart") %>% 
+  set_mode("regression")
+
+#create recipes for each model
+
+null_mod <- 
+
+#create tree workflow
+tree_workflow <- workflow() %>%
+  add_model(tree_model) %>%
+  add_formula(as.factor(MDR) ~ .)
+```
+
+```{r}
+glmertree_global <- glmertree::glmertree(as.factor(MDR) ~ 1|nes| + s.lui + s.age + samp + s.nsuccess, 
+                                         data = train_data, family = "binomial")
+plot(glmertree_global)
+```

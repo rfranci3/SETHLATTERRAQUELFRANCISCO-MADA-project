@@ -99,6 +99,8 @@ All models were constructed with only 2021 data, as the COVID-19 pandemic prohib
 
 ## Exploratory/Descriptive analysis
 
+A total of 126 fecal samples were collected from white storks from 2020 to 2021. Of note, resistance genes to tetracyclines and betalactamines were identified in 50 (39.68%) and 73 (57.94%) fecal samples, respectively. Multi-drug resistance was identified in 39 (30.95%) samples. Mean landfill use index was 0.14 across all samples from 2021, and mean nest success was 55.95% across both sampling periods.
+
 Cleaned data was then visually explored to evaluate trends. Notably, it did not seem to appear that multi-drug resistance played a factor in nest success (Figure 2). However, sampling periods did appear important to the amount of ARG burden found in white stork feces (Figure 3). The most notable trend in the data however, was the appearance that multi-drug resistence in fact declined with the increase of landfill use by the adult white storks (Figure 4).
 
 ![Figure 2: Multi-drug resistance and nest success (i.e., number of chicks fledged) for each nest during the 2020 and 2021 white stork breeding seasons.](Images/Prelim_LUIvsNS.tiff)
@@ -113,7 +115,7 @@ Cleaned data was then visually explored to evaluate trends. Notably, it did not 
 
 ## Full analysis
 
-Binomial generalized linear mixed models (GLMMs) were used to predict multi-drug resistance (MDR) in White Storks, with nest identification classified as a random effects parameter. Of these, the highest performing model contained the predictors landfill use index (LUI) and age (Table1). In this model, an increase in the age of the bird was associated with a higher likelihood of MDR being present (Table2), while an increase in LUI was found to be associated with a decreased likelihood of MDR presence. A second competitive model, with a 97.20% performance score, contained only age as the predictor.
+Binomial generalized linear mixed models (GLMMs) were used to predict multi-drug resistance (MDR) in white storks, with nest identification classified as a random effects parameter. Of these, the highest performing model contained the predictors landfill use index (LUI) and age (Table1). In this model, an increase in the age of the bird was associated with a higher likelihood of MDR being present (Table2), while an increase in LUI was found to be associated with a decreased likelihood of MDR presence. A second competitive model, with a 97.20% performance score, contained only age as the predictor.
 
 ![Figure 5: Multi-drug resistance as predicted by the variables landfill use index and age during the 2020 and 2021 white stork breeding seasons. The gray is a 95% CI](Images/LUIvsMDR_LME.tiff)
 
@@ -132,7 +134,7 @@ knitr::kable(GLMERmodel1)
 
 ```
 
-Linear mixed models (LMMs) were used to predict total antimicrobial gene burden in White Storks, with nest identification again classified as a random effects parameter. The global model, containing the variables landfill use index, age, sample period, and nest success, was the highest performing model (Table3). In this model, each variable was positively correlated with antimicrobial gene burden (Table4). The next highest performing model contained age as a single predictor, with a model performance score of 86.39%.
+Linear mixed models (LMMs) were used to predict total antimicrobial gene burden in white storks, with nest identification again classified as a random effects parameter. The global model, containing the variables landfill use index, age, sample period, and nest success, was the highest performing model (Table3). In this model, each predictor variable was positively correlated with antimicrobial gene burden (Table4). The next highest performing model contained age as a single predictor, with a model performance score of 86.39%.
 
 ![Figure 6: Anti-microbial resistance gene burden of each nest as predicted by the variables landfill use index and sampling period during the 2020 and 2021 white stork breeding seasons. The gray is a 95% CI](Images/LUIvsBurden_LME.tiff)
 
