@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.313">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Raquel Francisco and Seth Lattner">
+<meta name="dcterms.date" content="2023-04-26">
+
+<title>Supplementary Material</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="Supplementary_Material_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Supplementary_Material_files/libs/quarto-html/quarto.js"></script>
+<script src="Supplementary_Material_files/libs/quarto-html/popper.min.js"></script>
+<script src="Supplementary_Material_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Supplementary_Material_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Supplementary_Material_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Supplementary_Material_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Supplementary_Material_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Supplementary_Material_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Supplementary_Material_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Supplementary Material</h1>
+<p class="subtitle lead">A Match Made in Landfills? Exploring the diversity and burden of antimicrobial resistance genes carried by white stork (Ciconia ciconia) throughout the breeding season in Madrid, Spain</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Raquel Francisco and Seth Lattner </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 26, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+
+</div>
+<p>This shows some materials that could go into a supplementary file. Often you want/need references here too. You can use the same reference bib file for this and the main text (as done here) or have separate bib files.</p>
+<p>For illustrative purposes, I’m doing the supplement as pdf. For this to work, you need a (La)TeX system installed. It’s easy. Just follow <a href="https://quarto.org/docs/output-formats/pdf-basics.html">these steps</a>.</p>
+<p>Of course you would choose the format based on needs.</p>
+<p>I’m also using a different style for the references here. (vancouver vs apa in the main manuscript). Usually one would have the formatting of the references the same in those two documents, but I want to illustrate how easy it is to switch reference formatting styles, you just need to get the right CSL file and specify it in the YAML header. We could also have a seperate reference bibtext (<code>.bib</code>) file, but here we are using the same.</p>
+<section id="overview" class="level1">
+<h1>Overview</h1>
+<p>Contained in this document is supplementary material for the manuscript, <strong>“A Match Made in Landfills? Exploring the diversity and burden of antimicrobial resistance genes carried by white stork (<em>Ciconia ciconia</em>) throughout the breeding season in Madrid, Spain”</strong>. Supplementary materials include instructions for reproducing data analysis and additonal model results.</p>
+</section>
+<section id="code-and-file-information" class="level1">
+<h1>Code and file information</h1>
+<p>To reproduce the data analysis for this manuscript, raw data should first be cleaned by running the DataCleaningScript.qmd file in the “1 Data Cleaning Script” folder. Next, the Data_Exploratory_Analysis.qmd file from the “3 Analysis Scripts” should be run, followed by the StatisticalAnalysis_ModelFitting.qmd file from the same folder. To recreate the manuscript, the Manuscript.qmd file under the “5 Manuscript/manuscript” folders should be run. Raw data is housed in the file StorkAMRraw_2020_2021.csv within the “1 Data Cleaning Script/raw_data” folders. Processed data is housed in the stork_AMR_clean.rds file within the “2 Clean Data” folder. Additionally, a README.md file that serves as a codebook for this project can be found within the “1 Data Cleaning Script/raw_data” folders.</p>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="additional-method-details" class="level1">
+<h1>Additional Method Details</h1>
+<p>Binomial-family generalized linear mixed models (GLMMs) and linear mixed models (LMMs) were used to assess the effects of multiple predictors on the presence of multi-drug resistance (MDR) and total antimicrobial resistance gene burden (AMR), respectively.</p>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="additional-results" class="level1">
+<h1>Additional results</h1>
+<section id="exploratory-analysis-results" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-analysis-results">Exploratory Analysis Results</h2>
+</section>
+<section id="full-analysis-results" class="level2">
+<h2 class="anchored" data-anchor-id="full-analysis-results">Full Analysis Results</h2>
+<p>A total of 14 GLMMs (including a global and null model) were run to assess the effects of several predictors on MDR. Based on Akaike’s Information Criterion adjusted for small sample size (AIC<em>c</em>), model 11 (containing the predictors LUI and age) was the highest performing model. A total of 15 LMMs were run to assess the effects of several predictors on AMR. Based on AIC<em>c</em>, the global model was the highest performing model, followed by a univariate LMM containing age as the only predictor.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Supplementary_Material_files/facet_plot.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure 1. Facet Plot of single factor repeated measures evaluation the effect of LUI on blaTEM (betalactam) resistence gene burden</figcaption><p></p>
+</figure>
+</div>
+<section id="glmm-model-results" class="level3">
+<h3 class="anchored" data-anchor-id="glmm-model-results">GLMM Model Results</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Supplementary_Material_files/glmer_indices.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure 2. Comparison of Generalized Linear Mixed Model Indices</figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Supplementary_Material_files/glmer_check.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure 3. Model Check Metrics for Best-performing GLMM</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="lmm-model-results" class="level3">
+<h3 class="anchored" data-anchor-id="lmm-model-results">LMM Model Results</h3>
+<p><img src="Supplementary_Material_files/lmer_indices.png" class="img-fluid" alt="Figure 4. Comparison of Linear Mixed Model Indices"> <img src="Supplementary_Material_files/lmer_check.png" class="img-fluid" alt="Figure 5. Model Check Metrics for Best-performing LMM"></p>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+</section>
+<section id="discussion" class="level1">
+<h1>Discussion</h1>
+<p>Any additional discussion regarding the supplementary material/findings.</p>
+<p>These papers <span class="citation" data-cites="mckay2020 mckay2020a">[@mckay2020; @mckay2020a]</span> are good examples of papers published using a fully reproducible setup similar to the one shown in this template.</p>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

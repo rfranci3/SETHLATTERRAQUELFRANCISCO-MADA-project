@@ -3,16 +3,11 @@ title: "Supplementary Material"
 subtitle: "A Match Made in Landfills? Exploring the diversity and burden of antimicrobial resistance genes carried by white stork (Ciconia ciconia) throughout the breeding season in Madrid, Spain"
 author: Raquel Francisco and Seth Lattner
 date: "`r Sys.Date()`"
-format:
-  pdf:
-    toc: false
-    number-sections: true
-    highlight-style: github
-bibliography: EW_AMR.bib
-csl: ../../vancouver.csl
+format: html
+editor: visual
 ---
 
-```{r, echo=FALSE, message=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 # load a few R packages
 library(here)
 library(knitr)
@@ -28,7 +23,7 @@ I'm also using a different style for the references here. (vancouver vs apa in t
 
 # Overview
 
-Contained in this document is supplementary material for **"A Match Made in Landfills? Exploring the diversity and burden of antimicrobial resistance genes carried by white stork (*Ciconia ciconia*) throughout the breeding season in Madrid, Spain"**. Supplementary materials include instructions for reproducing data analysis, model results, and any additional analysis. 
+Contained in this document is supplementary material for the manuscript, **"A Match Made in Landfills? Exploring the diversity and burden of antimicrobial resistance genes carried by white stork (*Ciconia ciconia*) throughout the breeding season in Madrid, Spain"**. Supplementary materials include instructions for reproducing data analysis and additonal model results.
 
 # Code and file information
 
@@ -38,34 +33,33 @@ To reproduce the data analysis for this manuscript, raw data should first be cle
 
 # Additional Method Details
 
-Binomial-family generalized linear mixed models (GLMMs) and linear mixed models (LMMs) were used to assess the effects of multiple predictors on the presence of multi-drug resistance (MDR) and total antimicrobial resistance gene burden (AMR), respectively. 
+Binomial-family generalized linear mixed models (GLMMs) and linear mixed models (LMMs) were used to assess the effects of multiple predictors on the presence of multi-drug resistance (MDR) and total antimicrobial resistance gene burden (AMR), respectively.
 
 {{< pagebreak >}}
 
 # Additional results
 
-Show additional results here. Those can be some useful exploratory/descriptive figures or tables, or results from additional analyses that didn't make it into the main text.
 
-## Example additional result
 
-@tbl-resulttable1 shows an additional table summarizing a model fit.
+## Exploratory Analysis Results
 
-```{r}
-#| label: tbl-resulttable1
-#| tbl-cap: "Another fit table."
-#| echo: FALSE
-resulttable1 = readRDS(here("results","resulttable1.rds"))
-knitr::kable(resulttable1)
-```
 
-@fig-result2 shows a scatterplot figure produced by one of the R scripts.
+## Full Analysis Results
 
-```{r}
-#| label: fig-result2
-#| fig-cap: "Height and weight."
-#| echo: FALSE
-knitr::include_graphics(here("results","height_weight.png"))
-```
+A total of 14 GLMMs (including a global and null model) were run to assess the effects of several predictors on MDR. Based on Akaike's Information Criterion adjusted for small sample size (AIC*c*), model 11 (containing the predictors LUI and age) was the highest performing model. A total of 15 LMMs were run to assess the effects of several predictors on AMR. Based on AIC*c*, the global model was the highest performing model, followed by a univariate LMM containing age as the only predictor.
+
+![Figure 1. Facet Plot of single factor repeated measures evaluation the effect of LUI on blaTEM (betalactam) resistence gene burden](Supplementary_Material_files/facet_plot.png)
+
+### GLMM Model Results
+
+![Figure 2. Comparison of Generalized Linear Mixed Model Indices](Supplementary_Material_files/glmer_indices.png)
+
+![Figure 3. Model Check Metrics for Best-performing GLMM](Supplementary_Material_files/glmer_check.png)
+
+### LMM Model Results
+
+![Figure 4. Comparison of Linear Mixed Model Indices](Supplementary_Material_files/lmer_indices.png)
+![Figure 5. Model Check Metrics for Best-performing LMM](Supplementary_Material_files/lmer_check.png)
 
 {{< pagebreak >}}
 

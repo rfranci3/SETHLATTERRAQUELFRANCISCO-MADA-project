@@ -41,11 +41,16 @@ We'll start with a single factor repeated measures evaluation the effect of LUI 
 ```{r}
 data(data, package = "lme4")
 
-data %>% 
+facet_plot <- data %>% 
   ggplot(aes(x = samp, y = Burden)) + 
   geom_point() + 
   geom_line() +
   facet_wrap(~ nes) 
+facet_plot
+
+png(file = here('5 Manuscript','manuscript','supplement', 'Supplementary_Material_files', 'facet_plot.png'))
+facet_plot
+dev.off() 
 ```
 
 No obvious trends...
@@ -136,13 +141,22 @@ print(AIC_table1)
 AIC_table1 %>%
   saveRDS(here("4 Results","Tables", "ModelAIC1.rds"))
 
-plot(compare_performance(glmer_fit_null,glmer_fit_global, glmer_fit_1, glmer_fit_2, glmer_fit_3, glmer_fit_4, glmer_fit_5, glmer_fit_6, glmer_fit_7, glmer_fit_8, glmer_fit_9, glmer_fit_10, glmer_fit_11, glmer_fit_12))
+glmer_indices <- plot(compare_performance(glmer_fit_null,glmer_fit_global, glmer_fit_1, glmer_fit_2, glmer_fit_3, glmer_fit_4, glmer_fit_5, glmer_fit_6, glmer_fit_7, glmer_fit_8, glmer_fit_9, glmer_fit_10, glmer_fit_11, glmer_fit_12))
+
+#Tiff 
+png(file = here('5 Manuscript','manuscript','supplement', 'Supplementary_Material_files', 'glmer_indices.png'))
+glmer_indices
+dev.off() 
 ```
 
 Summarize and graph best model (lowwest AIC)
 
 ```{r}
-check_model(glmer_fit_11)
+glmer_check <- check_model(glmer_fit_11)
+
+png(file = here('5 Manuscript','manuscript','supplement', 'Supplementary_Material_files', 'glmer_check.png'))
+glmer_check
+dev.off() 
 
 # place results from fit into a data frame with the tidy function
 
@@ -157,7 +171,6 @@ MLp <- plot_model(glmer_fit_11,terms = 's.lui', type="pred",
            show.data = TRUE, show.values = TRUE, show.p = TRUE,
            title = "", show.legend = TRUE, line.size=1,
            axis.title = c("Landfill Use Index",'Multi-Drug Resistence'))
-
 ##Not working... fix later
   while (!is.null(dev.list()))  dev.off()
 #Tiff 
@@ -240,14 +253,25 @@ print(AIC_table2)
 AIC_table2 %>%
  saveRDS(here("4 Results","Tables", "ModelAIC2.rds"))
 
-plot(compare_performance(lmer_fit2_null, lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8,
-                                  lmer_fit2_9, lmer_fit2_10, lmer_fit2_11, lmer_fit2_12))
+lmer_indices <-plot(compare_performance(lmer_fit2_null, lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8, lmer_fit2_9, lmer_fit2_10, lmer_fit2_11, lmer_fit2_12))
+
+plot(compare_performance(lmer_fit2_null, lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8, lmer_fit2_9, lmer_fit2_10, lmer_fit2_11, lmer_fit2_12))
+
+png(file = here('5 Manuscript','manuscript','supplement', 'Supplementary_Material_files', 'lmer_indices.png'))
+lmer_indices
+dev.off() 
+  
 ```
 
 Summarize and graph best model (lowwest AIC)
 
 ```{r}
-check_model(lmer_fit2_5)
+lmer_check <- check_model(glmer_fit_global)
+lmer_check
+
+png(file = here('5 Manuscript','manuscript','supplement', 'Supplementary_Material_files', 'lmer_check.png'))
+lmer_check
+dev.off()
 
 model2 <- broom::tidy(lmer_fit2_global)
 print(model2)

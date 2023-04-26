@@ -27,7 +27,7 @@ library(rpart.plot)
 library(glmertree)
 
 #path to data
-data_location <- here::here("2 Clean Data","stork_AMR_2021.rds")
+data_location <- here::here("2 Clean Data","stork_AMR_clean.rds")
 
 #load data. 
 data <- readRDS(data_location)
@@ -47,7 +47,7 @@ test_data  <- testing(data_split)
 
 ```{r}
 # 5-fold cross-validation, 5 times repeated, using MDR as strata 
-folds <- vfold_cv(train_data, v = 5, repeats = 5, strata = as.factor(MDR))
+folds <- vfold_cv(train_data, v = 5, repeats = 5, strata = MDR)
 
 #create model and set engine
 tree_model <- 
@@ -57,18 +57,48 @@ tree_model <-
   set_engine("rpart") %>% 
   set_mode("regression")
 
-#create recipes for each model
-
-null_mod <- 
-
-#create tree workflow
-tree_workflow <- workflow() %>%
+#create tree workflow for global model
+tree_workflow_global <- workflow() %>%
   add_model(tree_model) %>%
-  add_formula(as.factor(MDR) ~ .)
+  add_formula(Burden ~ s.lui + s.age + samp + s.nsuccess + nes)
+
+#tree grid
+tree_grid <- grid_regular(cost_complexity(),
+                          tree_depth(),
+                          levels = 5)
+
+#tree_resamples
+tree_resamp <- 
+  tree_workflow_global %>% 
+  tune_grid(
+    resamples = folds,
+    grid = tree_grid
+    )
+
+tree_resamp %>%
+  collect_metrics()
+
+tree_resamp %>%
+  autoplot()
+```
+```{r}
+#create tree workflow for null
+tree_workflow_null <- workflow() %>%
+  add_model(tree_model) %>%
+  add_formula(Burden ~ 1)
+
+#tree_resamples
+tree_resamp_null <- 
+  tree_workflow_null %>% 
+  tune_grid(
+    resamples = folds,
+    grid = tree_grid
+    )
+
+tree_resamp_null %>%
+  collect_metrics()
+
+tree_resamp_null %>%
+  autoplot()
 ```
 
-```{r}
-glmertree_global <- glmertree::glmertree(as.factor(MDR) ~ 1|nes| + s.lui + s.age + samp + s.nsuccess, 
-                                         data = train_data, family = "binomial")
-plot(glmertree_global)
-```
