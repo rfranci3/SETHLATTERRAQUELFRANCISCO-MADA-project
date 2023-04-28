@@ -1,0 +1,170 @@
+---
+title: Project Review Template 
+author: Annabella Hines
+date: "`r file.mtime(knitr::current_input())`"
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+---
+
+# Overview
+
+Title of project: A Match Made in Landfills? Exploring the diversity and burden of antimicrobial resistance genes carried by white stork (Ciconia ciconia) throughout the breeding season in Madrid, Spain
+
+Name of project author(s): Raquel Francisco and Seth Lattner
+
+Name of project reviewer: Annabella Hines
+
+
+# Specific project content evaluation
+Evaluate the different parts of the project by filling in the sections below.
+
+
+## Background, Context and Motivation
+How well is the context of the project described? Is a comprehensive background, including summary of previous/related work given? Is the project well placed into the context of existing work (including proper referencing of existing work). Is it clear why the project was undertaken and what new information it hopes to provide?
+
+### Feedback and Comments
+
+I really enjoyed your abstract and background sections; they gave great context to the questions you were trying to answer and helped me understand how it fits into the existing research and work in that field. I like the abundance of information and the references and summaries of previous work
+
+### Summary assessment (PICK ONE, DELETE THE OTHERS)
+
+* strong contextualization and motivation
+
+
+## Question description
+How well and clear are the question(s)/hypotheses the project aims to address described? Is it clear how the questions relate to the data?
+
+
+### Feedback and Comments
+
+You had very clear and succinct hypotheses that made sense in the context of the data and the objectives you outlined earlier. 
+
+### Summary assessment
+
+* question/hypotheses fully clear
+
+## Data description
+How well is the data overall described? Is the source provided? Is a codebook or other meta-information available that makes it clear what the data is? 
+
+### Feedback and Comments
+
+There is a codebook provided to explain the variables in the data. The data and its source was described well. If it is feasible, I would've liked a summary table of the data in the manuscript just to reference back to.
+
+### Summary assessment
+
+* source and overall structure of data well explained
+
+
+## Data wrangling and exploratory analysis
+How well is the data cleaned/processed and explored? Are all steps reasonable and well explained? Are alternatives discussed and considered? Are meaningful exploratory results shown (e.g. in the supplementary materials)?
+
+### Feedback and Comments
+
+I thought the exploration of the data was very thorough and the cleaning as well. The decision to not use 2020 data in the analysis was well explained and supported. Some alternatives were discussed and the most meaningful exploratory results were presented in the manuscript.
+
+### Summary assessment
+
+* essentially no weaknesses in wrangling and exploratory component
+
+
+
+## Appropriateness of Analysis
+Were the analysis methods appropriate for the data? Was the analysis done properly? Were different components of the analysis (e.g. performance measure, variable selection, data pre-processing, model evaluation) done in the best way possible and explained well?
+
+### Feedback and Comments
+
+The basic statistical analysis section was included in the manuscript but it still had the template instructions left in. I see you did do some in the StatisticalAnalysis_ModelFitting.qmd so just choosing the most relevant and moving it over to the manuscript is all you have left. The full analysis statistical models were included and well explained, so I think adding the simple ones may just help the flow to show the steps to how you got to what you did next.
+
+### Summary assessment
+
+* strong and reasonable analysis
+
+## Presentation
+How well are results presented? Are tables and figures easy to read and understand? Are the main figures/tables publication level quality? 
+
+### Feedback and Comments
+
+The summary and interpretation section could be expanded upon and explained a bit better. The information in parentheses may be better understood by explaining it in a following sentence. I thought the figures were pretty good, I'd just make them more aesthetically pleasing and make the size a bit larger so they are more clearly legible in the manuscript. It seems some figures weren't made or inserted yet as there were captions but just empty space about them.
+
+### Summary assessment
+
+* results are presented ok, with room for improvement
+
+## Discussion/Conclusions
+Are the study findings properly discussed? Are strengths and limitations acknowledged? Are findings interpreted properly?
+
+### Feedback and Comments
+
+The conclusions covered the main results well, however I think they could still be fleshed out a bit more. The limitations seemed to have the general idea but also needs detail. The findings were interpreted appropriately based on the figures and results presented.
+
+### Summary assessment
+ 
+* minor parts wrong, missing or unclear
+
+## Further comments
+
+Overall I'm really enjoying the lay out and detail of your project. I just think the conclusions and results may need to be more thought out to match the in depth nature of the introduction and background.
+
+
+
+# Overall project content evaluation
+
+
+## Structure
+Is the project well structured? Are files in well labeled folders? Do files have reasonable names? Are all "junk" files not needed for analysis/reproduction removed? By just looking at files and folders, can you get an idea of how things fit together?
+
+### Feedback and Comments
+
+All the files make sense and the junk files were removed or had an explanation as to why they were empty. I like the numbering system in the main directory as it makes it the order to view and run the files very clear.
+
+### Summary assessment
+
+* well structured
+
+
+## Documentation 
+How well is the project documented? Are you able to understand each step of the whole analysis, each decision that was made, and each line of code? Is enough information provided as comments in code or as part of Rmd files? 
+
+### Feedback and Comments
+
+The code and project overall are well documented with adequate supporting files and explanatory information. Each step made sense and had a logical flow from one to the other.
+
+### Summary assessment
+
+* fully and well documented
+
+## Reproducibility
+Are all results fully reproducible? Is documentation provided which clearly explains how to reproduce things, and does it work without the need for any manual intervention? Are you able to re-run the whole analysis without having to do manual interventions/edits?
+
+### Feedback and Comments
+
+I had trouble reproducing some things in you statistical analysis files but I'm pretty that was just a problem on my end or not. When I tried to load certain packages like ggplot2 or see I got errors about the version. Other than that, everything was fully reproducible without edits.
+
+
+### Summary assessment
+
+* fully reproducible without issues
+
+
+## Thoroughness
+How thorough was the overall study? Were alternatives (e.g. different ways of processing the data or different models) considered? Were alternatives discussed? Were the questions/hypotheses fully and thoroughly addressed?
+
+### Feedback and Comments
+
+Alternatives were discussed for data processing and models with thorough assessment of their validity and performance. The hypotheses were fully addressed by the statistical tests that were ran. 
+
+### Summary assessment
+
+* strong level of thoroughness
+
+
+## Further comments
+
+Overall you both have done a great job, keep up the good work and little fixes to put the final touches on it!
+
+
+
+
