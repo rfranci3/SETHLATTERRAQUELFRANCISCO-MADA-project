@@ -1,0 +1,173 @@
+# Overview
+
+Title of project:Exploring the diversity and burden of antimicrobial resistance genes carried by white stork (Ciconia ciconia) throughout the breeding season in Madrid, Spain
+
+Name of project author(s):Raquel Francisco and Seth Latter
+
+Name of project reviewer:Yao Lu
+
+
+
+
+
+## Background, Context and Motivation
+How well is the context of the project described? Is a comprehensive background, including summary of previous/related work given? Is the project well placed into the context of existing work (including proper referencing of existing work). Is it clear why the project was undertaken and what new information it hopes to provide?
+
+### Feedback and Comments
+
+Good context description. Introduction is detailed.
+
+### Summary assessment (PICK ONE, DELETE THE OTHERS)
+
+* strong contextualization and motivation
+
+
+## Question description
+How well and clear are the question(s)/hypotheses the project aims to address described? Is it clear how the questions relate to the data?
+
+
+### Feedback and Comments
+
+Question(s)/hypotheses are placed in a obvious place.
+
+### Summary assessment
+
+* question/hypotheses fully clear
+
+
+## Data description
+How well is the data overall described? Is the source provided? Is a codebook or other meta-information available that makes it clear what the data is? 
+
+### Feedback and Comments
+
+Codebook is provided. 
+
+### Summary assessment
+
+* source and overall structure of data well explained
+
+
+## Data wrangling and exploratory analysis
+How well is the data cleaned/processed and explored? Are all steps reasonable and well explained? Are alternatives discussed and considered? Are meaningful exploratory results shown (e.g. in the supplementary materials)?
+
+### Feedback and Comments
+
+Good exploratory.  Missing check , correlation plot and pairwise check are good. 
+
+### Summary assessment
+
+* essentially no weaknesses in wrangling and exploratory component
+
+
+
+## Appropriateness of Analysis
+Were the analysis methods appropriate for the data? Was the analysis done properly? Were different components of the analysis (e.g. performance measure, variable selection, data pre-processing, model evaluation) done in the best way possible and explained well?
+
+### Feedback and Comments
+
+If there is no specific reason why we should limit the number of variables into 2 or 3.You can try multivariable GLM and finally select a set of variables to fit the model. That way should produce a very competitive model to your current glmer_fit_11. RMSE should be(99% possibility) less than your current model if not equal to. AICs and BICs are not sure but it has high possibility of better.
+
+As your check_model(glmer_fit_11) shows, the Normality of Residuals(QQ plot) shows abnormal. It looks like this model is polarization. Which means in this model. glmer_fit_11 will predict the outcome either overestimate much or underestimate much, even it's the best GLM model compare to the other models you choose. This is not we want. Since you did much great job in other part. If you don't have time to go further at this part. Mentioning this abnormal to the readers should be helpful when others want to process you product. To address this abnormal, the easiest way is to do transformation to dependent variable or predictors. Such as boxcox transformation or basic log transformation.
+
+As your MLp shows, I am not sure how Multi-Drug Resistence measure. But in that plot, it looks like a dichotomic variable. For dichotomic variables, we usually use mixed effect logistic regression other than linear. And this is the reason why the QQ plot show like that. When we use linear regression to model dichotomic variable, the QQ plot will looks like the one in 'check_model(glmer_fit_11)'.
+
+
+
+### Summary assessment
+
+* defensible but not optimal analysis 
+
+
+## Presentation
+How well are results presented? Are tables and figures easy to read and understand? Are the main figures/tables publication level quality? 
+
+### Feedback and Comments
+
+Miss table title in page13. Also I think you can simplify this table by deleting some columns, such as AICc_wt, since it reflect the same thing as Performance_Score. Also you can round it to 2 or 3 digits to make it narrow. And show other performance, as you did a great job like in your 'Comparison of Model Indices' plot. Why not move those evaluation value to here.
+
+The two table are close which make me think if they are one table at the beginning.
+
+in the second table. page13
+
+Negative sign is separated with the number 4.302130. 
+
+### Summary assessment
+
+* results are presented ok, with room for improvement
+
+
+
+## Discussion/Conclusions
+Are the study findings properly discussed? Are strengths and limitations acknowledged? Are findings interpreted properly?
+
+### Feedback and Comments
+
+'makes sense because in your prior papers you have found increase nest success with increased LUI' page 14.
+
+Not all audience have that paper.
+
+
+
+### Summary assessment
+
+* minor parts wrong, missing or unclear
+
+## Structure
+Is the project well structured? Are files in well labeled folders? Do files have reasonable names? Are all "junk" files not needed for analysis/reproduction removed? By just looking at files and folders, can you get an idea of how things fit together?
+
+### Feedback and Comments
+
+Well structured and easy to follow.
+
+### Summary assessment
+
+* well structured
+
+
+## Documentation 
+How well is the project documented? Are you able to understand each step of the whole analysis, each decision that was made, and each line of code? Is enough information provided as comments in code or as part of Rmd files? 
+
+### Feedback and Comments
+
+good information and easy to understand. 
+
+### Summary assessment
+
+* fully and well documented
+
+
+
+## Reproducibility
+Are all results fully reproducible? Is documentation provided which clearly explains how to reproduce things, and does it work without the need for any manual intervention? Are you able to re-run the whole analysis without having to do manual interventions/edits?
+
+### Feedback and Comments
+
+All code can be run without issues.
+
+
+### Summary assessment
+
+* fully reproducible without issues
+
+
+## Thoroughness
+How thorough was the overall study? Were alternatives (e.g. different ways of processing the data or different models) considered? Were alternatives discussed? Were the questions/hypotheses fully and thoroughly addressed?
+
+### Feedback and Comments
+
+Some figures are all white in docx in my computer. But I find those in the result folder. There are many good plots in the StatiscalAnalysis_ModelFitting_R. I think some of those can be processed a little bit and showed in the manuscripts. Like 'Comparison of Model Indices' and those statistical plots. 
+
+### Summary assessment
+
+
+* strong level of thorougness
+
+
+## Further comments
+
+Good background discussion. Good exploratory analysis, such as coefficients check, pairwise check. 
+Mixed effect logistic regression maybe more competitive than your current model systematically as one of your outcome looks like dichotomous(I am not sure if that variable should be). Variable selection by p-value in multivariable mixed effect model may also produce a more competitive model, if there is no specific reason why limit the number of predictors in 2 or 3.
+
+
+
+
