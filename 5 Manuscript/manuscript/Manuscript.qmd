@@ -117,7 +117,7 @@ Cleaned data was then visually explored to evaluate trends. Notably, it did not 
 
 Binomial generalized linear mixed models (GLMMs) were used to predict multi-drug resistance (MDR) in white storks, with nest identification classified as a random effects parameter. Of these, the highest performing model contained the predictors landfill use index (LUI) and age (Table1). In this model, an increase in the age of the bird was associated with a higher likelihood of MDR being present (Table2), while an increase in LUI was found to be associated with a decreased likelihood of MDR presence. A second competitive model, with a 97.20% performance score, contained only age as the predictor.
 
-![Figure 5: Multi-drug resistance as predicted by the variables landfill use index and age during the 2020 and 2021 white stork breeding seasons. The gray is a 95% CI](Images/LUIvsMDR_LME.tiff)
+![Figure 5: Multi-drug resistance as predicted by the variables landfill use index and age during the 2020 and 2021 white stork breeding seasons. The gray is a 95% CI.](Images/LUIvsMDR_LME.tiff)
 
 ```{r}
 #| label: tbl-resulttable2
@@ -136,7 +136,7 @@ knitr::kable(GLMERmodel1)
 
 Linear mixed models (LMMs) were used to predict total antimicrobial gene burden in white storks, with nest identification again classified as a random effects parameter. The global model, containing the variables landfill use index, age, sample period, and nest success, was the highest performing model (Table3). In this model, each predictor variable was positively correlated with antimicrobial gene burden (Table4). The next highest performing model contained age as a single predictor, with a model performance score of 86.39%.
 
-![Figure 6: Anti-microbial resistance gene burden of each nest as predicted by the variables landfill use index and sampling period during the 2020 and 2021 white stork breeding seasons. The gray is a 95% CI](Images/LUIvsBurden_LME.tiff)
+![Figure 6: Anti-microbial resistance gene burden of each nest as predicted by the variables landfill use index and sampling period during the 2020 and 2021 white stork breeding seasons. The gray is a 95% CI.](Images/LUIvsBurden_LME.tiff)
 
 ```{r}
 #| label: Table3
