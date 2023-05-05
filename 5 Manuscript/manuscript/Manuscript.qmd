@@ -97,11 +97,11 @@ All models were constructed with only 2021 data, as the COVID-19 pandemic prohib
 
 # Results
 
-## Exploratory/Descriptive analysis
+## Exploratory preliminary analysis
 
 A total of 126 fecal samples were collected from white storks from 2020 to 2021. Of note, resistance genes to tetracyclines and betalactamines were identified in 50 (39.68%) and 73 (57.94%) fecal samples, respectively. Multi-drug resistance was identified in 39 (30.95%) samples. Mean landfill use index was 0.14 across all samples from 2021, and mean nest success was 55.95% across both sampling periods.
 
-Cleaned data was then visually explored to evaluate trends. Notably, it did not seem to appear that multi-drug resistance played a factor in nest success (Figure 2). However, sampling periods did appear important to the amount of ARG burden found in white stork feces (Figure 3). The most notable trend in the data however, was the appearance that multi-drug resistence in fact declined with the increase of landfill use by the adult white storks (Figure 4).
+Cleaned data was then visually explored to evaluate trends. Notably, it did not seem to appear that multi-drug resistance played a factor in nest success (Figure 2). However, sampling periods did appear important to the amount of ARG burden found in white stork feces (Figure 3). The most notable trend in the data however, was the appearance that multi-drug resistance in fact declined with the increase of landfill use by the adult white storks (Figure 4).
 
 ![Figure 2: Multi-drug resistance and nest success (i.e., number of chicks fledged) for each nest during the 2020 and 2021 white stork breeding seasons.](Images/Prelim_LUIvsNS.tiff)
 
@@ -109,15 +109,21 @@ Cleaned data was then visually explored to evaluate trends. Notably, it did not 
 
 ![Figure 4: Multi-drug resistance and Landfill Use Index for each nest during the 2020 and 2021 white stork breeding seasons.](Images/Prelim_LUIvsMD.tiff)
 
-## Basic statistical analysis
-
-*To get some further insight into your data, if reasonable you could compute simple statistics (e.g. simple models with 1 predictor) to look for associations between your outcome(s) and each individual predictor variable. Though note that unless you pre-specified the outcome and main exposure, any "p\<0.05 means statistical significance" interpretation is not valid.*
-
-## Full analysis
-
-Binomial generalized linear mixed models (GLMMs) were used to predict multi-drug resistance (MDR) in white storks, with nest identification classified as a random effects parameter. Of these, the highest performing model contained the predictors landfill use index (LUI) and age (Table1). In this model, an increase in the age of the bird was associated with a higher likelihood of MDR being present (Table2), while an increase in LUI was found to be associated with a decreased likelihood of MDR presence. A second competitive model, with a 97.20% performance score, contained only age as the predictor.
+## Full Statistical Analysis
 
 ![Figure 5: Multi-drug resistance as predicted by the variables landfill use index and age during the 2020 and 2021 white stork breeding seasons. The gray is a 95% CI.](Images/LUIvsMDR_LME.tiff)
+
+Binomial generalized linear mixed models (GLMMs) were used to predict multi-drug resistance (MDR) in white storks, with nest identification classified as a random effects parameter. Of these, the highest performing model contained the predictors landfill use index (LUI) and age (Table 1). In this model, an increase in the age of the bird was associated with a higher likelihood of MDR being present (Table 2), while an increase in LUI was found to be associated with a decreased likelihood of MDR presence. A second competitive model, with a 97.20% performance score, contained only age as the predictor.In the analysis, several models where overfit, not including the top two models. However, this is likely due to the small sample size and the restricted range of the standardized variables.
+
+```{r}
+#| label: Table2
+#| tbl-cap: "Parameter estimates for fixed and random effects parameters and standard error of the highest performing model predicting multi-drug resistance in White Storks in Madrid, Spain."
+#| echo: FALSE
+GLMERmodel1 = readRDS(here("4 Results", "Models", "GLMERmodel1.rds"))
+knitr::kable(GLMERmodel1)
+```
+
+![Figure 6: Visual model performance analysis of the all the GLMMs used to evaluate Multi-Drug Resistance (i.e., resistance to 3 or more drug classes). Covariates used includes: Age, Sampling Period, Landfill Use, and Nest Success. Individual Nests were the fixed variable. Due to small sample sizes AICc was viewed as the most appropriate metric, however AIC, BIC, RSME, R2, and Sigma are displayed.](Images/glmer_indices.tiff)
 
 ```{r}
 #| label: tbl-resulttable2
@@ -126,17 +132,21 @@ Binomial generalized linear mixed models (GLMMs) were used to predict multi-drug
 ModelAIC1 = readRDS(here("4 Results", "Tables", "ModelAIC1.rds"))
 knitr::kable(ModelAIC1)
 
-#| label: Table2
-#| tbl-cap: "Parameter estimates for fixed and random effects parameters and standard error of the highest performing model predicting multi-drug resistance in White Storks in Madrid, Spain."
-#| echo: FALSE
-GLMERmodel1 = readRDS(here("4 Results", "Models", "GLMERmodel1.rds"))
-knitr::kable(GLMERmodel1)
-
 ```
 
-Linear mixed models (LMMs) were used to predict total antimicrobial gene burden in white storks, with nest identification again classified as a random effects parameter. The global model, containing the variables landfill use index, age, sample period, and nest success, was the highest performing model (Table3). In this model, each predictor variable was positively correlated with antimicrobial gene burden (Table4). The next highest performing model contained age as a single predictor, with a model performance score of 86.39%.
+![Figure 7: Anti-microbial resistance gene burden of each nest as predicted by the variables landfill use index and sampling period during the 2020 and 2021 white stork breeding seasons. The gray is a 95% CI.](Images/LUIvsBurden_LME.tiff)
 
-![Figure 6: Anti-microbial resistance gene burden of each nest as predicted by the variables landfill use index and sampling period during the 2020 and 2021 white stork breeding seasons. The gray is a 95% CI.](Images/LUIvsBurden_LME.tiff)
+Linear mixed models (LMMs) were used to predict total antimicrobial gene burden in white storks, with nest identification again classified as a random effects parameter. The global model, containing the variables landfill use index, age, sample period, and nest success, was the highest performing model (Table 3). In this model, each predictor variable was positively correlated with antimicrobial gene burden (Table 4). The next highest performing model contained age as a single predictor, with a model performance score of 86.39%. Similarly to the top analysis, several models where overfit likely due to similar reasons.
+
+```{r}
+#| label: Table4
+#| tbl-cap: "Parameter estimates for fixed and random effects parameters and standard error of the highest performing model predicting total antimicrobial gene burden in White Storks in Madrid, Spain."
+#| echo: FALSE
+GLMERmodel1 = readRDS(here("4 Results", "Models", "LMERmodel2.rds"))
+knitr::kable(GLMERmodel1)
+```
+
+![Figure 8: Visual model performance analysis of the all the LMMs used to evaluate Antimicrobial Resistance Gene Burden. Covariates used includes: Age, Sampling Period, Landfill Use, and Nest Success. Individual Nests were the fixed variable. Due to small sample sizes AICc was viewed as the most appropriate metric, however AIC, BIC, RSME, R2, and Sigma are displayed.](Images/lmer_indices.tiff)
 
 ```{r}
 #| label: Table3
@@ -144,12 +154,6 @@ Linear mixed models (LMMs) were used to predict total antimicrobial gene burden 
 #| echo: FALSE
 ModelAIC2 = readRDS(here("4 Results", "Tables", "ModelAIC2.rds"))
 knitr::kable(ModelAIC2)
-
-#| label: Table4
-#| tbl-cap: "Parameter estimates for fixed and random effects parameters and standard error of the highest performing model predicting total antimicrobial gene burden in White Storks in Madrid, Spain."
-#| echo: FALSE
-GLMERmodel1 = readRDS(here("4 Results", "Models", "LMERmodel2.rds"))
-knitr::kable(GLMERmodel1)
 
 ```
 
@@ -159,17 +163,19 @@ knitr::kable(GLMERmodel1)
 
 ## Summary and Interpretation
 
--   As multi-drug resistance and class diversity increase (similar things I know) throughout the breeding season (compounding effect likely), mean LUI decreases and nest success decreases (makes sense because in your prior papers you have found increase nest success with increased LUI).
+-   As multi-drug resistance increases throughout the breeding season, mean LUI decreases and nest success decreases. There is a positive effect between increased LUI and nest success [@Lopez-Garcia2021]. Intuitively this makes some sense due to MDR being associated with increased anthropogenic exposure, heavy metal exposure, and increased virulence of pathogenic bacteria. More target research would be needed to better understand how MDR may effect nest success long-term.
 
--   Resistance gene burden appears to increase as mean LUI use and age increase. o Most of the burden is due to blaTEM, a common resistance gene associated with anthropogenic impact. Sampling period does not appear to explain burden, but the top blaTEM model did show a trend in burden increasing from the 2nd sampling period to the 3rd sampling period and age.
+-   Resistance gene burden appears to increase as mean LUI decreases and age increases. Most of the burden is due to blaTEM, a common resistance gene associated with beta-lactam resistance. Beta-lactam resistance is one of the most studied AMRs in wildlife. Drugs within the Beta-lactam class are often first line antibiotics, such as penicillin, and are active against many gram-positive, gram-negative, and anaerobic organisms. At this point, beta-lactam resistance is thought to be prevalent on most landscapes due to human or livestock encroachment thus is often used as a measure of anthropogenic impact. While sampling periods did not explain burden, the top blaTEM model did show a trend in burden increasing from the 2nd sampling period to the 3rd sampling period.This may be related to shear increase of foraging required to feed ~3 to 4 kilogram fledglings.This foraging could have occurred in areas other then the landfill, such as neighboring cattle pastures which may also be sources for ARGs.
 
 ## Strengths and Limitations
 
--   Not much statistically significant data, thus we may have to argue biological significance.
+-   While none of our models resulted in statistically significant data, valuable trends can be seen in respect to the relationship between breeding season events, AMR trends, and landfill use. Hopefully, these trends can foster future research to consider expandings beyond the hypothesis that landfills are the risky place for wildlife to acquire ARGs.
+
+-   The dataset utilized for the models was much smaller then previously envisioned due to COVID-19 barring landfill data collection throughout the entirety of 2020. Perhaps with more observations, the results of the models may have been stronger and variables may have been more normally distributed. Moving forward, it may be best to transform our standardized variables using a log transformation to attempt to achieve a more normal distribution for analysis, especially in regard to our GLMMs.
 
 ## Conclusions
 
-LUI appears to be correlated with higher levels of AMR gene burden in storks. As LUI increases thorough the breeding season [@Bialas2020] resistance gene burden also increases with beta lactam resistance contributing to the majority of the burden. However, multidrug resistance appears to decrease as LUI increases, thus it is likely that storks are being exposed to antimicrobial resistance genes at other foraging areas (urban centers, agricultural pastures, etc.). Our results suggest that landfills may not be contributing significantly to the emergence and maintenance of AMR in this system. Little literature exists on the relationship between stork habitat selection and health outside of landfill use in Spain. Future efforts in stork AMR research should focus on exploring the relationship between agricultural land use and health.
+LUI appears to be correlated with higher levels of AMR gene burden in storks. As LUI increases thorough the breeding season [@Bialas2020] resistance gene burden also increases with beta-lactam resistance contributing to the majority of the burden. However, multi-drug resistance appears to decrease as LUI increases, thus it is likely that storks are being exposed to antimicrobial resistance genes at other foraging areas (urban centers, agricultural pastures, etc.). Our results suggest that landfills may not be contributing significantly to the emergence and maintenance of AMR in this system. Little literature exists on the relationship between stork habitat selection and health outside of landfill use in Spain. Future efforts in stork AMR research should focus on exploring the relationship between agricultural land use and health.
 
 {{< pagebreak >}}
 

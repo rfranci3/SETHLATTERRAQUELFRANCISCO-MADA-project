@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.313">
+<meta name="generator" content="quarto-1.2.335">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -140,12 +140,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjPlot) <span class="co">#to help plot models</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(performance) <span class="co">#evaluate model fit and performance</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(see)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#path to data</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>data_location <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"2 Clean Data"</span>,<span class="st">"stork_AMR_2021.rds"</span>)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#load data. </span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(data_location)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cAIC4)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#path to data</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>data_location <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"2 Clean Data"</span>,<span class="st">"stork_AMR_2021.rds"</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#load data. </span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(data_location)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="data-fittingstatistical-analysis" class="level2">
@@ -158,11 +159,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in data(data, package = "lme4"): data set 'data' not found</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>facet_plot <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> samp, <span class="at">y =</span> Burden)) <span class="sc">+</span> </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> nes) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> nes) </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>facet_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_line()`: Each group consists of only one observation.
 ℹ Do you need to adjust the group aesthetic?
@@ -176,77 +178,82 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output-display">
 <p><img src="StatiscalAnalysis_ModelFitting_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">'5 Manuscript'</span>,<span class="st">'manuscript'</span>,<span class="st">'supplement'</span>, <span class="st">'Supplementary_Material_files'</span>, <span class="st">'facet_plot.png'</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>facet_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_line()`: Each group consists of only one observation.
+ℹ Do you need to adjust the group aesthetic?
+`geom_line()`: Each group consists of only one observation.
+ℹ Do you need to adjust the group aesthetic?
+`geom_line()`: Each group consists of only one observation.
+ℹ Do you need to adjust the group aesthetic?
+`geom_line()`: Each group consists of only one observation.
+ℹ Do you need to adjust the group aesthetic?</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>png 
+  2 </code></pre>
+</div>
 </div>
 <p>No obvious trends…</p>
 <p>Build models using lmer and glmer</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>lmer_spec <span class="ot">&lt;-</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"lmer"</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>glmer_spec <span class="ot">&lt;-</span> </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glmer"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>lmer_spec <span class="ot">&lt;-</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"lmer"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>glmer_spec <span class="ot">&lt;-</span> </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glmer"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Multi-drug resistance (0,1 data) vs All</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#compare between previous lmer fit and new glmer fit</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>lmer_fit_null <span class="ot">&lt;-</span> </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(MDR <span class="sc">~</span> (<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>glmer_fit_null <span class="ot">&lt;-</span> </span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> (<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_performance</span>(lmer_fit_null,glmer_fit_null)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># Comparison of Model Performance Indices
-
-Name           |     Model | AIC (weights) | AICc (weights) | BIC (weights) | R2 (cond.) | R2 (marg.) |   ICC |  RMSE | Sigma | Log_loss | Score_log | Score_spherical
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-lmer_fit_null  |  _lmerMod | 112.8 (0.033) |  113.2 (0.031) | 119.8 (0.011) |      0.090 |      0.000 | 0.090 | 0.458 | 0.480 |          |           |                
-glmer_fit_null | _glmerMod | 106.1 (0.967) |  106.3 (0.969) | 110.7 (0.989) |      0.065 |      0.000 | 0.065 | 0.473 | 1.000 |    0.639 |   -27.422 |           0.043</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>glmer_fit_global <span class="ot">&lt;-</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.lui <span class="sc">+</span> s.age <span class="sc">+</span> samp <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>glmer_fit_null <span class="ot">&lt;-</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> (<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>glmer_fit_global <span class="ot">&lt;-</span> </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.lui <span class="sc">+</span> s.age <span class="sc">+</span> samp <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, :
 Model failed to converge with max|grad| = 0.0112129 (tol = 0.002, component 1)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Univariate models</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>glmer_fit_1 <span class="ot">&lt;-</span> </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.lui <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>glmer_fit_2 <span class="ot">&lt;-</span> </span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.age  <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>glmer_fit_3 <span class="ot">&lt;-</span> </span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> samp <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>glmer_fit_4 <span class="ot">&lt;-</span> </span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>glmer_fit_5 <span class="ot">&lt;-</span> </span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.lui <span class="sc">+</span> samp <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>glmer_fit_6 <span class="ot">&lt;-</span> </span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.lui <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>glmer_fit_7 <span class="ot">&lt;-</span> </span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> samp <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>glmer_fit_8 <span class="ot">&lt;-</span> </span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.lui<span class="sc">*</span>s.age <span class="sc">+</span> samp <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Univariate models</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>glmer_fit_1 <span class="ot">&lt;-</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.lui <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>glmer_fit_2 <span class="ot">&lt;-</span> </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.age  <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>glmer_fit_3 <span class="ot">&lt;-</span> </span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> samp <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>glmer_fit_4 <span class="ot">&lt;-</span> </span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co">#Multivariate models</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>glmer_fit_5 <span class="ot">&lt;-</span> </span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.lui <span class="sc">+</span> samp <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>glmer_fit_6 <span class="ot">&lt;-</span> </span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.lui <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>glmer_fit_7 <span class="ot">&lt;-</span> </span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> samp <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>glmer_fit_8 <span class="ot">&lt;-</span> </span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.lui<span class="sc">*</span>s.age <span class="sc">+</span> samp <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, :
 unable to evaluate scaled gradient</code></pre>
@@ -255,33 +262,33 @@ unable to evaluate scaled gradient</code></pre>
 <pre><code>Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, :
 Model failed to converge: degenerate Hessian with 1 negative eigenvalues</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>glmer_fit_9 <span class="ot">&lt;-</span> </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.lui <span class="sc">+</span> s.age<span class="sc">*</span>samp <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>glmer_fit_9 <span class="ot">&lt;-</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.lui <span class="sc">+</span> s.age<span class="sc">*</span>samp <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, :
 Model failed to converge with max|grad| = 0.0109187 (tol = 0.002, component 1)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>glmer_fit_10 <span class="ot">&lt;-</span> </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.lui <span class="sc">+</span> s.age <span class="sc">+</span> samp<span class="sc">*</span>s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>glmer_fit_11 <span class="ot">&lt;-</span> </span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.lui <span class="sc">+</span> s.age <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>glmer_fit_12 <span class="ot">&lt;-</span> </span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.lui <span class="sc">+</span> s.age <span class="sc">+</span>  s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>glmer_fit_10 <span class="ot">&lt;-</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.lui <span class="sc">+</span> s.age <span class="sc">+</span> samp<span class="sc">*</span>s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>glmer_fit_11 <span class="ot">&lt;-</span> </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.lui <span class="sc">+</span> s.age <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>glmer_fit_12 <span class="ot">&lt;-</span> </span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  glmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="fu">as.factor</span>(MDR) <span class="sc">~</span> s.lui <span class="sc">+</span> s.age <span class="sc">+</span>  s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Use AIC to see the best model; None look great…</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>AIC_table1 <span class="ot">&lt;-</span> <span class="fu">compare_performance</span>(glmer_fit_null,glmer_fit_global, glmer_fit_1, glmer_fit_2, glmer_fit_3, glmer_fit_4, glmer_fit_5, glmer_fit_6, glmer_fit_7, glmer_fit_8, glmer_fit_9, glmer_fit_10, glmer_fit_11, glmer_fit_12, <span class="at">rank =</span> <span class="cn">TRUE</span>, <span class="at">metrics=</span><span class="st">"AICc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>AIC_table1 <span class="ot">&lt;-</span> <span class="fu">compare_performance</span>(glmer_fit_null,glmer_fit_global, glmer_fit_1, glmer_fit_2, glmer_fit_3, glmer_fit_4, glmer_fit_5, glmer_fit_6, glmer_fit_7, glmer_fit_8, glmer_fit_9, glmer_fit_10, glmer_fit_11, glmer_fit_12, <span class="at">rank =</span> <span class="cn">TRUE</span>, <span class="at">metrics=</span><span class="st">"AICc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: When comparing models, please note that probably not all models were fit
+<pre><code>When comparing models, please note that probably not all models were fit
   from same data.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(AIC_table1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(AIC_table1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Comparison of Model Performance Indices
 
@@ -302,28 +309,38 @@ glmer_fit_3      | _glmerMod |     7.24e-08 |         1.27e-05%
 glmer_fit_4      | _glmerMod |     3.61e-08 |         1.50e-06%
 glmer_fit_7      | _glmerMod |     3.12e-08 |             0.00%</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>AIC_table1 <span class="sc">%&gt;%</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(<span class="fu">here</span>(<span class="st">"4 Results"</span>,<span class="st">"Tables"</span>, <span class="st">"ModelAIC1.rds"</span>))</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">compare_performance</span>(glmer_fit_null,glmer_fit_global, glmer_fit_1, glmer_fit_2, glmer_fit_3, glmer_fit_4, glmer_fit_5, glmer_fit_6, glmer_fit_7, glmer_fit_8, glmer_fit_9, glmer_fit_10, glmer_fit_11, glmer_fit_12))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>AIC_table1 <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(<span class="fu">here</span>(<span class="st">"4 Results"</span>,<span class="st">"Tables"</span>, <span class="st">"ModelAIC1.rds"</span>))</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>glmer_indices <span class="ot">&lt;-</span> <span class="fu">plot</span>(<span class="fu">compare_performance</span>(glmer_fit_null,glmer_fit_global, glmer_fit_1, glmer_fit_2, glmer_fit_3, glmer_fit_4, glmer_fit_5, glmer_fit_6, glmer_fit_7, glmer_fit_8, glmer_fit_9, glmer_fit_10, glmer_fit_11, glmer_fit_12))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: When comparing models, please note that probably not all models were fit
+<pre><code>When comparing models, please note that probably not all models were fit
   from same data.</code></pre>
 </div>
-<div class="cell-output-display">
-<p><img src="StatiscalAnalysis_ModelFitting_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Tiff </span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tiff</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">'5 Manuscript'</span>,<span class="st">'manuscript'</span>,<span class="st">'Images'</span>, <span class="st">'glmer_indices.tiff'</span>))</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>glmer_indices</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>png 
+  2 </code></pre>
 </div>
 </div>
 <p>Summarize and graph best model (lowwest AIC)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(glmer_fit_11)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="StatiscalAnalysis_ModelFitting_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>glmer_check <span class="ot">&lt;-</span> <span class="fu">check_model</span>(glmer_fit_11)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">'5 Manuscript'</span>,<span class="st">'manuscript'</span>,<span class="st">'supplement'</span>, <span class="st">'Supplementary_Material_files'</span>, <span class="st">'glmer_check.png'</span>))</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>glmer_check</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>png 
+  2 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># place results from fit into a data frame with the tidy function</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> broom<span class="sc">::</span><span class="fu">tidy</span>(glmer_fit_11)</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># place results from fit into a data frame with the tidy function</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> broom<span class="sc">::</span><span class="fu">tidy</span>(glmer_fit_11)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 7
   effect   group term            estimate std.error statistic p.value
@@ -333,108 +350,109 @@ glmer_fit_7      | _glmerMod |     3.12e-08 |             0.00%</code></pre>
 3 fixed    &lt;NA&gt;  s.age             0.0439     0.356     0.123   0.902
 4 ran_pars nes   sd__(Intercept)   0.709     NA        NA      NA    </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save fit results table  </span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>model1 <span class="sc">%&gt;%</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(<span class="fu">here</span>(<span class="st">"4 Results"</span>, <span class="st">"Models"</span>, <span class="st">"LMERmodel1.rds"</span>))</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>MLp <span class="ot">&lt;-</span> <span class="fu">plot_model</span>(glmer_fit_11,<span class="at">terms =</span> <span class="st">'s.lui'</span>, <span class="at">type=</span><span class="st">"pred"</span>, </span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">show.data =</span> <span class="cn">TRUE</span>, <span class="at">show.values =</span> <span class="cn">TRUE</span>, <span class="at">show.p =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">title =</span> <span class="st">""</span>, <span class="at">show.legend =</span> <span class="cn">TRUE</span>, <span class="at">line.size=</span><span class="dv">1</span>,</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">axis.title =</span> <span class="fu">c</span>(<span class="st">"Landfill Use Index"</span>,<span class="st">'Multi-Drug Resistence'</span>))</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>MLp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="StatiscalAnalysis_ModelFitting_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(MLp, <span class="at">file=</span><span class="st">"LUIvsMDR_LME.tiff"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Saving 7 x 5 in image</code></pre>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save fit results table  </span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>model1 <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(<span class="fu">here</span>(<span class="st">"4 Results"</span>, <span class="st">"Models"</span>, <span class="st">"GLMERmodel1.rds"</span>))</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>MLp <span class="ot">&lt;-</span> <span class="fu">plot_model</span>(glmer_fit_11,<span class="at">terms =</span> <span class="st">'s.lui'</span>, <span class="at">type=</span><span class="st">"pred"</span>, </span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">show.data =</span> <span class="cn">TRUE</span>, <span class="at">show.values =</span> <span class="cn">TRUE</span>, <span class="at">show.p =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">title =</span> <span class="st">""</span>, <span class="at">show.legend =</span> <span class="cn">TRUE</span>, <span class="at">line.size=</span><span class="dv">1</span>,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">axis.title =</span> <span class="fu">c</span>(<span class="st">"Landfill Use Index"</span>,<span class="st">'Multi-Drug Resistence'</span>))</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="do">##Not working... fix later</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (<span class="sc">!</span><span class="fu">is.null</span>(<span class="fu">dev.list</span>()))  <span class="fu">dev.off</span>()</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Tiff </span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="fu">tiff</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">'5 Manuscript'</span>,<span class="st">'manuscript'</span>,<span class="st">'Images'</span>, <span class="st">'LUIvsMDR_LME.tiff'</span>))</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>MLp</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>null device 
+          1 </code></pre>
 </div>
 </div>
 <p>AMR Gene Burden vs All</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>lmer_fit2_null <span class="ot">&lt;-</span> <span class="co">#singular</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> (<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>lmer_fit2_global <span class="ot">&lt;-</span> </span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.lui <span class="sc">+</span> s.age <span class="sc">+</span> samp <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data) <span class="co">#overfit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Univariate models</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>lmer_fit2_1 <span class="ot">&lt;-</span> </span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.lui <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>lmer_fit2_2 <span class="ot">&lt;-</span> </span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.age  <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data) <span class="co">#overfit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>lmer_fit2_3 <span class="ot">&lt;-</span> </span>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>lmer_fit2_null <span class="ot">&lt;-</span> <span class="co">#singular</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> samp <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> (<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>lmer_fit2_4 <span class="ot">&lt;-</span> </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>lmer_fit2_global <span class="ot">&lt;-</span> </span>
 <span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>lmer_fit2_5 <span class="ot">&lt;-</span> </span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.lui <span class="sc">+</span> samp <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>lmer_fit2_6 <span class="ot">&lt;-</span> </span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.lui <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
-<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>lmer_fit2_7 <span class="ot">&lt;-</span> </span>
-<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> samp <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
-<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>lmer_fit2_8 <span class="ot">&lt;-</span> </span>
-<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.lui<span class="sc">*</span>s.age <span class="sc">+</span> samp <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data) <span class="co">#overfit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.lui <span class="sc">+</span> s.age <span class="sc">+</span> samp <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data) <span class="co">#overfit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>lmer_fit2_9 <span class="ot">&lt;-</span> </span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.lui <span class="sc">+</span> s.age<span class="sc">*</span>samp <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data) <span class="co">#overfit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Univariate models</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>lmer_fit2_1 <span class="ot">&lt;-</span> </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.lui <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>lmer_fit2_2 <span class="ot">&lt;-</span> </span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.age  <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data) <span class="co">#overfit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>lmer_fit2_10 <span class="ot">&lt;-</span> </span>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>lmer_fit2_3 <span class="ot">&lt;-</span> </span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.lui <span class="sc">+</span> s.age <span class="sc">+</span> samp<span class="sc">*</span>s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data) <span class="co">#overfit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> samp <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>lmer_fit2_4 <span class="ot">&lt;-</span> </span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>lmer_fit2_5 <span class="ot">&lt;-</span> </span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.lui <span class="sc">+</span> samp <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>lmer_fit2_6 <span class="ot">&lt;-</span> </span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.lui <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>lmer_fit2_7 <span class="ot">&lt;-</span> </span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> samp <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data)</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>lmer_fit2_8 <span class="ot">&lt;-</span> </span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.lui<span class="sc">*</span>s.age <span class="sc">+</span> samp <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data) <span class="co">#overfit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>lmer_fit2_11 <span class="ot">&lt;-</span> </span>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>lmer_fit2_9 <span class="ot">&lt;-</span> </span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.lui <span class="sc">+</span> s.age <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data) <span class="co">#overfit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.lui <span class="sc">+</span> s.age<span class="sc">*</span>samp <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data) <span class="co">#overfit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>lmer_fit2_12 <span class="ot">&lt;-</span> </span>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>lmer_fit2_10 <span class="ot">&lt;-</span> </span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.lui <span class="sc">+</span> s.age <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data) <span class="co">#overfit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.lui <span class="sc">+</span> s.age <span class="sc">+</span> samp<span class="sc">*</span>s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data) <span class="co">#overfit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Standardizing variables helped with the overfit/singular model results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Use AIC to see the best model; This doesnt look great either…</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>AIC_table2 <span class="ot">&lt;-</span> <span class="fu">compare_performance</span>(lmer_fit2_null, lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8,</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>                                  lmer_fit2_9, lmer_fit2_10, lmer_fit2_11, lmer_fit2_12, <span class="at">rank =</span> <span class="cn">TRUE</span>, <span class="at">metrics=</span><span class="st">"AICc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>lmer_fit2_11 <span class="ot">&lt;-</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.lui <span class="sc">+</span> s.age <span class="sc">+</span> s.nsuccess <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data) <span class="co">#overfit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: When comparing models, please note that probably not all models were fit
+<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>lmer_fit2_12 <span class="ot">&lt;-</span> </span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  lmer_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Burden <span class="sc">~</span> s.lui <span class="sc">+</span> s.age <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>nes), <span class="at">data =</span> data) <span class="co">#overfit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Standardizing variables helped with the overfit/singular model results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Use AIC to see the best model</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>AIC_table2 <span class="ot">&lt;-</span> <span class="fu">compare_performance</span>(lmer_fit2_null, lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8,</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>                                  lmer_fit2_9, lmer_fit2_10, lmer_fit2_11, lmer_fit2_12, <span class="at">rank =</span> <span class="cn">TRUE</span>, <span class="at">metrics=</span><span class="st">"AICc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>When comparing models, please note that probably not all models were fit
   from same data.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(AIC_table2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(AIC_table2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Comparison of Model Performance Indices
 
@@ -455,11 +473,10 @@ lmer_fit2_3      | _lmerMod |     4.01e-57 |         1.03e-54%
 lmer_fit2_4      | _lmerMod |     2.15e-57 |         3.24e-55%
 lmer_fit2_7      | _lmerMod |     1.29e-57 |             0.00%</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>AIC_table2 <span class="sc">%&gt;%</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">saveRDS</span>(<span class="fu">here</span>(<span class="st">"4 Results"</span>,<span class="st">"Tables"</span>, <span class="st">"ModelAIC2.rds"</span>))</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">compare_performance</span>(lmer_fit2_null, lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8,</span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>                                  lmer_fit2_9, lmer_fit2_10, lmer_fit2_11, lmer_fit2_12))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>AIC_table2 <span class="sc">%&gt;%</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">saveRDS</span>(<span class="fu">here</span>(<span class="st">"4 Results"</span>,<span class="st">"Tables"</span>, <span class="st">"ModelAIC2.rds"</span>))</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>lmer_indices <span class="ot">&lt;-</span><span class="fu">plot</span>(<span class="fu">compare_performance</span>(lmer_fit2_null, lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8, lmer_fit2_9, lmer_fit2_10, lmer_fit2_11, lmer_fit2_12))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Random effect variances not available. Returned R2 does not account for random effects.
 Random effect variances not available. Returned R2 does not account for random effects.
@@ -470,53 +487,81 @@ Random effect variances not available. Returned R2 does not account for random e
 Random effect variances not available. Returned R2 does not account for random effects.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: When comparing models, please note that probably not all models were fit
+<pre><code>When comparing models, please note that probably not all models were fit
+  from same data.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">compare_performance</span>(lmer_fit2_null, lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8, lmer_fit2_9, lmer_fit2_10, lmer_fit2_11, lmer_fit2_12))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Random effect variances not available. Returned R2 does not account for random effects.
+Random effect variances not available. Returned R2 does not account for random effects.
+Random effect variances not available. Returned R2 does not account for random effects.
+Random effect variances not available. Returned R2 does not account for random effects.
+Random effect variances not available. Returned R2 does not account for random effects.
+Random effect variances not available. Returned R2 does not account for random effects.
+Random effect variances not available. Returned R2 does not account for random effects.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>When comparing models, please note that probably not all models were fit
   from same data.</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="StatiscalAnalysis_ModelFitting_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tiff</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">'5 Manuscript'</span>,<span class="st">'manuscript'</span>,<span class="st">'Images'</span>, <span class="st">'lmer_indices.tiff'</span>))</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>lmer_indices</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>png 
+  2 </code></pre>
+</div>
 </div>
 <p>Summarize and graph best model (lowwest AIC)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(lmer_fit2_5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>lmer_check <span class="ot">&lt;-</span> <span class="fu">check_model</span>(glmer_fit_global)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>lmer_check</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="StatiscalAnalysis_ModelFitting_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> broom<span class="sc">::</span><span class="fu">tidy</span>(lmer_fit2_5)</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">'5 Manuscript'</span>,<span class="st">'manuscript'</span>,<span class="st">'supplement'</span>, <span class="st">'Supplementary_Material_files'</span>, <span class="st">'lmer_check.png'</span>))</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>lmer_check</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 6
+<pre><code>png 
+  2 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> broom<span class="sc">::</span><span class="fu">tidy</span>(lmer_fit2_global)</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 6
   effect   group    term            estimate std.error statistic
   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-1 fixed    &lt;NA&gt;     (Intercept)        0.958     14.1     0.0681
-2 fixed    &lt;NA&gt;     s.lui              3.16       5.48    0.578 
-3 fixed    &lt;NA&gt;     samp              12.4        6.34    1.96  
-4 ran_pars nes      sd__(Intercept)    6.75      NA      NA     
-5 ran_pars Residual sd__Observation   39.0       NA      NA     </code></pre>
+1 fixed    &lt;NA&gt;     (Intercept)        -4.30     14.8     -0.290
+2 fixed    &lt;NA&gt;     s.lui               4.96      5.65     0.879
+3 fixed    &lt;NA&gt;     s.age              11.4       5.66     2.02 
+4 fixed    &lt;NA&gt;     samp               13.1       6.72     1.95 
+5 fixed    &lt;NA&gt;     s.nsuccess         12.4       8.64     1.44 
+6 ran_pars nes      sd__(Intercept)     0        NA       NA    
+7 ran_pars Residual sd__Observation    38.0      NA       NA    </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save fit results table  </span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>model2 <span class="sc">%&gt;%</span> </span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(<span class="fu">here</span>(<span class="st">"4 Results"</span>,<span class="st">"Models"</span>, <span class="st">"LMERmodel2.rds"</span>))</span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>BLp <span class="ot">&lt;-</span> <span class="fu">plot_model</span>(lmer_fit2_5,<span class="at">terms =</span> <span class="st">'s.lui'</span>, <span class="at">type=</span><span class="st">"pred"</span>, </span>
-<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">show.data =</span> <span class="cn">TRUE</span>, <span class="at">show.values =</span> <span class="cn">TRUE</span>, <span class="at">show.p =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">title =</span> <span class="st">""</span>, <span class="at">show.legend =</span> <span class="cn">TRUE</span>, <span class="at">line.size=</span><span class="dv">1</span>,</span>
-<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">axis.title =</span> <span class="fu">c</span>(<span class="st">"Landfill Use Index"</span>,<span class="st">'Total Antibiotic Resistant Gene Burden'</span>))</span>
-<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>BLp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="StatiscalAnalysis_ModelFitting_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save fit results table  </span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>model2 <span class="sc">%&gt;%</span> </span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(<span class="fu">here</span>(<span class="st">"4 Results/Models/LMERmodel2.rds"</span>))</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>BLp <span class="ot">&lt;-</span> <span class="fu">plot_model</span>(lmer_fit2_global,<span class="at">terms =</span> <span class="st">'s.lui'</span>, <span class="at">type=</span><span class="st">"pred"</span>, </span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">show.data =</span> <span class="cn">TRUE</span>, <span class="at">show.values =</span> <span class="cn">TRUE</span>, <span class="at">show.p =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">title =</span> <span class="st">""</span>, <span class="at">show.legend =</span> <span class="cn">TRUE</span>, <span class="at">line.size=</span><span class="dv">1</span>,</span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">axis.title =</span> <span class="fu">c</span>(<span class="st">"Landfill Use Index"</span>,<span class="st">'Total Antibiotic Resistant Gene Burden'</span>))</span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (<span class="sc">!</span><span class="fu">is.null</span>(<span class="fu">dev.list</span>()))  <span class="fu">dev.off</span>()</span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Tiff </span></span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a><span class="fu">tiff</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">'5 Manuscript'</span>,<span class="st">'manuscript'</span>,<span class="st">'Images'</span>, <span class="st">'LUIvsBurden_LME.tiff'</span>))</span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a>BLp</span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>null device 
+          1 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(BLp, <span class="at">file=</span><span class="st">"LUIvsBurden_LME.tiff"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Saving 7 x 5 in image</code></pre>
 </div>
-</div>
-<p>Preliminary results</p>
-<p>Questions: Should over fit models be taken out of performance analysis?</p>
-<p>**What is the best tool/package to control for small data sets? If using weighted AIC is it appropriate to also use other methods of performance analysis (R2, RSME, etc).</p>
-<p>How to get Manuscript to popular rds and tiff files. GLMER vs LMER</p>
 </section>
 </section>
 

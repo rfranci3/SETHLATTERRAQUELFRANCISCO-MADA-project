@@ -144,7 +144,7 @@ AIC_table1 %>%
 glmer_indices <- plot(compare_performance(glmer_fit_null,glmer_fit_global, glmer_fit_1, glmer_fit_2, glmer_fit_3, glmer_fit_4, glmer_fit_5, glmer_fit_6, glmer_fit_7, glmer_fit_8, glmer_fit_9, glmer_fit_10, glmer_fit_11, glmer_fit_12))
 
 #Tiff 
-png(file = here('5 Manuscript','manuscript','supplement', 'Supplementary_Material_files', 'glmer_indices.png'))
+tiff(file = here('5 Manuscript','manuscript','Images', 'glmer_indices.tiff'))
 glmer_indices
 dev.off() 
 ```
@@ -242,7 +242,7 @@ lmer_fit2_12 <-
 #Standardizing variables helped with the overfit/singular model results
 ```
 
-Use AIC to see the best model; This doesnt look great either...
+Use AIC to see the best model
 
 ```{r}
 AIC_table2 <- compare_performance(lmer_fit2_null, lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8,
@@ -257,7 +257,7 @@ lmer_indices <-plot(compare_performance(lmer_fit2_null, lmer_fit2_global, lmer_f
 
 plot(compare_performance(lmer_fit2_null, lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8, lmer_fit2_9, lmer_fit2_10, lmer_fit2_11, lmer_fit2_12))
 
-png(file = here('5 Manuscript','manuscript','supplement', 'Supplementary_Material_files', 'lmer_indices.png'))
+tiff(file = here('5 Manuscript','manuscript','Images', 'lmer_indices.tiff'))
 lmer_indices
 dev.off() 
   
