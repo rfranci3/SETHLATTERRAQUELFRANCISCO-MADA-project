@@ -4,3 +4,5 @@ There is a Quarto file which does some exploratory data analysis by creating a f
 
 There is a second Quarto file with model fitting and performance testing named 'StatisticalAnalysis_ModelFitting.qmd".
 
+The file 'crossvalidation.qmd' contains analyzes the data using a tree model, a machine-learning approach that implements cross validation.
+
