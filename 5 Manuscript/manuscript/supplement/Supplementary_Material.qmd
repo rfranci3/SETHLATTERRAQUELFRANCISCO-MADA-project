@@ -13,14 +13,6 @@ library(here)
 library(knitr)
 ```
 
-This shows some materials that could go into a supplementary file. Often you want/need references here too. You can use the same reference bib file for this and the main text (as done here) or have separate bib files.
-
-For illustrative purposes, I'm doing the supplement as pdf. For this to work, you need a (La)TeX system installed. It's easy. Just follow [these steps](https://quarto.org/docs/output-formats/pdf-basics.html).
-
-Of course you would choose the format based on needs.
-
-I'm also using a different style for the references here. (vancouver vs apa in the main manuscript). Usually one would have the formatting of the references the same in those two documents, but I want to illustrate how easy it is to switch reference formatting styles, you just need to get the right CSL file and specify it in the YAML header. We could also have a seperate reference bibtext (`.bib`) file, but here we are using the same.
-
 # Overview
 
 Contained in this document is supplementary material for the manuscript, **"A Match Made in Landfills? Exploring the diversity and burden of antimicrobial resistance genes carried by white stork (*Ciconia ciconia*) throughout the breeding season in Madrid, Spain"**. Supplementary materials include instructions for reproducing data analysis and additonal model results.
@@ -35,23 +27,17 @@ To reproduce the data analysis for this manuscript, raw data should first be cle
 
 Binomial-family generalized linear mixed models (GLMMs) and linear mixed models (LMMs) were used to assess the effects of multiple predictors on the presence of multi-drug resistance (MDR) and total antimicrobial resistance gene burden (AMR), respectively.
 
-Additionally, a cross-validation approach using tree model was implemented. Prior to machine learning analysis, the data were split into training (75%) and testing (25%) groups. A 5-fold cross-validation, 5 times repeated approach was implemented using MDR as the strata. A tuning grid was utilized using 5 levels of tree depth. After fitting the tree model to the training data, the best model was selected using the area under the receiver operating characteristic curve (ROC AUC). This final model was then fit to the testing data. 
+Additionally, a cross-validation approach using tree model was implemented. Prior to machine learning analysis, the data were split into training (75%) and testing (25%) groups. A 5-fold cross-validation, 5 times repeated approach was implemented using MDR as the strata. A tuning grid was utilized using 5 levels of tree depth. After fitting the tree model to the training data, the best model was selected using the area under the receiver operating characteristic curve (ROC AUC). This final model was then fit to the testing data.
 
 {{< pagebreak >}}
 
 # Additional results
 
-Contained below are additional results from both the exploratory and full analyses.
-
-## Exploratory Analysis Results
-
-
+Contained below are additional results from the full analyses.
 
 ## Full Analysis Results
 
 A total of 14 GLMMs (including a global and null model) were run to assess the effects of several predictors on MDR. Based on Akaike's Information Criterion adjusted for small sample size (AIC*c*), model 11 (containing the predictors LUI and age) was the highest performing model. A total of 15 LMMs were run to assess the effects of several predictors on AMR. Based on AIC*c*, the global model was the highest performing model, followed by a univariate LMM containing age as the only predictor.
-
-
 
 ![Figure 1. Facet Plot of single factor repeated measures evaluation the effect of LUI on blaTEM (betalactam) resistence gene burden](Supplementary_Material_files/facet_plot.png)
 
@@ -63,15 +49,13 @@ A total of 14 GLMMs (including a global and null model) were run to assess the e
 
 ### LMM Model Results
 
-![Figure 4. Comparison of Linear Mixed Model Indices](Supplementary_Material_files/lmer_indices.png)
-![Figure 5. Model Check Metrics for Best-performing LMM](Supplementary_Material_files/lmer_check.png)
+![Figure 4. Comparison of Linear Mixed Model Indices](Supplementary_Material_files/lmer_indices.png) ![Figure 5. Model Check Metrics for Best-performing LMM](Supplementary_Material_files/lmer_check.png)
 
 ### Tree Model Results
 
 Cost-complexity parameters for various tree depths are shown in Figure 6.
 
-![Figure 6. Cost-complexity Parameter Plot](Supplementary_Material_files/autoplot.png)
-Results from the finalized tree model can be found in Figure 7.
+![Figure 6. Cost-complexity Parameter Plot](Supplementary_Material_files/autoplot.png) Results from the finalized tree model can be found in Figure 7.
 
 ![Figure 7. Model Check Metrics for Best-performing LMM](Supplementary_Material_files/rpartplot2.png)
 
@@ -79,7 +63,7 @@ Results from the finalized tree model can be found in Figure 7.
 
 # Discussion
 
-The tree model was ultimately not incorporated into the final manuscript. The ability to account for random effects using the GLMMs and LMMs was better suited for the questions being addressed and the data on hand. 
+The tree model was ultimately not incorporated into the final manuscript. The ability to account for random effects using the GLMMs and LMMs was better suited for the questions being addressed and the data on hand.
 
 {{< pagebreak >}}
 
