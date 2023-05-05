@@ -60,7 +60,7 @@ tree_model <-
 #create tree workflow for global model
 tree_workflow_global <- workflow() %>%
   add_model(tree_model) %>%
-  add_formula(Burden ~ s.lui + s.age + samp + s.nsuccess + nes)
+  add_formula(Burden ~ s.lui + s.age + samp + s.nsuccess)
 
 #tree grid
 tree_grid <- grid_regular(cost_complexity(),
@@ -80,25 +80,87 @@ tree_resamp %>%
 
 tree_resamp %>%
   autoplot()
+
+#select best tree model
+best_tree <- tree_resamp %>%
+  select_best(metric = 'rmse')
+
+#final model
+final_tree <- tree_workflow_global %>%
+  finalize_workflow(best_tree)
+
+#fit final model to data
+tree_fit_final <- final_tree %>%
+  fit(train_data)
+
+#plot final fit
+rpart.plot::rpart.plot(extract_fit_parsnip(tree_fit_final)$fit)
+
+#tree residual plot
+tree_pred <- tree_fit_final %>%
+  fit(train_data) %>%
+  predict(train_data)
+
+tree_resid <- train_data$Burden - tree_pred$.pred
+tree_df <- tibble(tree_resid, tree_pred)
+
+ggplot(aes(.pred, tree_resid), data = tree_df)+
+  geom_point()+
+  labs(x = "Predictions", y = "Residuals")+
+  geom_hline(yintercept = 0)+
+  theme_bw()
 ```
+
 ```{r}
-#create tree workflow for null
-tree_workflow_null <- workflow() %>%
-  add_model(tree_model) %>%
-  add_formula(Burden ~ 1)
+#create model and set engine
+tree_model2 <- 
+  decision_tree(
+    cost_complexity = tune(),
+    tree_depth = tune()) %>% 
+  set_engine("rpart") %>% 
+  set_mode("classification")
+
+#create tree workflow for global model
+tree_workflow_global2 <- workflow() %>%
+  add_model(tree_model2) %>%
+  add_formula(as.factor(MDR) ~ s.lui + s.age + samp + s.nsuccess)
+
 
 #tree_resamples
-tree_resamp_null <- 
-  tree_workflow_null %>% 
+tree_resamp2 <- 
+  tree_workflow_global2 %>% 
   tune_grid(
     resamples = folds,
     grid = tree_grid
     )
 
-tree_resamp_null %>%
+tree_resamp2 %>%
   collect_metrics()
 
-tree_resamp_null %>%
+tree_resamp2 %>%
   autoplot()
+
+#select best tree model
+best_tree2 <- tree_resamp2 %>%
+  select_best()
+
+#final model
+final_tree2 <- tree_workflow_global2 %>%
+  finalize_workflow(best_tree2)
+
+#fit final model to data
+tree_fit_final2 <- final_tree2 %>%
+  fit(train_data)
+
+#plot final fit
+rpart.plot::rpart.plot(extract_fit_parsnip(tree_fit_final2)$fit)
+
+#tree residual plot
+tree_pred2 <- tree_fit_final2 %>%
+  fit(train_data) %>%
+  predict(train_data)
+
+tree_resid2 <- train_data$MDR - tree_pred$.pred
+tree_df2 <- tibble(tree_resid2, tree_pred2)
 ```
 
