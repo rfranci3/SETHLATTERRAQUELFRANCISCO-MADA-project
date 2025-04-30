@@ -1,0 +1,3154 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.313">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Raquel Francisco and Seth Lattner">
+<meta name="dcterms.date" content="2022-02-24">
+
+<title>White Stork Antimicrobial Resistance</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="Data_Exploratory_Analysis_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Data_Exploratory_Analysis_files/libs/quarto-html/quarto.js"></script>
+<script src="Data_Exploratory_Analysis_files/libs/quarto-html/popper.min.js"></script>
+<script src="Data_Exploratory_Analysis_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Data_Exploratory_Analysis_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Data_Exploratory_Analysis_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Data_Exploratory_Analysis_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Data_Exploratory_Analysis_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Data_Exploratory_Analysis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Data_Exploratory_Analysis_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">White Stork Antimicrobial Resistance</h1>
+<p class="subtitle lead">Exploratory Analysis</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Raquel Francisco and Seth Lattner </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 24, 2022</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<p>This QMD file contains exploratory analysis for antimicrobial resistance data collected from White Stork (<em>Ciconia ciconia</em>) in Madrid, Spain.</p>
+<section id="load-datapackages" class="level4">
+<h4 class="anchored" data-anchor-id="load-datapackages">Load Data/Packages</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#load needed packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here) <span class="co">#calling</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="co">#cleaning</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) <span class="co">#plotting and visualization</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr) <span class="co">#ggscatter to visualize correlations</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naniar)<span class="co">#missing values graphics and plots</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(UpSetR)<span class="co">#missing values graphics and plots</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot) <span class="co">#evaluate if covariates are correlated</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(writexl)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nortest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#load all data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>stork_AMR_clean <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"2 Clean Data"</span>,<span class="st">"stork_AMR_clean.rds"</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset the dataset for the year 2021</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>stork_AMR_2021 <span class="ot">&lt;-</span> stork_AMR_clean <span class="sc">%&gt;%</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(yr <span class="sc">==</span> <span class="dv">2021</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>stork_AMR_2020 <span class="ot">&lt;-</span> stork_AMR_clean <span class="sc">%&gt;%</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(yr <span class="sc">==</span> <span class="dv">2020</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="quality-control" class="level4">
+<h4 class="anchored" data-anchor-id="quality-control">Quality Control</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>stork_AMR_clean <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_shadow_upset</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">upset</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_miss_fct</span>(<span class="at">x =</span> stork_AMR_clean, <span class="at">fct =</span> yr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_miss_fct</span>(<span class="at">x =</span> stork_AMR_clean, <span class="at">fct =</span> samp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-3-3.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Quite alot of missing values for 2020. Will likely only be able to do summary stats on 2020 because no LUI data was collected that year (COVID-19 limitations)</p>
+</section>
+<section id="data-subset-for-2021" class="level4">
+<h4 class="anchored" data-anchor-id="data-subset-for-2021">Data subset for 2021</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>stork_AMR_2021 <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_shadow_upset</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">upset</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_miss_fct</span>(<span class="at">x =</span> stork_AMR_2021, <span class="at">fct =</span> yr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_miss_fct</span>(<span class="at">x =</span> stork_AMR_2021, <span class="at">fct =</span> samp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-4-3.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="correlation-check-of-covariates" class="level4">
+<h4 class="anchored" data-anchor-id="correlation-check-of-covariates">Correlation Check of Covariates</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#define the variables we want to include in the correlation matrix</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>variables <span class="ot">&lt;-</span> stork_AMR_clean[ , <span class="fu">c</span>(<span class="st">"s.age"</span>, <span class="st">"s.lui"</span>, <span class="st">"samp"</span>, <span class="st">"s.nsuccess"</span>)]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#create correlation matrix</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(variables, <span class="at">use =</span> <span class="st">"complete.obs"</span>) <span class="co">#ignore NAs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  s.age        s.lui        samp  s.nsuccess
+s.age       1.000000000  0.004929289 -0.04479929 -0.15808036
+s.lui       0.004929289  1.000000000  0.08487804 -0.05277091
+samp       -0.044799287  0.084878037  1.00000000  0.11486562
+s.nsuccess -0.158080362 -0.052770910  0.11486562  1.00000000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>CorrPlot <span class="ot">&lt;-</span> <span class="fu">corrplot</span>(<span class="fu">cor</span>(variables, <span class="at">use =</span> <span class="st">"complete.obs"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>CorrPlot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$corr
+                  s.age        s.lui        samp  s.nsuccess
+s.age       1.000000000  0.004929289 -0.04479929 -0.15808036
+s.lui       0.004929289  1.000000000  0.08487804 -0.05277091
+samp       -0.044799287  0.084878037  1.00000000  0.11486562
+s.nsuccess -0.158080362 -0.052770910  0.11486562  1.00000000
+
+$corrPos
+        xName      yName x y         corr
+1       s.age      s.age 1 4  1.000000000
+2       s.age      s.lui 1 3  0.004929289
+3       s.age       samp 1 2 -0.044799287
+4       s.age s.nsuccess 1 1 -0.158080362
+5       s.lui      s.age 2 4  0.004929289
+6       s.lui      s.lui 2 3  1.000000000
+7       s.lui       samp 2 2  0.084878037
+8       s.lui s.nsuccess 2 1 -0.052770910
+9        samp      s.age 3 4 -0.044799287
+10       samp      s.lui 3 3  0.084878037
+11       samp       samp 3 2  1.000000000
+12       samp s.nsuccess 3 1  0.114865624
+13 s.nsuccess      s.age 4 4 -0.158080362
+14 s.nsuccess      s.lui 4 3 -0.052770910
+15 s.nsuccess       samp 4 2  0.114865624
+16 s.nsuccess s.nsuccess 4 1  1.000000000
+
+$arg
+$arg$type
+[1] "full"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">s.age =</span> stork_AMR_clean<span class="sc">$</span>s.age, </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">s.lui =</span> stork_AMR_clean<span class="sc">$</span>s.lui, </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">s.nsuccess =</span> stork_AMR_clean<span class="sc">$</span>s.nsuccess,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">samp =</span> stork_AMR_clean<span class="sc">$</span>samp)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(Z, <span class="at">panel =</span> panel.smooth, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"age"</span>, <span class="st">"mean_lui"</span>, <span class="st">"nsuccess"</span>, <span class="st">"samp"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#More than 0.7 usually is unacceptable</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">#More than 0.5 you need to be careful; NOTHING over 0.5</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="do">##BASIC SPEARMAN</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>( stork_AMR_clean<span class="sc">$</span>s.age, stork_AMR_clean<span class="sc">$</span>s.lui,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"spearman"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in cor.test.default(stork_AMR_clean$s.age, stork_AMR_clean$s.lui, :
+Cannot compute exact p-value with ties</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Spearman's rank correlation rho
+
+data:  stork_AMR_clean$s.age and stork_AMR_clean$s.lui
+S = 18159, p-value = 0.3756
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.1280313 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>( stork_AMR_clean<span class="sc">$</span>s.age, stork_AMR_clean<span class="sc">$</span>s.nsuccess,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">method =</span> <span class="st">"spearman"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in cor.test.default(stork_AMR_clean$s.age, stork_AMR_clean$s.nsuccess,
+: Cannot compute exact p-value with ties</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Spearman's rank correlation rho
+
+data:  stork_AMR_clean$s.age and stork_AMR_clean$s.nsuccess
+S = 137852, p-value = 0.529
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+       rho 
+0.06502986 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>( stork_AMR_clean<span class="sc">$</span>s.age, stork_AMR_clean<span class="sc">$</span>samp,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">method =</span> <span class="st">"spearman"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in cor.test.default(stork_AMR_clean$s.age, stork_AMR_clean$samp, :
+Cannot compute exact p-value with ties</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Spearman's rank correlation rho
+
+data:  stork_AMR_clean$s.age and stork_AMR_clean$samp
+S = 137184, p-value = 0.5007
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+       rho 
+0.06956177 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>( stork_AMR_clean<span class="sc">$</span>s.nsuccess, stork_AMR_clean<span class="sc">$</span>s.lui,</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">method =</span> <span class="st">"spearman"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in cor.test.default(stork_AMR_clean$s.nsuccess, stork_AMR_clean$s.lui,
+: Cannot compute exact p-value with ties</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Spearman's rank correlation rho
+
+data:  stork_AMR_clean$s.nsuccess and stork_AMR_clean$s.lui
+S = 33676, p-value = 0.2668
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+       rho 
+-0.1509358 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>( stork_AMR_clean<span class="sc">$</span>s.nsuccess, stork_AMR_clean<span class="sc">$</span>samp,</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">method =</span> <span class="st">"spearman"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in cor.test.default(stork_AMR_clean$s.nsuccess, stork_AMR_clean$samp, :
+Cannot compute exact p-value with ties</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Spearman's rank correlation rho
+
+data:  stork_AMR_clean$s.nsuccess and stork_AMR_clean$samp
+S = 265606, p-value = 0.02243
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.2032829 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>( stork_AMR_clean<span class="sc">$</span>s.lui, stork_AMR_clean<span class="sc">$</span>samp,</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">method =</span> <span class="st">"spearman"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in cor.test.default(stork_AMR_clean$s.lui, stork_AMR_clean$samp, :
+Cannot compute exact p-value with ties</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Spearman's rank correlation rho
+
+data:  stork_AMR_clean$s.lui and stork_AMR_clean$samp
+S = 26675, p-value = 0.5173
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.0883528 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>( stork_AMR_clean<span class="sc">$</span>Burden_inv10, stork_AMR_clean<span class="sc">$</span>MDR,</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">method =</span> <span class="st">"spearman"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in cor.test.default(stork_AMR_clean$Burden_inv10, stork_AMR_clean$MDR,
+: Cannot compute exact p-value with ties</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Spearman's rank correlation rho
+
+data:  stork_AMR_clean$Burden_inv10 and stork_AMR_clean$MDR
+S = 395132, p-value = 0.03783
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+       rho 
+-0.1852482 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>( stork_AMR_clean<span class="sc">$</span>Burden_Log10, stork_AMR_clean<span class="sc">$</span>MDR,</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">method =</span> <span class="st">"spearman"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in cor.test.default(stork_AMR_clean$Burden_Log10, stork_AMR_clean$MDR,
+: Cannot compute exact p-value with ties</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Spearman's rank correlation rho
+
+data:  stork_AMR_clean$Burden_Log10 and stork_AMR_clean$MDR
+S = 496590, p-value = 5.965e-09
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+       rho 
+-0.4895827 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>( stork_AMR_clean<span class="sc">$</span>sum, stork_AMR_clean<span class="sc">$</span>MDR,</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">method =</span> <span class="st">"spearman"</span>) <span class="co">#Correlated!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in cor.test.default(stork_AMR_clean$sum, stork_AMR_clean$MDR, method =
+"spearman"): Cannot compute exact p-value with ties</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Spearman's rank correlation rho
+
+data:  stork_AMR_clean$sum and stork_AMR_clean$MDR
+S = 35629, p-value &lt; 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.8931265 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Visual Plots with: regression line and confidence interval</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Age + LUI</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggscatter</span>(stork_AMR_clean, <span class="at">x =</span> <span class="st">'age'</span>, <span class="at">y =</span> <span class="st">'s.lui'</span>,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">add =</span> <span class="st">"reg.line"</span>, <span class="at">conf.int =</span> <span class="cn">TRUE</span>,    </span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">add.params =</span> <span class="fu">list</span>(<span class="at">fill =</span> <span class="st">"lightgray"</span>),</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">ggtheme =</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>)<span class="sc">+</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_cor</span>(<span class="at">method =</span> <span class="st">"spearman"</span>, <span class="at">p.accuracy =</span> <span class="fl">0.001</span>, <span class="at">r.accuracy =</span> <span class="fl">0.01</span>,</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">label.y =</span> <span class="fl">0.5</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 76 rows containing non-finite outside the scale range
+(`stat_smooth()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 76 rows containing non-finite outside the scale range
+(`stat_cor()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 76 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Nsuccess + LUI</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggscatter</span>(stork_AMR_clean, <span class="at">x =</span> <span class="st">'s.nsuccess'</span>, <span class="at">y =</span> <span class="st">'s.lui'</span>,</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">add =</span> <span class="st">"reg.line"</span>, <span class="at">conf.int =</span> <span class="cn">TRUE</span>,    </span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">add.params =</span> <span class="fu">list</span>(<span class="at">fill =</span> <span class="st">"lightgray"</span>),</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">ggtheme =</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>)<span class="sc">+</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_cor</span>(<span class="at">method =</span> <span class="st">"spearman"</span>, <span class="at">p.accuracy =</span> <span class="fl">0.001</span>, <span class="at">r.accuracy =</span> <span class="fl">0.01</span>,</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">label.y =</span> <span class="fl">0.6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 70 rows containing non-finite outside the scale range
+(`stat_smooth()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 70 rows containing non-finite outside the scale range
+(`stat_cor()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 70 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Nsuccess + Age</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggscatter</span>(stork_AMR_clean, <span class="at">x =</span> <span class="st">'s.nsuccess'</span>, <span class="at">y =</span> <span class="st">'age'</span>,</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">add =</span> <span class="st">"reg.line"</span>, <span class="at">conf.int =</span> <span class="cn">TRUE</span>,    </span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">add.params =</span> <span class="fu">list</span>(<span class="at">fill =</span> <span class="st">"lightgray"</span>),</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">ggtheme =</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>)<span class="sc">+</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_cor</span>(<span class="at">method =</span> <span class="st">"spearman"</span>, <span class="at">p.accuracy =</span> <span class="fl">0.001</span>, <span class="at">r.accuracy =</span> <span class="fl">0.01</span>,</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">label.y =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 30 rows containing non-finite outside the scale range
+(`stat_smooth()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 30 rows containing non-finite outside the scale range
+(`stat_cor()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 30 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-5-5.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Variables of interest not correlated; they are independent = Move on to analysis</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="data-exploration-and-visualization" class="level4">
+<h4 class="anchored" data-anchor-id="data-exploration-and-visualization">Data Exploration and visualization</h4>
+<p>Will explore both 2020 and 2021 data, but will not model with 2020 as no LUI data was collected this year due to COVID-19 resrictions.</p>
+<p>Quick Sample summary stats</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Total number of samples</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>total_samples <span class="ot">&lt;-</span> <span class="fu">nrow</span>(stork_AMR_clean)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Total number of samples:"</span>, total_samples, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Total number of samples: 126 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of samples in each year</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>samples_per_year <span class="ot">&lt;-</span> stork_AMR_clean <span class="sc">%&gt;%</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(yr) <span class="sc">%&gt;%</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>())</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Samples per year:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Samples per year:</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(samples_per_year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+     yr count
+  &lt;dbl&gt; &lt;int&gt;
+1  2020    53
+2  2021    73</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Breakdown of samples by year and sampling period (samp)</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>samples_by_year_and_samp <span class="ot">&lt;-</span> stork_AMR_clean <span class="sc">%&gt;%</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(yr, samp) <span class="sc">%&gt;%</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'yr'. You can override using the `.groups`
+argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Samples by year and sampling period:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Samples by year and sampling period:</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(samples_by_year_and_samp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+# Groups:   yr [2]
+     yr  samp count
+  &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
+1  2020     1     9
+2  2020     2    25
+3  2020     3    19
+4  2021     1    26
+5  2021     2    23
+6  2021     3    24</code></pre>
+</div>
+</div>
+<p>Samples per sampling period per year</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a summary table for 2020</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>summary_2020 <span class="ot">&lt;-</span> stork_AMR_2020 <span class="sc">%&gt;%</span></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(samp) <span class="sc">%&gt;%</span></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">nests =</span> <span class="fu">paste</span>(<span class="fu">unique</span>(nes), <span class="at">collapse =</span> <span class="st">", "</span>), <span class="co"># List all nests</span></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_samples =</span> <span class="fu">n</span>() <span class="co"># Count total samples</span></span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="dv">2020</span>)</span>
+<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a summary table for 2021</span></span>
+<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a>summary_2021 <span class="ot">&lt;-</span> stork_AMR_2021 <span class="sc">%&gt;%</span></span>
+<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(samp) <span class="sc">%&gt;%</span></span>
+<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">nests =</span> <span class="fu">paste</span>(<span class="fu">unique</span>(nes), <span class="at">collapse =</span> <span class="st">", "</span>), <span class="co"># List all nests</span></span>
+<span id="cb67-15"><a href="#cb67-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_samples =</span> <span class="fu">n</span>() <span class="co"># Count total samples</span></span>
+<span id="cb67-16"><a href="#cb67-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb67-17"><a href="#cb67-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="dv">2021</span>)</span>
+<span id="cb67-18"><a href="#cb67-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-19"><a href="#cb67-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine both years into a single table</span></span>
+<span id="cb67-20"><a href="#cb67-20" aria-hidden="true" tabindex="-1"></a>summary_table <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(summary_2020, summary_2021) <span class="sc">%&gt;%</span></span>
+<span id="cb67-21"><a href="#cb67-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year, samp)</span>
+<span id="cb67-22"><a href="#cb67-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-23"><a href="#cb67-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the table</span></span>
+<span id="cb67-24"><a href="#cb67-24" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(summary_table, <span class="at">caption =</span> <span class="st">"Summary of Nests and Samples by Sampling Period for 2020 and 2021"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<caption>Summary of Nests and Samples by Sampling Period for 2020 and 2021</caption>
+<colgroup>
+<col style="width: 3%">
+<col style="width: 84%">
+<col style="width: 9%">
+<col style="width: 3%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">samp</th>
+<th style="text-align: left;">nests</th>
+<th style="text-align: right;">total_samples</th>
+<th style="text-align: right;">year</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">12, 143, 160, 300, 802, 2018, 974b, A02, 34</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">8, 10, 34, 35, 40, 109, 147, 157, 230, 234, 236, 240, 304, 305, 901, 910, 911, 952, 973, 1901, 1907, 1908, 301b, 12, 143</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">10, 35, 40, 109, 147, 234, 236, 304, 901, 910, 911, 952, 973, 1901, 1907, 1908, 301b, 974b, 157</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">34, 12, 147, 911, 160, 157, 1908, A02, 143, 300, 1907, 109, 952, 901, 35, 10, 305, 230, 240, 304, 802, 234, 2018, 1901, 974b, 301b</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">240, 236, 910, 304, 109, 300, 901, 12, 1908, 10, 35, 34, 952, 157, 911, 2018, 305, 1901, 802, A02, 234, 301b</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">910, 236, 300, 802, 952, 1901, 35, 34, 1907, 143, 157, 301b, 109, 234, 240, 2018, 901, A02, 1908, 911, 12, 10, 305, 304</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">2021</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Optionally, save the table to a CSV file</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="co">#write.csv(summary_table, "nest_sampling_summary.csv", row.names = FALSE)</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Reshape data for 2020</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>nests_2020 <span class="ot">&lt;-</span> stork_AMR_2020 <span class="sc">%&gt;%</span></span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nes) <span class="sc">%&gt;%</span></span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">sampling_periods =</span> <span class="fu">paste</span>(<span class="fu">sort</span>(<span class="fu">unique</span>(samp)), <span class="at">collapse =</span> <span class="st">", "</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="dv">2020</span>)</span>
+<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Reshape data for 2021</span></span>
+<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>nests_2021 <span class="ot">&lt;-</span> stork_AMR_2021 <span class="sc">%&gt;%</span></span>
+<span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nes) <span class="sc">%&gt;%</span></span>
+<span id="cb68-14"><a href="#cb68-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">sampling_periods =</span> <span class="fu">paste</span>(<span class="fu">sort</span>(<span class="fu">unique</span>(samp)), <span class="at">collapse =</span> <span class="st">", "</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb68-15"><a href="#cb68-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="dv">2021</span>)</span>
+<span id="cb68-16"><a href="#cb68-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-17"><a href="#cb68-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine both years for an overview, if needed</span></span>
+<span id="cb68-18"><a href="#cb68-18" aria-hidden="true" tabindex="-1"></a>combined_nests <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(nests_2020, nests_2021)</span>
+<span id="cb68-19"><a href="#cb68-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-20"><a href="#cb68-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the tables for 2020 and 2021</span></span>
+<span id="cb68-21"><a href="#cb68-21" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(nests_2020, <span class="at">caption =</span> <span class="st">"Nests and Sampling Periods for 2020"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<caption>Nests and Sampling Periods for 2020</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">nes</th>
+<th style="text-align: left;">sampling_periods</th>
+<th style="text-align: right;">year</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">109</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">12</td>
+<td style="text-align: left;">1, 2</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">143</td>
+<td style="text-align: left;">1, 2</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">147</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">157</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">160</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1901</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1907</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1908</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2018</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">230</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">234</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">236</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">240</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">300</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">301b</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">304</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">305</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">34</td>
+<td style="text-align: left;">1, 2</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">35</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">40</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">802</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">901</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">910</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">911</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">952</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">973</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">974b</td>
+<td style="text-align: left;">1, 3</td>
+<td style="text-align: right;">2020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A02</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">2020</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(nests_2021, <span class="at">caption =</span> <span class="st">"Nests and Sampling Periods for 2021"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<caption>Nests and Sampling Periods for 2021</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">nes</th>
+<th style="text-align: left;">sampling_periods</th>
+<th style="text-align: right;">year</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">109</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">12</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">143</td>
+<td style="text-align: left;">1, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">147</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">157</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">160</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1901</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1907</td>
+<td style="text-align: left;">1, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1908</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2018</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">230</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">234</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">236</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">240</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">300</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">301b</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">304</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">305</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">34</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">35</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">802</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">901</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">910</td>
+<td style="text-align: left;">2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">911</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">952</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">974b</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">2021</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A02</td>
+<td style="text-align: left;">1, 2, 3</td>
+<td style="text-align: right;">2021</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save each year's table to a CSV file</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(nests_2020, <span class="fu">here</span>(<span class="st">"4 Results"</span>, <span class="st">"Tables"</span>, <span class="st">"nests_2020.csv"</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(nests_2021, <span class="fu">here</span>(<span class="st">"4 Results"</span>, <span class="st">"Tables"</span>, <span class="st">"nests_2021.csv"</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(combined_nests, <span class="fu">here</span>(<span class="st">"4 Results"</span>, <span class="st">"Tables"</span>, <span class="st">"nests_20202021.csv"</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>First we want to make a table to take a quick look at a few variables that will be important later on.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="ot">&lt;-</span> stork_AMR_clean <span class="sc">%&gt;%</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, age, nsuccess, mean_lui, Burden_inv10, MDR) <span class="sc">%&gt;%</span></span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>table1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">id</th>
+<th style="text-align: right;">age</th>
+<th style="text-align: right;">nsuccess</th>
+<th style="text-align: right;">mean_lui</th>
+<th style="text-align: right;">Burden_inv10</th>
+<th style="text-align: right;">MDR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">55</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.3241710</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">57</td>
+<td style="text-align: right;">9.0</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0602377</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">51</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0001886</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">29</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0006300</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">27</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0177220</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">9</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0219479</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">35</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0019082</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">39</td>
+<td style="text-align: right;">2.5</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0010498</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">33</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.5011872</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0003706</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0023364</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">23</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0005397</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">15</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">50.4349511</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">43</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">50.2772127</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">17</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0024587</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">37</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.6332830</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">25</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0697683</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">21</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0123157</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">19</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0204906</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">41</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0161777</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">49</td>
+<td style="text-align: right;">9.0</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0019953</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">47</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.3187385</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">31</td>
+<td style="text-align: right;">16.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0079512</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">7</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.3981072</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">13</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">3.1635366</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">45</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0025129</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">53</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0796214</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">61</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0100255</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0063112</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">11</td>
+<td style="text-align: right;">12.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0007975</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">59</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0251347</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">69</td>
+<td style="text-align: right;">9.0</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.2002033</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">105</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0398329</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">87</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0798839</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">85</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0039879</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">115</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0682076</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">97</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0005777</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">101</td>
+<td style="text-align: right;">2.5</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0167250</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">91</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0318479</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">117</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.5149805</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">77</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">27.1806027</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">89</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0798557</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">79</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0102685</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">103</td>
+<td style="text-align: right;">9.0</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0030626</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">71</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">5.8062006</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">83</td>
+<td style="text-align: right;">16.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">25.6862807</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">81</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.8710225</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">111</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.1258925</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">75</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">50.1187234</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">73</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.8093639</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">63</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">7.9830931</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">113</td>
+<td style="text-align: right;">12.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">20.0082828</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">213</td>
+<td style="text-align: right;">11.0</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">0.0555560</td>
+<td style="text-align: right;">7.9432823</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">267</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">0.1691774</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">215</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">0.0479198</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">269</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">0.2777780</td>
+<td style="text-align: right;">1.5101141</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">203</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.1155133</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">207</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.2777778</td>
+<td style="text-align: right;">39.9692064</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">265</td>
+<td style="text-align: right;">13.5</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.0833333</td>
+<td style="text-align: right;">63.6083189</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">275</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">2.2664036</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">285</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">20.0157189</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">219</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">0.2933877</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">235</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.1111111</td>
+<td style="text-align: right;">2.4249923</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">257</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">0.1944444</td>
+<td style="text-align: right;">0.0251189</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">217</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">0.2222220</td>
+<td style="text-align: right;">1.4941090</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">259</td>
+<td style="text-align: right;">8.0</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">0.1666670</td>
+<td style="text-align: right;">63.0957344</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">237</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">68.1176068</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">261</td>
+<td style="text-align: right;">20.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.1666670</td>
+<td style="text-align: right;">108.1017717</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">211</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.1666667</td>
+<td style="text-align: right;">3.4333562</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">263</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">0.2777780</td>
+<td style="text-align: right;">2.5118864</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">279</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">0.1111111</td>
+<td style="text-align: right;">0.5106964</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">227</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">126.2915936</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">231</td>
+<td style="text-align: right;">22.0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0555556</td>
+<td style="text-align: right;">1.4246823</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">275b</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">7.0060963</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">243</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">0.0555560</td>
+<td style="text-align: right;">6.9763340</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">223</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">90.0637808</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">245</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.0555560</td>
+<td style="text-align: right;">1.1221603</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">221</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">80.0637808</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">249</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">0.0555560</td>
+<td style="text-align: right;">1.4174147</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">301</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">0.0555556</td>
+<td style="text-align: right;">0.0189929</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">303</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">0.2222220</td>
+<td style="text-align: right;">3.5801555</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">305</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.1111111</td>
+<td style="text-align: right;">1.0000000</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">343</td>
+<td style="text-align: right;">20.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.1666670</td>
+<td style="text-align: right;">0.0602925</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">317</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">7.0071347</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">313</td>
+<td style="text-align: right;">13.5</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.0833333</td>
+<td style="text-align: right;">81.4328235</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">319</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">0.1111111</td>
+<td style="text-align: right;">20.0785157</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">233</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">128.4044276</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">205</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">0.4444440</td>
+<td style="text-align: right;">1.5215474</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">299</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.1666667</td>
+<td style="text-align: right;">100.8463331</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">297</td>
+<td style="text-align: right;">11.0</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">0.0555556</td>
+<td style="text-align: right;">6.0118723</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">295</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">1.6483191</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">291</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.2777778</td>
+<td style="text-align: right;">5.0619911</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">357</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">0.2777780</td>
+<td style="text-align: right;">0.0301035</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">355</td>
+<td style="text-align: right;">8.0</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">0.1666670</td>
+<td style="text-align: right;">7.9830931</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">351</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">2.1494772</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">337</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">199.5660422</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">333</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">0.0555560</td>
+<td style="text-align: right;">0.1724969</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">329</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.0395661</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">345</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.0304552</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">309</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.0555560</td>
+<td style="text-align: right;">0.1290548</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">289</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">0.4444440</td>
+<td style="text-align: right;">125.8925412</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">910</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">0.2777780</td>
+<td style="text-align: right;">120.0378688</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">236</td>
+<td style="text-align: right;">8.0</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">0.1666670</td>
+<td style="text-align: right;">13.5092472</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">300</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.1111111</td>
+<td style="text-align: right;">0.0975904</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">802</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">100.5011872</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">952</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">101.2589254</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1901</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">0.0555560</td>
+<td style="text-align: right;">1.5042509</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">35</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.1666667</td>
+<td style="text-align: right;">132.2168171</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">34</td>
+<td style="text-align: right;">11.0</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">0.0555560</td>
+<td style="text-align: right;">53.2810010</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1907</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">0.1944444</td>
+<td style="text-align: right;">10.0000000</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">143</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">1.8110977</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">157</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.2777778</td>
+<td style="text-align: right;">0.8448965</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">301</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">0.4444440</td>
+<td style="text-align: right;">0.4741706</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">109</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">0.2222220</td>
+<td style="text-align: right;">6.3095734</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">234</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.0555560</td>
+<td style="text-align: right;">82.4280858</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">240</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">4.0721941</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2018</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">5.8686913</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">901</td>
+<td style="text-align: right;">20.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.1666670</td>
+<td style="text-align: right;">63.0957344</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A02</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">2.9167881</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1908</td>
+<td style="text-align: right;">13.5</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.0833333</td>
+<td style="text-align: right;">0.4480829</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">911</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">0.2777780</td>
+<td style="text-align: right;">73.6951700</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">12</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">0.1533745</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">10</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">0.1111111</td>
+<td style="text-align: right;">7.9432823</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">65</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.5747171</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">305</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">3.9870480</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">304</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">0.0555556</td>
+<td style="text-align: right;">100.8821460</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Plotting total Burden outcomes from both years.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>stork_AMR_clean <span class="sc">%&gt;%</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">as.factor</span>(yr), Burden_inv10))<span class="sc">+</span></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Plotting total Burden outcomes across all sampling periods.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>stork_AMR_clean <span class="sc">%&gt;%</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">as.factor</span>(samp), Burden_inv10))<span class="sc">+</span></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>pBurden <span class="ot">&lt;-</span> stork_AMR_clean <span class="sc">%&gt;%</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">as.factor</span>(samp), Burden_inv10)) <span class="sc">+</span></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  <span class="co"># Add jittered points with slight transparency</span></span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">'Total Resistance Gene Burden (Inverse Log10)'</span>) <span class="sc">+</span></span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">''</span>) <span class="sc">+</span></span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"1"</span> <span class="ot">=</span> <span class="st">"Sampling Period 1"</span>, <span class="st">"2"</span> <span class="ot">=</span> <span class="st">"Sampling Period Period 2"</span>, <span class="st">"3"</span> <span class="ot">=</span> <span class="st">"Sampling Period 3"</span>))  </span>
+<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the plot</span></span>
+<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a>pBurden</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the plot as TIFF using ggsave</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="fu">here</span>(<span class="st">'4 Results'</span>, <span class="st">'Figures'</span>, <span class="st">'Burden_Sample.tiff'</span>), </span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot =</span> pBurden, <span class="at">device =</span> <span class="st">"tiff"</span>, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Sampling period and MDR</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>summary_stats <span class="ot">&lt;-</span> stork_AMR_clean <span class="sc">%&gt;%</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(samp) <span class="sc">%&gt;%</span></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_MDR =</span> <span class="fu">mean</span>(MDR),  <span class="co"># Proportion of MDR = 1</span></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">se_MDR =</span> <span class="fu">sqrt</span>(mean_MDR <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> mean_MDR) <span class="sc">/</span> <span class="fu">n</span>())  <span class="co"># Standard error of the proportion</span></span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot with box plot and error bars</span></span>
+<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a>pMDR <span class="ot">&lt;-</span> stork_AMR_clean <span class="sc">%&gt;%</span></span>
+<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.factor</span>(samp), <span class="at">y =</span> MDR)) <span class="sc">+</span></span>
+<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span>  <span class="co"># Single box plot per samp</span></span>
+<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">height =</span> <span class="dv">0</span>), </span>
+<span id="cb76-13"><a href="#cb76-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span>  <span class="co"># Add raw data points</span></span>
+<span id="cb76-14"><a href="#cb76-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">data =</span> summary_stats,  <span class="co"># Error bars on top</span></span>
+<span id="cb76-15"><a href="#cb76-15" aria-hidden="true" tabindex="-1"></a>                <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.factor</span>(samp), </span>
+<span id="cb76-16"><a href="#cb76-16" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ymin =</span> mean_MDR <span class="sc">-</span> se_MDR, </span>
+<span id="cb76-17"><a href="#cb76-17" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ymax =</span> mean_MDR <span class="sc">+</span> se_MDR), </span>
+<span id="cb76-18"><a href="#cb76-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="fl">0.8</span>, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> </span>
+<span id="cb76-19"><a href="#cb76-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> summary_stats,  <span class="co"># Mean points on top</span></span>
+<span id="cb76-20"><a href="#cb76-20" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.factor</span>(samp), <span class="at">y =</span> mean_MDR), </span>
+<span id="cb76-21"><a href="#cb76-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb76-22"><a href="#cb76-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">'Multi-Drug Resistance'</span>) <span class="sc">+</span></span>
+<span id="cb76-23"><a href="#cb76-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">''</span>) <span class="sc">+</span></span>
+<span id="cb76-24"><a href="#cb76-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"1"</span> <span class="ot">=</span> <span class="st">"Sampling Period 1"</span>, </span>
+<span id="cb76-25"><a href="#cb76-25" aria-hidden="true" tabindex="-1"></a>                              <span class="st">"2"</span> <span class="ot">=</span> <span class="st">"Sampling Period 2"</span>, </span>
+<span id="cb76-26"><a href="#cb76-26" aria-hidden="true" tabindex="-1"></a>                              <span class="st">"3"</span> <span class="ot">=</span> <span class="st">"Sampling Period 3"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the plot</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>pMDR</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the plot as TIFF using ggsave</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="fu">here</span>(<span class="st">'4 Results'</span>, <span class="st">'Figures'</span>, <span class="st">'MDR_Sample.tiff'</span>), </span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot =</span> pMDR, <span class="at">device =</span> <span class="st">"tiff"</span>, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Total Number of AMR Gene Classes over both years.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>pSB <span class="ot">&lt;-</span> stork_AMR_clean <span class="sc">%&gt;%</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">as.factor</span>(yr), sum))<span class="sc">+</span></span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">'Breeding Season Sampling Period'</span>) <span class="sc">+</span></span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span> (<span class="st">'Antimicrobial Gene Resistance Burden'</span>)</span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-7"><a href="#cb80-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the plot as TIFF using ggsave</span></span>
+<span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="fu">here</span>(<span class="st">'4 Results'</span>, <span class="st">'Figures'</span>, <span class="st">'Prelim_BurdenvsSamp.tiff'</span>), </span>
+<span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot =</span> pSB, <span class="at">device =</span> <span class="st">"tiff"</span>, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Sample vs Total Number of AMR Gene Classes</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>stork_AMR_clean <span class="sc">%&gt;%</span></span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">as.factor</span>(samp), sum))<span class="sc">+</span></span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Plot Gene Burden vs age of bird</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>stork_AMR_clean <span class="sc">%&gt;%</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(age, Burden_Log10))<span class="sc">+</span></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 30 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Plot MDR vs age of bird</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>stork_AMR_clean <span class="sc">%&gt;%</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">as.factor</span>(MDR), age))<span class="sc">+</span></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 30 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Plot Gene Burden vs age of bird</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>stork_AMR_clean <span class="sc">%&gt;%</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(nsuccess, Burden_Log10))<span class="sc">+</span></span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Plot MDR vs nest success</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>stork_AMR_clean <span class="sc">%&gt;%</span></span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">as.factor</span>(MDR), nsuccess))<span class="sc">+</span></span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Now we will make a table filtering out 2020.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>table2 <span class="ot">&lt;-</span> stork_AMR_2021 <span class="sc">%&gt;%</span></span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, age, nsuccess, mean_lui, Burden_Log10, MDR) <span class="sc">%&gt;%</span></span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>table2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">id</th>
+<th style="text-align: right;">age</th>
+<th style="text-align: right;">nsuccess</th>
+<th style="text-align: right;">mean_lui</th>
+<th style="text-align: right;">Burden_Log10</th>
+<th style="text-align: right;">MDR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">213</td>
+<td style="text-align: right;">11.0</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">0.0555560</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">267</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">-20.1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">215</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">-29.0</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">269</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">0.2777780</td>
+<td style="text-align: right;">-0.5</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">203</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-18.6</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">207</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.2777778</td>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">265</td>
+<td style="text-align: right;">13.5</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.0833333</td>
+<td style="text-align: right;">-2.2</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">275</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-2.0</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">285</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">219</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">-9.5</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">235</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.1111111</td>
+<td style="text-align: right;">-1.6</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">257</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">0.1944444</td>
+<td style="text-align: right;">-1.6</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">217</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">0.2222220</td>
+<td style="text-align: right;">-5.5</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">259</td>
+<td style="text-align: right;">8.0</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">0.1666670</td>
+<td style="text-align: right;">1.8</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">237</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">261</td>
+<td style="text-align: right;">20.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.1666670</td>
+<td style="text-align: right;">2.1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">211</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.1666667</td>
+<td style="text-align: right;">-3.2</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">263</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">0.2777780</td>
+<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">279</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">0.1111111</td>
+<td style="text-align: right;">-3.3</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">227</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.7</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">231</td>
+<td style="text-align: right;">22.0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0555556</td>
+<td style="text-align: right;">-29.4</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">275b</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">243</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">0.0555560</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">223</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">2.7</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">245</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.0555560</td>
+<td style="text-align: right;">-17.3</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">221</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.7</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">249</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">0.0555560</td>
+<td style="text-align: right;">-0.7</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">301</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">0.0555556</td>
+<td style="text-align: right;">-6.7</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">303</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">0.2222220</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">305</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.1111111</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">343</td>
+<td style="text-align: right;">20.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.1666670</td>
+<td style="text-align: right;">-42.6</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">317</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">313</td>
+<td style="text-align: right;">13.5</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.0833333</td>
+<td style="text-align: right;">1.9</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">319</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">0.1111111</td>
+<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">233</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">2.5</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">205</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">0.4444440</td>
+<td style="text-align: right;">-1.8</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">299</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.1666667</td>
+<td style="text-align: right;">-0.1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">297</td>
+<td style="text-align: right;">11.0</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">0.0555556</td>
+<td style="text-align: right;">0.7</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">295</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">-4.9</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">291</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.2777778</td>
+<td style="text-align: right;">-0.6</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">357</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">0.2777780</td>
+<td style="text-align: right;">-15.3</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">355</td>
+<td style="text-align: right;">8.0</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">0.1666670</td>
+<td style="text-align: right;">-0.5</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">351</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-17.3</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">337</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">333</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">0.0555560</td>
+<td style="text-align: right;">-14.3</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">329</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-3.6</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">345</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-8.7</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">309</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.0555560</td>
+<td style="text-align: right;">-3.4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">289</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">0.4444440</td>
+<td style="text-align: right;">2.1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">910</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">0.2777780</td>
+<td style="text-align: right;">3.4</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">236</td>
+<td style="text-align: right;">8.0</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">0.1666670</td>
+<td style="text-align: right;">1.7</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">300</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.1111111</td>
+<td style="text-align: right;">-4.6</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">802</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.7</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">952</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">2.1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1901</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">0.0555560</td>
+<td style="text-align: right;">-39.8</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">35</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.1666667</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">34</td>
+<td style="text-align: right;">11.0</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">0.0555560</td>
+<td style="text-align: right;">2.2</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1907</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">0.1944444</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">143</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">-28.4</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">157</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.2777778</td>
+<td style="text-align: right;">-20.6</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">301</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">0.4444440</td>
+<td style="text-align: right;">-25.2</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">109</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">0.2222220</td>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">234</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.0555560</td>
+<td style="text-align: right;">2.2</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">240</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-1.5</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2018</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-16.5</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">901</td>
+<td style="text-align: right;">20.0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.1666670</td>
+<td style="text-align: right;">1.8</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A02</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-7.9</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1908</td>
+<td style="text-align: right;">13.5</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.0833333</td>
+<td style="text-align: right;">-8.6</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">911</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">0.2777780</td>
+<td style="text-align: right;">2.7</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">12</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">-25.8</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">10</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">0.1111111</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">305</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-4.5</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">304</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">0.0555556</td>
+<td style="text-align: right;">1.2</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Plotting mean landfill use index vs nest success</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>stork_AMR_2021 <span class="sc">%&gt;%</span></span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(mean_lui, nsuccess))<span class="sc">+</span></span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Plotting mean landfill use index vs nest success, grouped by MDR outcome.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>pLN <span class="ot">&lt;-</span> stork_AMR_clean<span class="sc">%&gt;%</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(mean_lui, nsuccess, <span class="at">color=</span><span class="fu">as.factor</span>(MDR)))<span class="sc">+</span></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)<span class="sc">+</span></span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">'Nest Success %'</span>) <span class="sc">+</span></span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span> (<span class="st">'Landfill Use'</span>) <span class="sc">+</span></span>
+<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>),   <span class="co"># Define specific x-axis breaks</span></span>
+<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"None (0)"</span>, <span class="st">"Mild (0.1)"</span>, <span class="st">"Moderate (0.2)"</span>, <span class="st">"High (0.3)"</span>, <span class="st">"Very High (0.4)"</span>))  <span class="sc">+</span></span>
+<span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">"Multi-Drug Resistance"</span>,</span>
+<span id="cb90-10"><a href="#cb90-10" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0"</span> <span class="ot">=</span> <span class="st">"Absent"</span>, <span class="st">"1"</span> <span class="ot">=</span> <span class="st">"Present"</span>),  <span class="co"># Custom labels for the legend</span></span>
+<span id="cb90-11"><a href="#cb90-11" aria-hidden="true" tabindex="-1"></a>                     <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"0"</span> <span class="ot">=</span> <span class="st">"darkred"</span>, <span class="st">"1"</span> <span class="ot">=</span> <span class="st">"forestgreen"</span>))  <span class="co"># Custom colors for each level</span></span>
+<span id="cb90-12"><a href="#cb90-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-13"><a href="#cb90-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-14"><a href="#cb90-14" aria-hidden="true" tabindex="-1"></a>pLN</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the plot as a TIFF file</span></span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="fu">here</span>(<span class="st">"4 Results"</span>, <span class="st">"Figures"</span>, <span class="st">"RAWluiVSns.tiff"</span>), </span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot =</span> pLN, </span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">"tiff"</span>, </span>
+<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">10</span>, </span>
+<span id="cb91-6"><a href="#cb91-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">height =</span> <span class="dv">6</span>, </span>
+<span id="cb91-7"><a href="#cb91-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">dpi =</span> <span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Plotting mean landfill use index vs nest success, grouped by MDR outcome.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>stork_AMR_2021<span class="sc">%&gt;%</span></span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(mean_lui, nsuccess, <span class="at">color=</span>Burden_inv10))<span class="sc">+</span></span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Plotting MDR vs mean landfill use index</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>pLM <span class="ot">&lt;-</span> stork_AMR_2021 <span class="sc">%&gt;%</span></span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">as.factor</span>(MDR), mean_lui))<span class="sc">+</span></span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  <span class="co"># Add jittered points with transparency</span></span>
+<span id="cb93-5"><a href="#cb93-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">'Landfill Use'</span>) <span class="sc">+</span></span>
+<span id="cb93-6"><a href="#cb93-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span> (<span class="st">'Multi-Drug Resistance'</span>)<span class="sc">+</span></span>
+<span id="cb93-7"><a href="#cb93-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0"</span> <span class="ot">=</span> <span class="st">"Absent"</span>, <span class="st">"1"</span> <span class="ot">=</span> <span class="st">"Present"</span>))  <span class="sc">+</span>  <span class="co"># Map 0 to "No" and 1 to "Yes"</span></span>
+<span id="cb93-8"><a href="#cb93-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>),   <span class="co"># Define specific y-axis breaks</span></span>
+<span id="cb93-9"><a href="#cb93-9" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"None (0)"</span>, <span class="st">"Mild (0.1)"</span>, <span class="st">"Moderate (0.2)"</span>, <span class="st">"High (0.3)"</span>, <span class="st">"Very High (0.4)"</span>))  <span class="co"># Custom labels for y-axis</span></span>
+<span id="cb93-10"><a href="#cb93-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-11"><a href="#cb93-11" aria-hidden="true" tabindex="-1"></a>pLM</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="co">#save as tiff</span></span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tiff</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">'4 Results'</span>, <span class="st">'Figures'</span>, <span class="st">'Prelim_LUIvsMD.tiff'</span>))</span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>pLM</span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>png 
+  2 </code></pre>
+</div>
+</div>
+<p>Plotting Burden vs mean landfill use index</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>stork_AMR_2021 <span class="sc">%&gt;%</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(mean_lui, Burden_Log10))<span class="sc">+</span></span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>There seems to be a slight decrease in the presence of MDR and increase in the burden of AMR genes as landfill use index increases. Otherwise, there are not many apparent trends in the data off the bat. This exploration will help us as we move forward into a more robust statistical analysis.</p>
+<p>Lets go back and just visulaize raw data. Gene Heat Map Log10 tranform data first</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define gene columns for log transformation</span></span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>gene_columns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"TET..A"</span>, <span class="st">"TET..B"</span>, <span class="st">"TET..Y"</span>, <span class="st">"TET..K"</span>, <span class="st">"TET..M"</span>, </span>
+<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"TET..Q"</span>, <span class="st">"TET..S"</span>, <span class="st">"TET..W"</span>, <span class="st">"sulI"</span>, <span class="st">"sulII"</span>, <span class="st">"str"</span>, </span>
+<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"aadA"</span>, <span class="st">"catI"</span>, <span class="st">"catII"</span>, <span class="st">"ermB"</span>, <span class="st">"ermF"</span>, <span class="st">"mecA"</span>, <span class="st">"mcr.1"</span>, </span>
+<span id="cb98-5"><a href="#cb98-5" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"qnrB"</span>, <span class="st">"blaTEM"</span>, <span class="st">"qnrS"</span>)</span>
+<span id="cb98-6"><a href="#cb98-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-7"><a href="#cb98-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-8"><a href="#cb98-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert data to long format using the specified gene columns</span></span>
+<span id="cb98-9"><a href="#cb98-9" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> stork_AMR_clean <span class="sc">%&gt;%</span></span>
+<span id="cb98-10"><a href="#cb98-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb98-11"><a href="#cb98-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">all_of</span>(gene_columns),</span>
+<span id="cb98-12"><a href="#cb98-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"Gene"</span>,</span>
+<span id="cb98-13"><a href="#cb98-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"Abundance"</span></span>
+<span id="cb98-14"><a href="#cb98-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb98-15"><a href="#cb98-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-16"><a href="#cb98-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Separate data by year</span></span>
+<span id="cb98-17"><a href="#cb98-17" aria-hidden="true" tabindex="-1"></a>data_2020 <span class="ot">&lt;-</span> data_long <span class="sc">%&gt;%</span> <span class="fu">filter</span>(yr <span class="sc">==</span> <span class="dv">2020</span>)</span>
+<span id="cb98-18"><a href="#cb98-18" aria-hidden="true" tabindex="-1"></a>data_2021 <span class="ot">&lt;-</span> data_long <span class="sc">%&gt;%</span> <span class="fu">filter</span>(yr <span class="sc">==</span> <span class="dv">2021</span>)</span>
+<span id="cb98-19"><a href="#cb98-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-20"><a href="#cb98-20" aria-hidden="true" tabindex="-1"></a>create_and_save_heatmap <span class="ot">&lt;-</span> <span class="cf">function</span>(data, year, filepath) {</span>
+<span id="cb98-21"><a href="#cb98-21" aria-hidden="true" tabindex="-1"></a>  heatmap <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> nes, <span class="at">y =</span> Gene, <span class="at">fill =</span> Abundance)) <span class="sc">+</span></span>
+<span id="cb98-22"><a href="#cb98-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_tile</span>(<span class="at">na.rm =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="co"># Ensures NA values are kept</span></span>
+<span id="cb98-23"><a href="#cb98-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>samp, <span class="at">scales =</span> <span class="st">"free"</span>, <span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb98-24"><a href="#cb98-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"Gene Abundance across Sampling Periods for"</span>, year),</span>
+<span id="cb98-25"><a href="#cb98-25" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">"Nest ID"</span>, <span class="at">y =</span> <span class="st">"Resistance Gene"</span>) <span class="sc">+</span></span>
+<span id="cb98-26"><a href="#cb98-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Use a two-color gradient with NA values as white</span></span>
+<span id="cb98-27"><a href="#cb98-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradient</span>(</span>
+<span id="cb98-28"><a href="#cb98-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">low =</span> <span class="st">"dodgerblue2"</span>, </span>
+<span id="cb98-29"><a href="#cb98-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">high =</span> <span class="st">"red"</span>, </span>
+<span id="cb98-30"><a href="#cb98-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.value =</span> <span class="st">"white"</span>, <span class="co"># Set NA values to white</span></span>
+<span id="cb98-31"><a href="#cb98-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">name =</span> <span class="st">"Abundance"</span></span>
+<span id="cb98-32"><a href="#cb98-32" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb98-33"><a href="#cb98-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb98-34"><a href="#cb98-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_discrete</span>(<span class="at">guide =</span> <span class="fu">guide_axis</span>(<span class="at">n.dodge =</span> <span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb98-35"><a href="#cb98-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">8</span>))</span>
+<span id="cb98-36"><a href="#cb98-36" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb98-37"><a href="#cb98-37" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Save the plot as a TIFF file</span></span>
+<span id="cb98-38"><a href="#cb98-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggsave</span>(<span class="at">filename =</span> filepath, <span class="at">plot =</span> heatmap, <span class="at">device =</span> <span class="st">"tiff"</span>, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span>
+<span id="cb98-39"><a href="#cb98-39" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb98-40"><a href="#cb98-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-41"><a href="#cb98-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Save heatmaps for each year</span></span>
+<span id="cb98-42"><a href="#cb98-42" aria-hidden="true" tabindex="-1"></a><span class="fu">create_and_save_heatmap</span>(data_2020, <span class="st">"2020"</span>, <span class="fu">here</span>(<span class="st">'4 Results'</span>, <span class="st">'Figures'</span>, <span class="st">'Prelim_LUIvsMD_2020.tiff'</span>))</span>
+<span id="cb98-43"><a href="#cb98-43" aria-hidden="true" tabindex="-1"></a><span class="fu">create_and_save_heatmap</span>(data_2021, <span class="st">"2021"</span>, <span class="fu">here</span>(<span class="st">'4 Results'</span>, <span class="st">'Figures'</span>, <span class="st">'Prelim_LUIvsMD_2021.tiff'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Lets just quickly review normality of the Burden Variables/Distribution</p>
+<p>Must use GLMM for both</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset relevant variables</span></span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>burden_data <span class="ot">&lt;-</span> stork_AMR_clean <span class="sc">%&gt;%</span> <span class="fu">select</span>(Burden_Log10, Burden_inv10)</span>
+<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform Shapiro-Wilk test for normality</span></span>
+<span id="cb99-5"><a href="#cb99-5" aria-hidden="true" tabindex="-1"></a>shapiro_log10 <span class="ot">&lt;-</span> <span class="fu">shapiro.test</span>(burden_data<span class="sc">$</span>Burden_Log10)</span>
+<span id="cb99-6"><a href="#cb99-6" aria-hidden="true" tabindex="-1"></a>shapiro_inv10 <span class="ot">&lt;-</span> <span class="fu">shapiro.test</span>(burden_data<span class="sc">$</span>Burden_inv10)</span>
+<span id="cb99-7"><a href="#cb99-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-8"><a href="#cb99-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform Kolmogorov-Smirnov test for normality</span></span>
+<span id="cb99-9"><a href="#cb99-9" aria-hidden="true" tabindex="-1"></a>ks_log10 <span class="ot">&lt;-</span> <span class="fu">ks.test</span>(burden_data<span class="sc">$</span>Burden_Log10, <span class="st">"pnorm"</span>, <span class="fu">mean</span>(burden_data<span class="sc">$</span>Burden_Log10, <span class="at">na.rm=</span><span class="cn">TRUE</span>), <span class="fu">sd</span>(burden_data<span class="sc">$</span>Burden_Log10, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in ks.test.default(burden_data$Burden_Log10, "pnorm",
+mean(burden_data$Burden_Log10, : ties should not be present for the
+Kolmogorov-Smirnov test</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>ks_inv10 <span class="ot">&lt;-</span> <span class="fu">ks.test</span>(burden_data<span class="sc">$</span>Burden_inv10, <span class="st">"pnorm"</span>, <span class="fu">mean</span>(burden_data<span class="sc">$</span>Burden_inv10, <span class="at">na.rm=</span><span class="cn">TRUE</span>), <span class="fu">sd</span>(burden_data<span class="sc">$</span>Burden_inv10, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in ks.test.default(burden_data$Burden_inv10, "pnorm",
+mean(burden_data$Burden_inv10, : ties should not be present for the
+Kolmogorov-Smirnov test</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print test results</span></span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Shapiro-Wilk Test Results:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Shapiro-Wilk Test Results:</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(shapiro_log10)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  burden_data$Burden_Log10
+W = 0.80712, p-value = 1.425e-11</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(shapiro_inv10)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  burden_data$Burden_inv10
+W = 0.58823, p-value &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Kolmogorov-Smirnov Test Results:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Kolmogorov-Smirnov Test Results:</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ks_log10)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Asymptotic one-sample Kolmogorov-Smirnov test
+
+data:  burden_data$Burden_Log10
+D = 0.16959, p-value = 0.001423
+alternative hypothesis: two-sided</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ks_inv10)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Asymptotic one-sample Kolmogorov-Smirnov test
+
+data:  burden_data$Burden_inv10
+D = 0.36851, p-value = 2.776e-15
+alternative hypothesis: two-sided</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate histograms for visualization</span></span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(stork_AMR_clean, <span class="fu">aes</span>(<span class="at">x =</span> Burden_Log10)) <span class="sc">+</span></span>
+<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb115-5"><a href="#cb115-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Histogram and Density Plot: Burden_Log10"</span>) <span class="sc">+</span></span>
+<span id="cb115-6"><a href="#cb115-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb115-7"><a href="#cb115-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb115-8"><a href="#cb115-8" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(stork_AMR_clean, <span class="fu">aes</span>(<span class="at">x =</span> Burden_inv10)) <span class="sc">+</span></span>
+<span id="cb115-9"><a href="#cb115-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb115-10"><a href="#cb115-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb115-11"><a href="#cb115-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Histogram and Density Plot: Burden_inv10"</span>) <span class="sc">+</span></span>
+<span id="cb115-12"><a href="#cb115-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb115-13"><a href="#cb115-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb115-14"><a href="#cb115-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate Q-Q plots for normality assessment</span></span>
+<span id="cb115-15"><a href="#cb115-15" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(stork_AMR_clean, <span class="fu">aes</span>(<span class="at">sample =</span> Burden_Log10)) <span class="sc">+</span></span>
+<span id="cb115-16"><a href="#cb115-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq</span>() <span class="sc">+</span></span>
+<span id="cb115-17"><a href="#cb115-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>() <span class="sc">+</span></span>
+<span id="cb115-18"><a href="#cb115-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Q-Q Plot: Burden_Log10"</span>) <span class="sc">+</span></span>
+<span id="cb115-19"><a href="#cb115-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb115-20"><a href="#cb115-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb115-21"><a href="#cb115-21" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(stork_AMR_clean, <span class="fu">aes</span>(<span class="at">sample =</span> Burden_inv10)) <span class="sc">+</span></span>
+<span id="cb115-22"><a href="#cb115-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq</span>() <span class="sc">+</span></span>
+<span id="cb115-23"><a href="#cb115-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>() <span class="sc">+</span></span>
+<span id="cb115-24"><a href="#cb115-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Q-Q Plot: Burden_inv10"</span>) <span class="sc">+</span></span>
+<span id="cb115-25"><a href="#cb115-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb115-26"><a href="#cb115-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb115-27"><a href="#cb115-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the plots</span></span>
+<span id="cb115-28"><a href="#cb115-28" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
+ℹ Please use `after_stat(density)` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-25-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-25-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Data_Exploratory_Analysis_files/figure-html/unnamed-chunk-25-4.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

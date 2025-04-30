@@ -1,0 +1,47 @@
+---
+title: "StudySiteMap"
+author: "Raquel Francisco"
+date: "2024-10-31"
+output: html_document
+---
+Packages
+```{r setup, include=FALSE}
+
+library(tidyverse)
+library(here)
+library(sf)
+library(ggplot2)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(raster)
+```
+
+#Create Study site map
+GPS point: 40°44'28"N 3°49'06"W
+
+Prado Herrero Farm
+
+Dot on the iberian penisula with dot
+```{r}
+
+# Define the coordinates for Prado Herrero Farm
+coords <- data.frame(lon = -3.8183, lat = 40.7411)
+
+# Convert the coordinates to an sf point object
+farm_point <- st_as_sf(coords, coords = c("lon", "lat"), crs = 4326)
+
+# Get map data for Spain and Portugal
+iberia_map <- ne_countries(scale = "medium", country = c("Spain", "Portugal"), returnclass = "sf")
+
+# Plot the map
+iberian_map_plot <- ggplot(data = iberia_map) +
+  geom_sf(fill = "grey91", color = "black") +  # Map color for Iberian countries
+  geom_sf(data = farm_point, color = "black", size = 3) +  # Plot Prado Herrero Farm
+  coord_sf(xlim = c(-10, 4), ylim = c(35, 44), expand = FALSE) +  # Adjust for Iberian Peninsula view
+  labs(title = "Location of Prado Herrero Farm on the Iberian Peninsula") +
+  theme_minimal()
+
+# Define the file path and save as TIFF
+ggsave(filename = here("4 Results", "Figures", "iberian_map.tiff"), plot = iberian_map_plot, width = 8, height = 6, dpi = 300)
+
+```

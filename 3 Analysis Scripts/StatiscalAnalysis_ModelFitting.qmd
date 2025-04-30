@@ -10,24 +10,33 @@ editor: visual
 
 ```{r, warning=FALSE, message=FALSE}
 #load needed packages. make sure they are installed.
+library(tidyverse)
 library(ggplot2) #for plotting
 library(ggeffects) #to explore plots  
 library(broom) #for cleaning up output from lm()
 library(broom.mixed) #for cleaning up output from lmer()
 library(here) #for data loading/saving
 library(multilevelmod) #mixed effect models
-library(tidymodels)
+library(parsnip)
 library(lme4)
 library(sjPlot) #to help plot models
 library(performance) #evaluate model fit and performance
 library(see)
 library(cAIC4)
+library(flextable)
+library(officer)
+library(dplyr) #cleaning
+library(patchwork)
+library(tidymodels)
 
-#path to data
-data_location <- here::here("2 Clean Data","stork_AMR_2021.rds")
+#load all data
+stork_AMR_clean <- readRDS(here::here("2 Clean Data","stork_AMR_clean.rds"))
 
-#load data. 
-data <- readRDS(data_location)
+# Subset the dataset for the year 2021
+data <- stork_AMR_clean %>%
+  filter(yr == 2021)
+
+
 ```
 
 ## Data fitting/statistical analysis
@@ -39,255 +48,730 @@ We'll start by fitting two models. We will used mixed-effects models to control 
 We'll start with a single factor repeated measures evaluation the effect of LUI on blaTEM (betalactam) resistence gene burden.
 
 ```{r}
-data(data, package = "lme4")
-
 facet_plot <- data %>% 
-  ggplot(aes(x = samp, y = Burden)) + 
+  ggplot(aes(x = samp, y = Burden_inv10)) + 
   geom_point() + 
   geom_line() +
   facet_wrap(~ nes) 
 facet_plot
 
-png(file = here('5 Manuscript','manuscript','supplement', 'Supplementary_Material_files', 'facet_plot.png'))
-facet_plot
-dev.off() 
+# Use ggsave to save the plot
+ggsave(filename = here('4 Results', 'Figures', 'facet_plot.png'), plot = facet_plot, width = 10, height = 6, dpi = 300)
 ```
 
 No obvious trends...
 
-Build models using lmer and glmer
+Build models using glmer
 
 ```{r}
-lmer_spec <- 
-  linear_reg() %>% 
-  set_engine("lmer")
-
+#MDR
 glmer_spec <- 
   logistic_reg() %>% 
   set_engine("glmer")
-
 ```
 
-Multi-drug resistance (0,1 data) vs All
+Multi-drug resistance (0,1 data) vs Covariates
+Check the varience of the fixed effect (Nest = Nes)
 
 ```{r}
-glmer_fit_null <- 
-  glmer_spec %>% 
-  fit(as.factor(MDR) ~ (1|nes), data = data)
+# Define models (GLMMs with nest (nes) as a random effect)
+glmer_fit_null <- glmer(as.factor(MDR) ~ (1 | nes), 
+                        data = data, 
+                        family = binomial(link = "logit"),
+                        control = glmerControl(optimizer = "bobyqa"))
 
-glmer_fit_global <- 
-  glmer_spec %>% 
-  fit(as.factor(MDR) ~ s.lui + s.age + samp + s.nsuccess +(1|nes), data = data)
+glmer_fit_global <- glmer(as.factor(MDR) ~ s.lui + s.age + samp + s.nsuccess + (1 | nes), 
+                          data = data, 
+                          family = binomial(link = "logit"),
+                          control = glmerControl(optimizer = "bobyqa"))
 
-#Univariate models
-glmer_fit_1 <- 
-  glmer_spec %>% 
-  fit(as.factor(MDR) ~ s.lui +(1|nes), data = data)
+# Univariate Models
+glmer_fit_1 <- glmer(as.factor(MDR) ~ s.lui + (1 | nes), data = data, family = binomial(link = "logit"))
+glmer_fit_2 <- glmer(as.factor(MDR) ~ s.age + (1 | nes), data = data, family = binomial(link = "logit"))
+glmer_fit_3 <- glmer(as.factor(MDR) ~ samp + (1 | nes), data = data, family = binomial(link = "logit"))
+glmer_fit_4 <- glmer(as.factor(MDR) ~ s.nsuccess + (1 | nes), data = data, family = binomial(link = "logit"))
 
-glmer_fit_2 <- 
-  glmer_spec %>% 
-  fit(as.factor(MDR) ~ s.age  +(1|nes), data = data)
+# Multivariate Models
+glmer_fit_5 <- glmer(as.factor(MDR) ~ s.lui + samp + (1 | nes), data = data, family = binomial(link = "logit"))
+glmer_fit_6 <- glmer(as.factor(MDR) ~ s.lui + s.nsuccess + (1 | nes), data = data, family = binomial(link = "logit"))
+glmer_fit_7 <- glmer(as.factor(MDR) ~ samp + s.nsuccess + (1 | nes), data = data, family = binomial(link = "logit"))
+glmer_fit_8 <- glmer(as.factor(MDR) ~ s.lui * s.age + samp + s.nsuccess + (1 | nes), data = data, family = binomial(link = "logit"))
+glmer_fit_9 <- glmer(as.factor(MDR) ~ s.lui + s.age * samp + s.nsuccess + (1 | nes), data = data, family = binomial(link = "logit"))
+glmer_fit_10 <- glmer(as.factor(MDR) ~ s.lui + s.age + samp * s.nsuccess + (1 | nes), data = data, family = binomial(link = "logit"))
+glmer_fit_11 <- glmer(as.factor(MDR) ~ s.lui + s.age + (1 | nes), data = data, family = binomial(link = "logit"))
+glmer_fit_12 <- glmer(as.factor(MDR) ~ s.lui + s.age + s.nsuccess + (1 | nes), data = data, family = binomial(link = "logit"))
 
-glmer_fit_3 <- 
-  glmer_spec %>% 
-  fit(as.factor(MDR) ~ samp +(1|nes), data = data)
+## **Step 2: Check Variance of `nes` for Each Model**
 
-glmer_fit_4 <- 
-  glmer_spec %>% 
-  fit(as.factor(MDR) ~ s.nsuccess +(1|nes), data = data)
+# Create a list of all GLMM models
+glmer_models <- list(
+  glmer_fit_null, glmer_fit_global, glmer_fit_1, glmer_fit_2, glmer_fit_3, 
+  glmer_fit_4, glmer_fit_5, glmer_fit_6, glmer_fit_7, glmer_fit_8, 
+  glmer_fit_9, glmer_fit_10, glmer_fit_11, glmer_fit_12
+)
 
-#Multivariate models
+# Function to check variance of random effect
+check_variance <- function(model, model_name) {
+  variance <- summary(model)$varcor
+  singular <- isSingular(model, tol = 1e-4)
+  
+  return(data.frame(
+    Model = model_name,
+    Variance = ifelse(length(variance) > 0, as.numeric(variance[[1]][1]), NA),
+    Singular = singular
+  ))
+}
 
-glmer_fit_5 <- 
-  glmer_spec %>% 
-  fit(as.factor(MDR) ~ s.lui + samp +(1|nes), data = data)
+# Check variance for all models
+variance_results <- do.call(rbind, 
+                            lapply(seq_along(glmer_models), function(i) {
+                              check_variance(glmer_models[[i]], paste0("Model_", i))
+                            }))
 
-glmer_fit_6 <- 
-  glmer_spec %>% 
-  fit(as.factor(MDR) ~ s.lui + s.nsuccess +(1|nes), data = data)
+# Print results
+print(variance_results)
 
-glmer_fit_7 <- 
-  glmer_spec %>% 
-  fit(as.factor(MDR) ~ samp + s.nsuccess +(1|nes), data = data)
-
-glmer_fit_8 <- 
-  glmer_spec %>% 
-  fit(as.factor(MDR) ~ s.lui*s.age + samp + s.nsuccess +(1|nes), data = data)
-
-glmer_fit_9 <- 
-  glmer_spec %>% 
-  fit(as.factor(MDR) ~ s.lui + s.age*samp + s.nsuccess +(1|nes), data = data)
-
-glmer_fit_10 <- 
-  glmer_spec %>% 
-  fit(as.factor(MDR) ~ s.lui + s.age + samp*s.nsuccess +(1|nes), data = data)
-
-glmer_fit_11 <- 
-  glmer_spec %>% 
-  fit(as.factor(MDR) ~ s.lui + s.age +(1|nes), data = data)
-
-glmer_fit_12 <- 
-  glmer_spec %>% 
-  fit(as.factor(MDR) ~ s.lui + s.age +  s.nsuccess +(1|nes), data = data)
 ```
+
+Keep NES as a random effect since the varience is high!
 
 Use AIC to see the best model; None look great...
 
 ```{r}
-AIC_table1 <- compare_performance(glmer_fit_null,glmer_fit_global, glmer_fit_1, glmer_fit_2, glmer_fit_3, glmer_fit_4, glmer_fit_5, glmer_fit_6, glmer_fit_7, glmer_fit_8, glmer_fit_9, glmer_fit_10, glmer_fit_11, glmer_fit_12, rank = TRUE, metrics="AICc")
+glmer_indices <- compare_performance(glmer_fit_null,glmer_fit_global, glmer_fit_1, glmer_fit_2, glmer_fit_3, glmer_fit_4, glmer_fit_5, glmer_fit_6, glmer_fit_7, glmer_fit_8, glmer_fit_9, glmer_fit_10, glmer_fit_11, glmer_fit_12)
 
+print(glmer_indices)
+
+# Create and format the AIC table
+AIC_table1 <- compare_performance(glmer_fit_null, glmer_fit_global, glmer_fit_1, glmer_fit_2, glmer_fit_3, 
+                                  glmer_fit_4, glmer_fit_5, glmer_fit_6, glmer_fit_7, glmer_fit_8, 
+                                  glmer_fit_9, glmer_fit_10, glmer_fit_11, glmer_fit_12, 
+                                  rank = TRUE, metrics = "AICc")
+
+# Confirm all models are in the table
 print(AIC_table1)
 
-AIC_table1 %>%
-  saveRDS(here("4 Results","Tables", "ModelAIC1.rds"))
+# Convert to a flextable and format with 3 decimal places
+AIC_table_flextable <- AIC_table1 %>%
+  as_flextable() %>%
+  set_header_labels(.,
+                    Name = "Model",
+                    AICc_wt = "AICc Weight",
+                    Performance_Score = "Performance Score") %>%
+  colformat_num(j = "AICc_wt", digits = 3) %>%  # Format AICc Weight column with 3 decimal places
+  colformat_num(j = "Performance_Score", digits = 3) %>%  # Format Performance Score with 3 decimals if applicable
+  theme_box() %>%  # Add a simple box theme
+  autofit()  # Adjust column widths automatically
 
-glmer_indices <- plot(compare_performance(glmer_fit_null,glmer_fit_global, glmer_fit_1, glmer_fit_2, glmer_fit_3, glmer_fit_4, glmer_fit_5, glmer_fit_6, glmer_fit_7, glmer_fit_8, glmer_fit_9, glmer_fit_10, glmer_fit_11, glmer_fit_12))
+# Save as a Word document
+doc <- read_docx() %>% 
+  body_add_par("Table: AICc Model Comparison", style = "heading 1") %>%  # Add a title if needed
+  body_add_flextable(AIC_table_flextable)
+
+# Define the path and save
+print(doc, target = here("4 Results", "Tables", "ModelAIC1.docx"))
 
 #Tiff 
-tiff(file = here('5 Manuscript','manuscript','Images', 'glmer_indices.tiff'))
+tiff(file = here('4 Results', 'Figures', 'glmer_indices.tiff'))
 glmer_indices
-dev.off() 
+
 ```
 
 Summarize and graph best model (lowwest AIC)
 
 ```{r}
-glmer_check <- check_model(glmer_fit_11)
-
-png(file = here('5 Manuscript','manuscript','supplement', 'Supplementary_Material_files', 'glmer_check.png'))
+# Generate the check_model plot
+glmer_check <- check_model(glmer_fit_2)
 glmer_check
-dev.off() 
+
+# Access individual plots and save each
+ggsave(filename = here('4 Results', 'Figures', 'glmer_check_qqplot.tiff'), 
+       plot = glmer_check$plots[[1]], width = 8, height = 6, dpi = 300)
+
+ggsave(filename = here('4 Results', 'Figures', 'glmer_check_residuals.tiff'), 
+       plot = glmer_check$plots[[2]], width = 8, height = 6, dpi = 300)
 
 # place results from fit into a data frame with the tidy function
 
-model1 <- broom::tidy(glmer_fit_11)
+model1 <- broom::tidy(glmer_fit_2)
 print(model1)
+
+# Convert to flextable and format with 3 decimal places
+model1_flextable <- model1 %>%
+  as_flextable() %>%
+  set_header_labels(
+    term = "Term",
+    estimate = "Estimate",
+    std.error = "Standard Error",
+    statistic = "Z-value",
+    p.value = "P-value"
+  ) %>%
+  colformat_num(j = c("estimate", "std.error", "statistic", "p.value"), digits = 3) %>%  # Format columns with 3 decimal places
+  theme_box() %>%
+  autofit()
+
+# Save as a Word document
+doc <- read_docx() %>% 
+  body_add_par("Table: Model Summary", style = "heading 1") %>%  # Add a title
+  body_add_flextable(model1_flextable)
+
+# Define the path and save the Word document
+print(doc, target = here("4 Results", "Tables", "ModelSummary.docx"))
 
 # save fit results table  
 model1 %>%
   saveRDS(here("4 Results", "Models", "GLMERmodel1.rds"))
 
-MLp <- plot_model(glmer_fit_11,terms = 's.lui', type="pred", 
+MLp <- plot_model(glmer_fit_2,terms = 's.age', type="pred",
+           ci.lvl = 0.95,  # Ensures 95% confidence interval
            show.data = TRUE, show.values = TRUE, show.p = TRUE,
            title = "", show.legend = TRUE, line.size=1,
-           axis.title = c("Landfill Use Index",'Multi-Drug Resistence'))
-##Not working... fix later
+           axis.title = c("Standardized Age",'Multi-Drug Resistence Status'))  +
+           scale_y_continuous(breaks = c(0, 1), labels = c("Absent", "Present")) + 
+           scale_x_continuous(breaks = c(-1, 0, 1, 2))
+
+MLp 
+
   while (!is.null(dev.list()))  dev.off()
 #Tiff 
-tiff(file = here('5 Manuscript','manuscript','Images', 'LUIvsMDR_LME.tiff'))
+tiff(file = here('4 Results', 'Figures', 'AGEvsMDR_LME.tiff'))
 MLp
-dev.off() 
 ```
 
-AMR Gene Burden vs All
+AMR Gene Burden vs All Since Burden_Log10 is continuous but not normally distributed, use glmer() from lme4 with a Gamma (log-link) family.
+
+Try to use Burden_inv10 since no NEGs
+
+Still all singular, consider removing NES. When tested random effect for nes (nest ID) has an extremely small variance (at or near 0), which suggests that it is contributing almost no meaningful variation to the model.
 
 ```{r}
-lmer_fit2_null <- #singular
-  lmer_spec %>% 
-  fit(Burden ~ (1|nes), data = data)
+# Null model (random intercept only)
+glmer_fit2_null <- glmer(Burden_inv10 ~ (1 | nes), 
+                         data = data, 
+                         family = Gamma(link = "log"),
+                         control = glmerControl(optimizer = "bobyqa"))
 
-lmer_fit2_global <- 
-  lmer_spec %>% 
-  fit(Burden ~ s.lui + s.age + samp + s.nsuccess +(1|nes), data = data) #overfit
+# Global model with all predictors
+glmer_fit2_global <- glmer(Burden_inv10 ~ s.lui + s.age + samp + s.nsuccess + (1 | nes), 
+                           data = data, 
+                           family = Gamma(link = "log"),
+                           control = glmerControl(optimizer = "bobyqa"))
 
-#Univariate models
-lmer_fit2_1 <- 
-  lmer_spec %>% 
-  fit(Burden ~ s.lui +(1|nes), data = data)
+# Univariate models
+glmer_fit2_1 <- glmer(Burden_inv10 ~ s.lui + (1 | nes), 
+                      data = data, 
+                      family = Gamma(link = "log"),
+                      control = glmerControl(optimizer = "bobyqa"))
 
-lmer_fit2_2 <- 
-  lmer_spec %>% 
-  fit(Burden ~ s.age  +(1|nes), data = data) #overfit
+glmer_fit2_2 <- glmer(Burden_inv10 ~ s.age + (1 | nes), 
+                      data = data, 
+                      family = Gamma(link = "log"),
+                      control = glmerControl(optimizer = "bobyqa"))
 
-lmer_fit2_3 <- 
-  lmer_spec %>% 
-  fit(Burden ~ samp +(1|nes), data = data)
+glmer_fit2_3 <- glmer(Burden_inv10 ~ samp + (1 | nes), 
+                      data = data, 
+                      family = Gamma(link = "log"),
+                      control = glmerControl(optimizer = "bobyqa"))
 
-lmer_fit2_4 <- 
-  lmer_spec %>% 
-  fit(Burden ~ s.nsuccess +(1|nes), data = data)
+glmer_fit2_4 <- glmer(Burden_inv10 ~ s.nsuccess + (1 | nes), 
+                      data = data, 
+                      family = Gamma(link = "log"),
+                      control = glmerControl(optimizer = "bobyqa"))
 
-lmer_fit2_5 <- 
-  lmer_spec %>% 
-  fit(Burden ~ s.lui + samp +(1|nes), data = data)
+# Multivariate models
+glmer_fit2_5 <- glmer(Burden_inv10 ~ s.lui + samp + (1 | nes), 
+                      data = data, 
+                      family = Gamma(link = "log"),
+                      control = glmerControl(optimizer = "bobyqa"))
 
-lmer_fit2_6 <- 
-  lmer_spec %>% 
-  fit(Burden ~ s.lui + s.nsuccess +(1|nes), data = data)
+glmer_fit2_6 <- glmer(Burden_inv10 ~ s.lui + s.nsuccess + (1 | nes), 
+                      data = data, 
+                      family = Gamma(link = "log"),
+                      control = glmerControl(optimizer = "bobyqa"))
 
-lmer_fit2_7 <- 
-  lmer_spec %>% 
-  fit(Burden ~ samp + s.nsuccess +(1|nes), data = data)
+glmer_fit2_7 <- glmer(Burden_inv10 ~ samp + s.nsuccess + (1 | nes), 
+                      data = data, 
+                      family = Gamma(link = "log"),
+                      control = glmerControl(optimizer = "bobyqa"))
 
-lmer_fit2_8 <- 
-  lmer_spec %>% 
-  fit(Burden ~ s.lui*s.age + samp + s.nsuccess +(1|nes), data = data) #overfit
+glmer_fit2_8 <- glmer(Burden_inv10 ~ s.lui * s.age + samp + s.nsuccess + (1 | nes), 
+                      data = data, 
+                      family = Gamma(link = "log"),
+                      control = glmerControl(optimizer = "bobyqa"))
 
-lmer_fit2_9 <- 
-  lmer_spec %>% 
-  fit(Burden ~ s.lui + s.age*samp + s.nsuccess +(1|nes), data = data) #overfit
+glmer_fit2_9 <- glmer(Burden_inv10 ~ s.lui + s.age * samp + s.nsuccess + (1 | nes), 
+                      data = data, 
+                      family = Gamma(link = "log"),
+                      control = glmerControl(optimizer = "bobyqa"))
 
-lmer_fit2_10 <- 
-  lmer_spec %>% 
-  fit(Burden ~ s.lui + s.age + samp*s.nsuccess +(1|nes), data = data) #overfit
+glmer_fit2_10 <- glmer(Burden_inv10 ~ s.lui + s.age + samp * s.nsuccess + (1 | nes), 
+                       data = data, 
+                       family = Gamma(link = "log"),
+                       control = glmerControl(optimizer = "bobyqa"))
 
-lmer_fit2_11 <- 
-  lmer_spec %>% 
-  fit(Burden ~ s.lui + s.age + s.nsuccess +(1|nes), data = data) #overfit
+glmer_fit2_11 <- glmer(Burden_inv10 ~ s.lui + s.age + (1 | nes), 
+                        data = data, 
+                        family = Gamma(link = "log"),
+                        control = glmerControl(optimizer = "bobyqa"))
 
-lmer_fit2_12 <- 
-  lmer_spec %>% 
-  fit(Burden ~ s.lui + s.age +(1|nes), data = data) #overfit
+glmer_fit2_12 <- glmer(Burden_inv10 ~ s.lui + s.age + s.nsuccess + (1 | nes), 
+                        data = data, 
+                        family = Gamma(link = "log"),
+                        control = glmerControl(optimizer = "bobyqa"))
 
-#Standardizing variables helped with the overfit/singular model results
+
+## **Check Variance of `nes` for Each Model**
+
+# Create a list of all GLMM models
+glmer_models <- list(
+  glmer_fit2_null, glmer_fit2_global, glmer_fit2_1, glmer_fit2_2, glmer_fit2_3, 
+  glmer_fit2_4, glmer_fit2_5, glmer_fit2_6, glmer_fit2_7, glmer_fit2_8, 
+  glmer_fit2_9, glmer_fit2_10, glmer_fit2_11, glmer_fit2_12
+)
+
+# Function to check variance of random effect
+check_variance <- function(model, model_name) {
+  variance <- summary(model)$varcor
+  singular <- isSingular(model, tol = 1e-4)
+  
+  return(data.frame(
+    Model = model_name,
+    Variance = ifelse(length(variance) > 0, as.numeric(variance[[1]][1]), NA),
+    Singular = singular
+  ))
+}
+
+# Check variance for all models
+variance_results <- do.call(rbind, 
+                            lapply(seq_along(glmer_models), function(i) {
+                              check_variance(glmer_models[[i]], paste0("Model_", i))
+                            }))
+
+print(variance_results)
+
 ```
 
-Use AIC to see the best model
+Will run a GLM Instead (No Random Effect) Since nes isn't contributing, remove it and use GLM instead of GLMM.
 
 ```{r}
-AIC_table2 <- compare_performance(lmer_fit2_null, lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8,
-                                  lmer_fit2_9, lmer_fit2_10, lmer_fit2_11, lmer_fit2_12, rank = TRUE, metrics="AICc")
+# Null model (no random effect)
+glm_fit2_null <- glm(Burden_inv10 ~ 1, 
+                     data = data, 
+                     family = Gamma(link = "log"))
 
+# Global model with all predictors
+glm_fit2_global <- glm(Burden_inv10 ~ s.lui + s.age + samp + s.nsuccess, 
+                       data = data, 
+                       family = Gamma(link = "log"))
+
+# Univariate models
+glm_fit2_1 <- glm(Burden_inv10 ~ s.lui, 
+                  data = data, 
+                  family = Gamma(link = "log"))
+
+glm_fit2_2 <- glm(Burden_inv10 ~ s.age, 
+                  data = data, 
+                  family = Gamma(link = "log"))
+
+glm_fit2_3 <- glm(Burden_inv10 ~ samp, 
+                  data = data, 
+                  family = Gamma(link = "log"))
+
+glm_fit2_4 <- glm(Burden_inv10 ~ s.nsuccess, 
+                  data = data, 
+                  family = Gamma(link = "log"))
+
+# Multivariate models
+glm_fit2_5 <- glm(Burden_inv10 ~ s.lui + samp, 
+                  data = data, 
+                  family = Gamma(link = "log"))
+
+glm_fit2_6 <- glm(Burden_inv10 ~ s.lui + s.nsuccess, 
+                  data = data, 
+                  family = Gamma(link = "log"))
+
+glm_fit2_7 <- glm(Burden_inv10 ~ samp + s.nsuccess, 
+                  data = data, 
+                  family = Gamma(link = "log"))
+
+glm_fit2_8 <- glm(Burden_inv10 ~ s.lui * s.age + samp + s.nsuccess, 
+                  data = data, 
+                  family = Gamma(link = "log"))
+
+glm_fit2_9 <- glm(Burden_inv10 ~ s.lui + s.age * samp + s.nsuccess, 
+                  data = data, 
+                  family = Gamma(link = "log"))
+
+glm_fit2_10 <- glm(Burden_inv10 ~ s.lui + s.age + samp * s.nsuccess, 
+                   data = data, 
+                   family = Gamma(link = "log"))
+
+glm_fit2_11 <- glm(Burden_inv10 ~ s.lui + s.age, 
+                   data = data, 
+                   family = Gamma(link = "log"))
+
+glm_fit2_12 <- glm(Burden_inv10 ~ s.lui + s.age + s.nsuccess, 
+                   data = data, 
+                   family = Gamma(link = "log"))
+
+```
+
+Use AIC to see the best model Now no singular fit!
+
+```{r}
+# Compare GLM model performance using AICc
+AIC_table2 <- compare_performance(glm_fit2_null, glm_fit2_global, 
+                                  glm_fit2_1, glm_fit2_3, glm_fit2_4, 
+                                  glm_fit2_5, glm_fit2_6, glm_fit2_7, 
+                                  glm_fit2_8, glm_fit2_9, glm_fit2_10, 
+                                  glm_fit2_11, glm_fit2_12, 
+                                  rank = TRUE, metrics = "AICc")
+
+# Print the AIC table
 print(AIC_table2)
 
-AIC_table2 %>%
- saveRDS(here("4 Results","Tables", "ModelAIC2.rds"))
+# Save the AIC table as an RDS file
+saveRDS(AIC_table2, here("4 Results", "Tables", "ModelAIC2.rds"))
 
-lmer_indices <-plot(compare_performance(lmer_fit2_null, lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8, lmer_fit2_9, lmer_fit2_10, lmer_fit2_11, lmer_fit2_12))
+# Convert the AIC table to a formatted flextable
+AIC_table2_flextable <- AIC_table2 %>%
+  as_flextable() %>%
+  set_header_labels(.,
+                    Name = "Model",
+                    AICc_wt = "AICc Weight",
+                    Performance_Score = "Performance Score") %>%
+  colformat_num(j = "AICc_wt", digits = 3) %>%  # Format AICc Weight column with 3 decimal places
+  colformat_num(j = "Performance_Score", digits = 3) %>%  # Format Performance Score with 3 decimal places
+  theme_box() %>%
+  autofit()
 
-plot(compare_performance(lmer_fit2_null, lmer_fit2_global, lmer_fit2_1, lmer_fit2_2, lmer_fit2_3, lmer_fit2_4, lmer_fit2_5, lmer_fit2_6, lmer_fit2_7, lmer_fit2_8, lmer_fit2_9, lmer_fit2_10, lmer_fit2_11, lmer_fit2_12))
+# Save as a Word document
+doc <- read_docx() %>% 
+  body_add_par("Table: AICc Model Comparison", style = "heading 1") %>%  # Add a title
+  body_add_flextable(AIC_table2_flextable)
 
-tiff(file = here('5 Manuscript','manuscript','Images', 'lmer_indices.tiff'))
-lmer_indices
-dev.off() 
-  
-```
+# Define the path and save the Word document
+print(doc, target = here("4 Results", "Tables", "ModelAIC2.docx"))
 
-Summarize and graph best model (lowwest AIC)
+# Compare GLM performance and store results
+glm_indices <- compare_performance(glm_fit2_null, glm_fit2_global, 
+                                   glm_fit2_1, glm_fit2_3, glm_fit2_4, 
+                                   glm_fit2_5, glm_fit2_6, glm_fit2_7, 
+                                   glm_fit2_8, glm_fit2_9, glm_fit2_10, 
+                                   glm_fit2_11, glm_fit2_12)
 
-```{r}
-lmer_check <- check_model(glmer_fit_global)
-lmer_check
+# Print GLM model comparison results
+print(glm_indices)
 
-png(file = here('5 Manuscript','manuscript','supplement', 'Supplementary_Material_files', 'lmer_check.png'))
-lmer_check
+# Save the performance comparison as a TIFF image
+tiff(file = here('4 Results', 'Figures', 'glm_indices.tiff'))
+plot(glm_indices)
 dev.off()
 
-model2 <- broom::tidy(lmer_fit2_global)
+```
+
+Summarize and graph best model (lowwest AIC) Best fit: 1st: glm_fit2_9 2nd: glm_fit2_global
+
+glm_fit2_9 <- model = glm(Burden_inv10 ~ s.lui + s.age* samp + s.nsuccess, data = data, family = Gamma(link = "log"))
+
+```{r}
+# Check GLM model assumptions and diagnostics
+glm_check <- check_model(glm_fit2_9)
+glm_check
+
+# Save the diagnostic plot
+png(file = here('4 Results', 'Figures', 'glm_check.png'))
+plot(glm_check)
+dev.off()
+
+# Get summary of the GLM model
+model2 <- broom::tidy(glm_fit2_9)
 print(model2)
 
-# save fit results table  
-model2 %>% 
-  saveRDS(here("4 Results/Models/LMERmodel2.rds"))
+# Convert the model summary table to a flextable and format with 3 decimal places
+model2_flextable <- model2 %>%
+  as_flextable() %>%
+  set_header_labels(
+    term = "Term",
+    estimate = "Estimate",
+    std.error = "Standard Error",
+    statistic = "t-value"
+  ) %>%
+  colformat_num(j = c("estimate", "std.error", "statistic"), digits = 3) %>%  # Format numeric columns with 3 decimal places
+  theme_box() %>%
+  autofit()
 
-BLp <- plot_model(lmer_fit2_global,terms = 's.lui', type="pred", 
+# Save as a Word document
+doc <- read_docx() %>% 
+  body_add_par("Table: Model Summary for glm_fit2_9", style = "heading 1") %>%
+  body_add_flextable(model2_flextable)
+
+# Define the path and save the Word document
+print(doc, target = here("4 Results", "Tables", "ModelSummary_glm_fit2_9.docx"))
+
+# Save model results
+model2 %>% 
+  saveRDS(here("4 Results/Models/GLMmodel2.rds"))
+```
+
+LUI
+
+```{r}
+# Plot model predictions
+BLp <- plot_model(glm_fit2_9, terms = 's.lui', type="pred", 
+           ci.lvl = 0.95,  # Ensures 95% confidence interval
            show.data = TRUE, show.values = TRUE, show.p = TRUE,
            title = "", show.legend = TRUE, line.size=1,
-           axis.title = c("Landfill Use Index",'Total Antibiotic Resistant Gene Burden'))
-
-while (!is.null(dev.list()))  dev.off()
-#Tiff 
-tiff(file = here('5 Manuscript','manuscript','Images', 'LUIvsBurden_LME.tiff'))
+           axis.title = c("Standarized Landfill Use", 'Sum of Resistance Gene Burden (Inverse Log10)')) + 
+           scale_x_continuous(breaks = c(-1, 0, 1, 2),  # Define x-axis breaks based on values
+           labels = c("None (-1)", "Mild (0)", "Moderate (1)", "High (2)")) 
 BLp
-dev.off() 
+
+# Save the plot as TIFF using ggsave
+ggsave(filename = here('4 Results', 'Figures', 'LUIvsBurden_GLM.tiff'), 
+       plot = BLp, device = "tiff", width = 10, height = 6, dpi = 300)
+```
+
+Age*Samp
+
+```{r}
+# Check and clean the data
+summary(data$s.age)  # Ensure no missing or infinite values
+data_clean <- data %>% filter(!is.na(s.age) & !is.infinite(s.age))
+
+AgeSamp_plot <- plot_model(glm_fit2_9, terms = c("s.age", "samp"), type = "pred",
+           ci.lvl = 0.95,
+           show.data = TRUE, show.values = TRUE, show.p = TRUE,
+           title = "", show.legend = TRUE, line.size = 1,
+           axis.title = c("Standardized Age", "Sum of Resistance Gene Burden (Inverse Log10)")) + 
+           
+           # Ensure x-axis breaks match previous formatting (as in MLp)
+           scale_x_continuous(breaks = c(-2,-1, 0, 1, 2)) + 
+
+           # Adjust y-axis breaks for better clarity
+           scale_y_continuous(breaks = seq(0, 3000, by = 500)) +
+
+           # Add jitter to avoid overplotting
+           geom_jitter(width = 0.1, height = 0.1, alpha = 0.5) +
+
+           # Add legend title
+           labs(color = "Sampling Period")  
+
+AgeSamp_plot
+
+# Save the Age & Sampling Period interaction plot
+ggsave(filename = here('4 Results', 'Figures', 'AgeSampvsBurden_GLM.tiff'), 
+       plot = AgeSamp_plot, device = "tiff", width = 10, height = 6, dpi = 300)
+```
+
+Nest Success
+
+```{r}
+# Plot model predictions for Nest Success
+NSuccess_plot <- plot_model(glm_fit2_9, terms = 's.nsuccess', type="pred", 
+           ci.lvl = 0.95,  
+           show.data = TRUE, show.values = TRUE, show.p = TRUE,
+           title = "", show.legend = TRUE, line.size=1,
+           axis.title = c("Standarized Nest Success", 'Sum of Resistance Gene Burden (Inverse Log10)')) +
+           scale_x_continuous(breaks = seq(min(data$s.nsuccess), max(data$s.nsuccess), by=0.5))  
+NSuccess_plot
+
+# Save the Nest Success plot
+ggsave(filename = here('4 Results', 'Figures', 'NSuccessvsBurden_GLM.tiff'), 
+       plot = NSuccess_plot, device = "tiff", width = 10, height = 6, dpi = 300)
+
+```
+
+Odds Ratio Tables for top Models:
+
+glmer_fit_2
+
+odds ratios and their confidence intervals (CI) for glmer_fit_2
+
+```{r}
+# Extract coefficients and calculate odds ratios
+model1_summary <- broom.mixed::tidy(glmer_fit_2, effects = "fixed")
+model1_summary <- model1_summary %>%
+  mutate(
+    OR = exp(estimate),
+    CI_lower = exp(estimate - 1.96 * std.error),
+    CI_upper = exp(estimate + 1.96 * std.error)
+  )
+
+# Check column names first
+colnames(model1_summary)
+
+# Adjust select() if column names differ
+model1_OR_table <- model1_summary %>%
+  select(any_of(c("term", "estimate", "OR", "CI_lower", "CI_upper", "p.value"))) %>% 
+  as_flextable() %>%
+  set_header_labels(
+    term = "Term",
+    estimate = "Estimate (log-OR)",
+    OR = "Odds Ratio",
+    CI_lower = "CI Lower (95%)",
+    CI_upper = "CI Upper (95%)",
+    p.value = "P-value"
+  ) %>%
+  colformat_num(j = c("estimate", "OR", "CI_lower", "CI_upper", "p.value"), digits = 3) %>%
+  theme_box() %>%
+  autofit()
+
+
+# Save the OR table as a Word document
+doc <- read_docx() %>%
+  body_add_par("Table: Odds Ratio Summary for glmer_fit_2", style = "heading 1") %>%
+  body_add_flextable(model1_OR_table)
+
+print(doc, target = here("4 Results", "Tables", "OddsRatioTable_glmer_fit_2.docx"))
+
+
+```
+
+Visualize
+
+```{r}
+# Extract coefficients and calculate odds ratios for visualization
+model1_summary <- broom.mixed::tidy(glmer_fit_2, effects = "fixed") %>%
+  mutate(
+    OR = exp(estimate),
+    CI_lower = exp(estimate - 1.96 * std.error),
+    CI_upper = exp(estimate + 1.96 * std.error)
+  )
+
+# Rename terms in model1_summary
+model1_summary <- model1_summary %>%
+  mutate(term = recode(term, 
+                       's.age' = 'AGE'))
+
+# Plot odds ratios with confidence intervals and customized labels
+Oddsplot1 <- ggplot(model1_summary, aes(x = reorder(term, OR), y = OR)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper), width = 0.2) +
+  coord_flip() +
+  labs(
+    title = "Odds Ratios and 95% CI for Top GLMM to predict AMR",
+    x = "",
+    y = "Odds Ratio (Log Scale)"
+  ) +
+  scale_y_log10() +  # Use log scale for odds ratios
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5)  # Center the title
+  )
+
+# Save the plot as a TIFF file
+ggsave(filename = here("4 Results", "Figures", "OddsRatiosPlot.tiff"), 
+       plot = Oddsplot1, 
+       device = "tiff", 
+       width = 10, 
+       height = 6, 
+       dpi = 300)
+```
+
+While generalize linear models (glm_fit2_9) do not directly produce odds ratios like logistic models, you can interpret the coefficients' effects on the response variable:
+
+```{r}
+# Extract coefficients for glm_fit2_9 and calculate 95% CI
+model2_summary <- broom.mixed::tidy(
+    glm_fit2_9, 
+    effects = "fixed", 
+    conf.int = TRUE, 
+    test = TRUE
+) %>%
+mutate(
+    CI_lower = estimate - 1.96 * std.error,
+    CI_upper = estimate + 1.96 * std.error,
+    p_value = 2 * (1 - pnorm(abs(statistic))) # Calculate two-tailed p-value
+)
+
+model2_summary
+
+# Check if p.value exists before selecting it
+if("p.value" %in% colnames(model2_summary)) {
+  model2_summary_table <- model2_summary %>%
+    select(term, estimate, std.error, CI_lower, CI_upper, statistic, p_value) %>%
+    as_flextable() %>%
+    set_header_labels(
+      term = "Term",
+      estimate = "Estimate",
+      std.error = "Standard Error",
+      CI_lower = "95% CI Lower",
+      CI_upper = "95% CI Upper",
+      statistic = "Z-value",
+      p.value = "P-value"
+    ) %>%
+    colformat_num(j = c("estimate", "std.error", "CI_lower", "CI_upper", "statistic", "p_value"), digits = 3) %>%
+    theme_box() %>%
+    autofit()
+} else {
+  model2_summary_table <- model2_summary %>%
+    select(term, estimate, std.error, CI_lower, CI_upper, statistic) %>%
+    as_flextable() %>%
+    set_header_labels(
+      term = "Term",
+      estimate = "Estimate",
+      std.error = "Standard Error",
+      CI_lower = "95% CI Lower",
+      CI_upper = "95% CI Upper",
+      statistic = "Z-value"
+    ) %>%
+    colformat_num(j = c("estimate", "std.error", "CI_lower", "CI_upper", "statistic"), digits = 3) %>%
+    theme_box() %>%
+    autofit()
+}
+
+# Save the model summary table with 95% CI as a Word document
+doc <- read_docx() %>%
+  body_add_par("Table: Coefficients Summary for glm_fit2_9 with 95% CI", style = "heading 1") %>%
+  body_add_flextable(model2_summary_table)
+
+print(doc, target = here("4 Results", "Tables", "ModelSummary_glm_fit2_9_with_CI.docx"))
+
+
+```
+
+Visualize glm_fit2_9 <- model: glm(Burden_inv10 ~ s.lui + s.age*samp + s.nsuccess, data = data, family = Gamma(link = "log"))
+
+```{r}
+# Extract coefficients for visualization from glm_fit2_9
+model2_summary <- broom::tidy(glm_fit2_9, conf.int = TRUE)
+
+# Rename terms and set factor levels to control y-axis order
+model2_summary <- model2_summary %>%
+  mutate(term = recode(term, 
+                       '(Intercept)' = '(Intercept)',
+                       's.age' = 'AGE',
+                       's.lui' = 'LUI',
+                       'samp' = 'SAMPLING PERIOD',
+                       's.nsuccess' = 'NEST SUCCESS',
+                       's.age:samp' = 'AGE × SAMPLING PERIOD')) %>%
+  mutate(term = factor(term, levels = c('LUI', 'SAMPLING PERIOD', 'NEST SUCCESS', 'AGE × SAMPLING PERIOD', '(Intercept)', 'AGE')))  # Specify order
+
+# Plot coefficients with confidence intervals
+SumRatiosPlot <- ggplot(model2_summary, aes(x = term, y = estimate)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +  # Uses extracted CIs
+  coord_flip() +
+  labs(
+    title = "Coefficient Estimates and 95% CI for GLM Predicting ARG Burden",
+    x = "",
+    y = "Standardized Coefficient Estimate"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5)  # Center the title
+  )
+
+SumRatiosPlot
+
+# Save the plot as a TIFF file
+ggsave(filename = here("4 Results", "Figures", "SumRatiosPlot_GLM.tiff"), 
+       plot = SumRatiosPlot, 
+       device = "tiff", 
+       width = 10, 
+       height = 6, 
+       dpi = 300)
+
+
 ```

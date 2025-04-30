@@ -71,55 +71,49 @@ d2$s.age <- (d2$age-mean(d2$age, na.rm = TRUE))/sd(d2$age, na.rm = TRUE)
 
 ```
 
+Every value below -7 was considered Negative and will be shown as an NA
+
 Quantitative data is reported in log10. Will transform columns to data with the inverse log10 that would allow a more accurate evaluation of AMR gene burden via formula; x=10^y where x is the new gene burden and y is the original gene burden calculated from published formula.
 
 ```{r}
-d2$TET..A <- 10^(d2$TET..A)
-d2$TET..B <- 10^(d2$TET..B)
-d2$TET..Y <- 10^(d2$TET..Y)
-d2$TET..K <- 10^(d2$TET..K)
-d2$TET..M <- 10^(d2$TET..M)
-d2$TET..Q <- 10^(d2$TET..Q)
-d2$TET..S <- 10^(d2$TET..S)
-d2$TET..W <- 10^(d2$TET..W)
-d2$sulI <- 10^(d2$sulI)
-d2$sulII <- 10^(d2$sulII)
-d2$str <- 10^(d2$str)
-d2$aadA <- 10^(d2$aadA)
-d2$catI <- 10^(d2$catI)
-d2$catII <- 10^(d2$catII)
-d2$ermB <- 10^(d2$ermB)
-d2$ermF <- 10^(d2$ermF)
-d2$qnrB <- 10^(d2$qnrB)
-d2$qnrS <- 10^(d2$qnrS)
-d2$blaTEM <- 10^(d2$blaTEM)
-d2$mecA <- 10^(d2$mecA)
-d2$mcr.1 <- 10^(d2$mcr.1)
+# Clean the dataset by setting values below -6.5 to 0 for specified columns
+d2 <- d2%>%
+  mutate(
+    across(
+      c(TET..A, TET..B, TET..Y, TET..K, TET..M, TET..Q, TET..S, TET..W, sulI, sulII, str, aadA, catI, catII, ermB, ermF, qnrB, qnrS, blaTEM, mecA, mcr.1),
+      ~ ifelse(. < -7, NA, .)
+    )
+  )
 
+# View the cleaned dataset
+glimpse(d2)
+
+# Apply the inverse log10 transformation only to values above 0 and add '_inv10' suffix
 d3 <- d2 %>%
-  mutate(Burden = rowSums(across(c(TET..A, TET..B, TET..Y, TET..K, TET..M, TET..Q, TET..S, TET..W, sulI, sulII, str, aadA, catI, catII, ermB, ermF, qnrB, qnrS, blaTEM, mecA, mcr.1))))
+  mutate(
+    across(
+      c(TET..A, TET..B, TET..Y, TET..K, TET..M, TET..Q, TET..S, TET..W, sulI, sulII, str, aadA, catI, catII, ermB, ermF, qnrB, qnrS, blaTEM, mecA, mcr.1),
+      ~ ifelse(. > -7, 10^.x, 0),
+      .names = "{.col}_inv10"
+    )
+  ) %>%
+  # Calculate Burden_inv10 as the sum of transformed '_inv10' columns
+  mutate(Burden_inv10 = rowSums(across(ends_with("_inv10")), na.rm = TRUE)) 
 
-glimpse(d3)
+# create sum of log
+d4 <- d3 %>%
+  mutate(Burden_Log10 = rowSums(across(c(TET..A, TET..B, TET..Y, TET..K, TET..M, TET..Q, TET..S, TET..W, sulI, sulII, str, aadA, catI, catII, ermB, ermF, qnrB, qnrS, blaTEM, mecA, mcr.1)), na.rm = TRUE))
+
+glimpse(d4)
 ```
 
 
-We want to make two cleaned data files - one with only the 2021 data (which includes landfill use) and one with both 2020 and 2021 data.
-
-```{r}
-#filter out 2020 data
-d4 <- d3 %>% filter(yr !=2020)
-head(d4)
-```
-
-
+We want to make cleaned data file - one with the 2021 data (which includes landfill use) and 2020 which does not.
 Let's assign at the end to some final variable, this makes it easier to add further cleaning steps above.
 
 ```{r}
-#save 2021 data only
-stork_AMR_2021 <- d4
-
-#save for both years
-stork_AMR_clean <- d3
+#save final
+stork_AMR_clean <- d4
 ```
 
 
@@ -127,9 +121,10 @@ stork_AMR_clean <- d3
 
 
 ```{r}
-save_data_location <- here::here("2 Clean Data","stork_AMR_2021.rds")
-saveRDS(stork_AMR_2021, file = save_data_location)
-
 save_data_location2 <- here::here("2 Clean Data","stork_AMR_clean.rds")
 saveRDS(stork_AMR_clean, file = save_data_location2)
+
+# Save as a CSV file for cross-platform compatibility
+save_data_location3 <- here::here("2 Clean Data", "stork_AMR_clean.csv")
+write.csv(stork_AMR_clean, file = save_data_location3, row.names = FALSE)
 ```

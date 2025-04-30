@@ -21,6 +21,12 @@ library(ggpubr) #ggscatter to visualize correlations
 library(naniar)#missing values graphics and plots
 library(UpSetR)#missing values graphics and plots
 library(corrplot) #evaluate if covariates are correlated
+library(writexl)
+library(reshape2)
+library(tidyverse)
+library(tidyr)
+library(knitr)
+library(nortest)
 ```
 
 
@@ -28,8 +34,12 @@ library(corrplot) #evaluate if covariates are correlated
 #load all data
 stork_AMR_clean <- readRDS(here::here("2 Clean Data","stork_AMR_clean.rds"))
 
-#load 2021 data
-stork_AMR_2021 <- readRDS(here::here("2 Clean Data","stork_AMR_2021.rds"))
+# Subset the dataset for the year 2021
+stork_AMR_2021 <- stork_AMR_clean %>%
+  filter(yr == 2021)
+
+stork_AMR_2020 <- stork_AMR_clean %>%
+  filter(yr == 2020)
 
 ```
 
@@ -89,7 +99,9 @@ cor.test( stork_AMR_clean$s.nsuccess, stork_AMR_clean$samp,
           method = "spearman")
 cor.test( stork_AMR_clean$s.lui, stork_AMR_clean$samp,
           method = "spearman")
-cor.test( stork_AMR_clean$Burden, stork_AMR_clean$MDR,
+cor.test( stork_AMR_clean$Burden_inv10, stork_AMR_clean$MDR,
+          method = "spearman")
+cor.test( stork_AMR_clean$Burden_Log10, stork_AMR_clean$MDR,
           method = "spearman")
 cor.test( stork_AMR_clean$sum, stork_AMR_clean$MDR,
           method = "spearman") #Correlated!
@@ -129,13 +141,94 @@ ggscatter(stork_AMR_clean, x = 's.nsuccess', y = 'age',
 
 #### Data Exploration and visualization
 
-Will explore both 2020 and 2021 data, but will not model with 2020 as no LUI data was collected this year due to COVID-19 restrictions.
+Will explore both 2020 and 2021 data, but will not model with 2020 as no LUI data was collected this year due to COVID-19 resrictions.
+
+Quick Sample summary stats
+
+```{r}
+# Total number of samples
+total_samples <- nrow(stork_AMR_clean)
+cat("Total number of samples:", total_samples, "\n")
+
+# Number of samples in each year
+samples_per_year <- stork_AMR_clean %>%
+  group_by(yr) %>%
+  summarise(count = n())
+cat("Samples per year:\n")
+print(samples_per_year)
+
+# Breakdown of samples by year and sampling period (samp)
+samples_by_year_and_samp <- stork_AMR_clean %>%
+  group_by(yr, samp) %>%
+  summarise(count = n())
+cat("Samples by year and sampling period:\n")
+print(samples_by_year_and_samp)
+
+```
+
+Samples per sampling period per year
+```{r}
+# Create a summary table for 2020
+summary_2020 <- stork_AMR_2020 %>%
+  group_by(samp) %>%
+  summarise(
+    nests = paste(unique(nes), collapse = ", "), # List all nests
+    total_samples = n() # Count total samples
+  ) %>%
+  mutate(year = 2020)
+
+# Create a summary table for 2021
+summary_2021 <- stork_AMR_2021 %>%
+  group_by(samp) %>%
+  summarise(
+    nests = paste(unique(nes), collapse = ", "), # List all nests
+    total_samples = n() # Count total samples
+  ) %>%
+  mutate(year = 2021)
+
+# Combine both years into a single table
+summary_table <- bind_rows(summary_2020, summary_2021) %>%
+  arrange(year, samp)
+
+# Display the table
+kable(summary_table, caption = "Summary of Nests and Samples by Sampling Period for 2020 and 2021")
+
+# Optionally, save the table to a CSV file
+#write.csv(summary_table, "nest_sampling_summary.csv", row.names = FALSE)
+
+
+# Reshape data for 2020
+nests_2020 <- stork_AMR_2020 %>%
+  group_by(nes) %>%
+  summarise(sampling_periods = paste(sort(unique(samp)), collapse = ", ")) %>%
+  mutate(year = 2020)
+
+# Reshape data for 2021
+nests_2021 <- stork_AMR_2021 %>%
+  group_by(nes) %>%
+  summarise(sampling_periods = paste(sort(unique(samp)), collapse = ", ")) %>%
+  mutate(year = 2021)
+
+# Combine both years for an overview, if needed
+combined_nests <- bind_rows(nests_2020, nests_2021)
+
+# Display the tables for 2020 and 2021
+kable(nests_2020, caption = "Nests and Sampling Periods for 2020")
+kable(nests_2021, caption = "Nests and Sampling Periods for 2021")
+
+# Save each year's table to a CSV file
+write.csv(nests_2020, here("4 Results", "Tables", "nests_2020.csv"), row.names = FALSE)
+write.csv(nests_2021, here("4 Results", "Tables", "nests_2021.csv"), row.names = FALSE)
+write.csv(combined_nests, here("4 Results", "Tables", "nests_20202021.csv"), row.names = FALSE)
+```
+
+
 
 First we want to make a table to take a quick look at a few variables that will be important later on.
 
 ```{r}
 table1 <- stork_AMR_clean %>%
-  select(id, age, nsuccess, mean_lui, Burden, MDR) %>%
+  select(id, age, nsuccess, mean_lui, Burden_inv10, MDR) %>%
   knitr::kable()
 table1
 ```
@@ -144,15 +237,72 @@ Plotting total Burden outcomes from both years.
 
 ```{r}
 stork_AMR_clean %>%
-  ggplot(aes(as.factor(yr), Burden))+
+  ggplot(aes(as.factor(yr), Burden_inv10))+
   geom_boxplot()
 ```
 Plotting total Burden outcomes across all sampling periods.
 ```{r}
 stork_AMR_clean %>%
-  ggplot(aes(as.factor(samp), Burden))+
+  ggplot(aes(as.factor(samp), Burden_inv10))+
   geom_boxplot()
+
+pBurden <- stork_AMR_clean %>%
+  ggplot(aes(as.factor(samp), Burden_inv10)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.2, alpha = 0.5) +  # Add jittered points with slight transparency
+  ylab('Total Resistance Gene Burden (Inverse Log10)') +
+  xlab('') +
+ scale_x_discrete(labels = c("1" = "Sampling Period 1", "2" = "Sampling Period Period 2", "3" = "Sampling Period 3"))  
+
+# Display the plot
+pBurden
+
+# Save the plot as TIFF using ggsave
+ggsave(filename = here('4 Results', 'Figures', 'Burden_Sample.tiff'), 
+       plot = pBurden, device = "tiff", width = 10, height = 6, dpi = 300)
 ```
+Sampling period and MDR
+
+```{r}
+summary_stats <- stork_AMR_clean %>%
+  group_by(samp) %>%
+  summarise(
+    mean_MDR = mean(MDR),  # Proportion of MDR = 1
+    se_MDR = sqrt(mean_MDR * (1 - mean_MDR) / n())  # Standard error of the proportion
+  )
+
+# Plot with box plot and error bars
+pMDR <- stork_AMR_clean %>%
+  ggplot(aes(x = as.factor(samp), y = MDR)) +
+  geom_boxplot(alpha = 0.6, outlier.shape = NA) +  # Single box plot per samp
+  geom_jitter(position = position_jitter(width = 0.2, height = 0), 
+              alpha = 0.5, color = "black") +  # Add raw data points
+  geom_errorbar(data = summary_stats,  # Error bars on top
+                aes(x = as.factor(samp), 
+                    ymin = mean_MDR - se_MDR, 
+                    ymax = mean_MDR + se_MDR), 
+                width = 0.2, color = "black", size = 0.8, inherit.aes = FALSE) + 
+  geom_point(data = summary_stats,  # Mean points on top
+             aes(x = as.factor(samp), y = mean_MDR), 
+             color = "black", size = 3, shape = 21, fill = "white", inherit.aes = FALSE) +
+  ylab('Multi-Drug Resistance') +
+  xlab('') +
+  scale_x_discrete(labels = c("1" = "Sampling Period 1", 
+                              "2" = "Sampling Period 2", 
+                              "3" = "Sampling Period 3")) 
+
+
+# Display the plot
+pMDR
+
+# Save the plot as TIFF using ggsave
+ggsave(filename = here('4 Results', 'Figures', 'MDR_Sample.tiff'), 
+       plot = pMDR, device = "tiff", width = 10, height = 6, dpi = 300)
+
+```
+
+
+
 Total Number of AMR Gene Classes over both years.
 
 ```{r}
@@ -162,11 +312,9 @@ pSB <- stork_AMR_clean %>%
   ylab('Breeding Season Sampling Period') +
   xlab ('Antimicrobial Gene Resistance Burden')
 
-while (!is.null(dev.list()))  dev.off()
-#Tiff 
-tiff(file = here('5 Manuscript','manuscript','Images', 'Prelim_BurdenvsSamp.tiff'))
-pSB
-dev.off() 
+# Save the plot as TIFF using ggsave
+ggsave(filename = here('4 Results', 'Figures', 'Prelim_BurdenvsSamp.tiff'), 
+       plot = pSB, device = "tiff", width = 10, height = 6, dpi = 300)
 ```
 
 Sample vs Total Number of AMR Gene Classes
@@ -180,7 +328,7 @@ Plot Gene Burden vs age of bird
 
 ```{r}
 stork_AMR_clean %>%
-  ggplot(aes(age, Burden))+
+  ggplot(aes(age, Burden_Log10))+
   geom_point()
 ```
 
@@ -196,7 +344,7 @@ Plot Gene Burden vs age of bird
 
 ```{r}
 stork_AMR_clean %>%
-  ggplot(aes(nsuccess, Burden))+
+  ggplot(aes(nsuccess, Burden_Log10))+
   geom_point()
 ```
 
@@ -212,7 +360,7 @@ Now we will make a table filtering out 2020.
 
 ```{r}
 table2 <- stork_AMR_2021 %>%
-  select(id, age, nsuccess, mean_lui, Burden, MDR) %>%
+  select(id, age, nsuccess, mean_lui, Burden_Log10, MDR) %>%
   knitr::kable()
 table2
 ```
@@ -230,24 +378,35 @@ stork_AMR_2021 %>%
 Plotting mean landfill use index vs nest success, grouped by MDR outcome.
 
 ```{r, message=FALSE, warning=FALSE}
-pLN <- stork_AMR_2021%>%
+pLN <- stork_AMR_clean%>%
   ggplot(aes(mean_lui, nsuccess, color=as.factor(MDR)))+
   geom_point()+
   geom_smooth(method = "lm")+
-  ylab('Nest Success (Includes 2020 to 2021)') +
-  xlab ('Mean Landfill Use Index (LUI)')
+  ylab('Nest Success %') +
+  xlab ('Landfill Use') +
+  scale_x_continuous(breaks = c(0, 0.1, 0.2, 0.3, 0.4),   # Define specific x-axis breaks
+                     labels = c("None (0)", "Mild (0.1)", "Moderate (0.2)", "High (0.3)", "Very High (0.4)"))  +
+  scale_color_manual(name = "Multi-Drug Resistance",
+                     labels = c("0" = "Absent", "1" = "Present"),  # Custom labels for the legend
+                     values = c("0" = "darkred", "1" = "forestgreen"))  # Custom colors for each level
 
-#Tiff 
-tiff(file = here('5 Manuscript','manuscript', 'Images', 'Prelim_LUIvsNS.tiff'))
+
 pLN
-dev.off() 
+
+# Save the plot as a TIFF file
+ggsave(filename = here("4 Results", "Figures", "RAWluiVSns.tiff"), 
+       plot = pLN, 
+       device = "tiff", 
+       width = 10, 
+       height = 6, 
+       dpi = 300)
 ```
 
 Plotting mean landfill use index vs nest success, grouped by MDR outcome.
 
 ```{r, message=FALSE, warning=FALSE}
 stork_AMR_2021%>%
-  ggplot(aes(mean_lui, nsuccess, color=Burden))+
+  ggplot(aes(mean_lui, nsuccess, color=Burden_inv10))+
   geom_point()+
   geom_smooth(method = "lm")
 ```
@@ -258,11 +417,17 @@ Plotting MDR vs mean landfill use index
 pLM <- stork_AMR_2021 %>%
   ggplot(aes(as.factor(MDR), mean_lui))+
   geom_boxplot()+
-  ylab('Mean Landfill Use Index (LUI)') +
-  xlab ('Multi-Drug Resistance')
+  geom_jitter(width = 0.2, alpha = 0.5) +  # Add jittered points with transparency
+  ylab('Landfill Use') +
+  xlab ('Multi-Drug Resistance')+
+  scale_x_discrete(labels = c("0" = "Absent", "1" = "Present"))  +  # Map 0 to "No" and 1 to "Yes"
+  scale_y_continuous(breaks = c(0, 0.1, 0.2, 0.3, 0.4),   # Define specific y-axis breaks
+                     labels = c("None (0)", "Mild (0.1)", "Moderate (0.2)", "High (0.3)", "Very High (0.4)"))  # Custom labels for y-axis
+
+pLM
 
 #save as tiff
-tiff(file = here('5 Manuscript','manuscript', 'Images', 'Prelim_LUIvsMD.tiff'))
+tiff(file = here('4 Results', 'Figures', 'Prelim_LUIvsMD.tiff'))
 pLM
 dev.off() 
 ```
@@ -271,9 +436,117 @@ Plotting Burden vs mean landfill use index
 
 ```{r, warning=FALSE}
 stork_AMR_2021 %>%
-  ggplot(aes(mean_lui, Burden))+
+  ggplot(aes(mean_lui, Burden_Log10))+
   geom_point()+
   geom_smooth(method = "lm")
 ```
 
 There seems to be a slight decrease in the presence of MDR and increase in the burden of AMR genes as landfill use index increases. Otherwise, there are not many apparent trends in the data off the bat. This exploration will help us as we move forward into a more robust statistical analysis.
+
+Lets go back and just visulaize raw data.
+Gene Heat Map
+Log10 tranform data first
+```{r}
+# Define gene columns for log transformation
+gene_columns <- c("TET..A", "TET..B", "TET..Y", "TET..K", "TET..M", 
+                  "TET..Q", "TET..S", "TET..W", "sulI", "sulII", "str", 
+                  "aadA", "catI", "catII", "ermB", "ermF", "mecA", "mcr.1", 
+                  "qnrB", "blaTEM", "qnrS")
+
+
+# Convert data to long format using the specified gene columns
+data_long <- stork_AMR_clean %>%
+  pivot_longer(
+    cols = all_of(gene_columns),
+    names_to = "Gene",
+    values_to = "Abundance"
+  )
+
+# Separate data by year
+data_2020 <- data_long %>% filter(yr == 2020)
+data_2021 <- data_long %>% filter(yr == 2021)
+
+create_and_save_heatmap <- function(data, year, filepath) {
+  heatmap <- ggplot(data, aes(x = nes, y = Gene, fill = Abundance)) +
+    geom_tile(na.rm = FALSE) + # Ensures NA values are kept
+    facet_wrap(~samp, scales = "free", nrow = 1) +
+    labs(title = paste("Gene Abundance across Sampling Periods for", year),
+         x = "Nest ID", y = "Resistance Gene") +
+    # Use a two-color gradient with NA values as white
+    scale_fill_gradient(
+      low = "dodgerblue2", 
+      high = "red", 
+      na.value = "white", # Set NA values to white
+      name = "Abundance"
+    ) +
+    theme_minimal() +
+    scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 8))
+  
+  # Save the plot as a TIFF file
+  ggsave(filename = filepath, plot = heatmap, device = "tiff", width = 10, height = 6, dpi = 300)
+}
+
+# Save heatmaps for each year
+create_and_save_heatmap(data_2020, "2020", here('4 Results', 'Figures', 'Prelim_LUIvsMD_2020.tiff'))
+create_and_save_heatmap(data_2021, "2021", here('4 Results', 'Figures', 'Prelim_LUIvsMD_2021.tiff'))
+```
+
+Lets just quickly review normality of the Burden Variables/Distribution
+
+Must use GLMM for both
+```{r}
+# Subset relevant variables
+burden_data <- stork_AMR_clean %>% select(Burden_Log10, Burden_inv10)
+
+# Perform Shapiro-Wilk test for normality
+shapiro_log10 <- shapiro.test(burden_data$Burden_Log10)
+shapiro_inv10 <- shapiro.test(burden_data$Burden_inv10)
+
+# Perform Kolmogorov-Smirnov test for normality
+ks_log10 <- ks.test(burden_data$Burden_Log10, "pnorm", mean(burden_data$Burden_Log10, na.rm=TRUE), sd(burden_data$Burden_Log10, na.rm=TRUE))
+ks_inv10 <- ks.test(burden_data$Burden_inv10, "pnorm", mean(burden_data$Burden_inv10, na.rm=TRUE), sd(burden_data$Burden_inv10, na.rm=TRUE))
+
+# Print test results
+cat("Shapiro-Wilk Test Results:\n")
+print(shapiro_log10)
+print(shapiro_inv10)
+
+cat("\nKolmogorov-Smirnov Test Results:\n")
+print(ks_log10)
+print(ks_inv10)
+
+# Generate histograms for visualization
+p1 <- ggplot(stork_AMR_clean, aes(x = Burden_Log10)) +
+  geom_histogram(aes(y = ..density..), bins = 30, fill = "blue", alpha = 0.5) +
+  geom_density(color = "red", size = 1) +
+  ggtitle("Histogram and Density Plot: Burden_Log10") +
+  theme_minimal()
+
+p2 <- ggplot(stork_AMR_clean, aes(x = Burden_inv10)) +
+  geom_histogram(aes(y = ..density..), bins = 30, fill = "blue", alpha = 0.5) +
+  geom_density(color = "red", size = 1) +
+  ggtitle("Histogram and Density Plot: Burden_inv10") +
+  theme_minimal()
+
+# Generate Q-Q plots for normality assessment
+p3 <- ggplot(stork_AMR_clean, aes(sample = Burden_Log10)) +
+  stat_qq() +
+  stat_qq_line() +
+  ggtitle("Q-Q Plot: Burden_Log10") +
+  theme_minimal()
+
+p4 <- ggplot(stork_AMR_clean, aes(sample = Burden_inv10)) +
+  stat_qq() +
+  stat_qq_line() +
+  ggtitle("Q-Q Plot: Burden_inv10") +
+  theme_minimal()
+
+# Display the plots
+print(p1)
+print(p2)
+print(p3)
+print(p4)
+
+```
+
